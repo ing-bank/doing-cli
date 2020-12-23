@@ -1,0 +1,39 @@
+
+site_name: ING Azure DevOps CLI
+site_description: 'Speed up work with INGs Azure Devops'
+edit_uri: ''
+copyright: 'Copyright &copy; 2020 ING'
+
+theme:
+    name: material
+    palette:
+        primary: white
+    font: false
+    icon:
+        logo: octicons/terminal-16
+    favicon: assets/images/cli.png
+    features:
+        - tabs
+        - instant
+
+nav:
+  - index.md
+  - setup.md
+  - getting_started.md
+  - contributing.md
+
+
+
+markdown_extensions:
+    - admonition
+    - pymdownx.highlight
+    - pymdownx.inlinehilite
+    - pymdownx.superfences
+    - pymdownx.details
+    - pymdownx.tabbed
+    - pymdownx.emoji:
+          emoji_index: !!python/name:materialx.emoji.twemoji
+          emoji_generator: !!python/name:materialx.emoji.to_svg
+          options:
+              custom_icons:
+                  - site/overrides/.icons
