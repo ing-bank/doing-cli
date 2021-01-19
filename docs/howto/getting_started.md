@@ -21,12 +21,8 @@
 
 - `doing issue update #1235`: updates issue with all assignments, if necessary
 
-
-- `doing open board`
-- `doing open repo`
-- `doing open pr`
 - `doing open pipelines`
-- `doing open #1234`
+- `doing open #1234` (there's a nice CLI, use --open: `az boards work-item show --id 92793 --open`)
 
 
 ## Notes
@@ -46,7 +42,7 @@ doing status
 doing issue list
 doing workon #1234
 
-doing pr --review "ryan.chaves@ing.com"
+doing pr --reviewer "ryan.chaves@ing.com"
 git checkout master
 
 doing workon "quick change"
@@ -66,9 +62,7 @@ FEEDBACK:
 HIER GEBLEVEN. 
 - wat als je met `doing status` op een branch zit die nog geen bijbehorende issue heeft?
 - wat als je tussendoor wilt werken aan een andere issue?. 
-- explain premise of 'ING way of working': every commit is part of a branch that is part of a pull request that is part of an issue, that is part of a sprint.
-- explain RPAA way of working. every work item also has an area to be able to link it to a certain repo.
-
+- what about `doing docs` to launch the docs?
 
 ## Workflow
 

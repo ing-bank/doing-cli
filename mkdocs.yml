@@ -18,16 +18,22 @@ theme:
 
 nav:
   - index.md
-  - setup.md
-  - getting_started.md
+  - Getting started:
+    - get_started/install.md
+    - get_started/setup_auth.md
+    - get_started/setup_project.md
+  - How to:
+    - howto/getting_started.md
+  - Reference:
+    - reference/reference.md
   - contributing.md
-
 
 
 markdown_extensions:
     - admonition
     - pymdownx.highlight
     - pymdownx.inlinehilite
+    - pymdownx.snippets
     - pymdownx.superfences
     - pymdownx.details
     - pymdownx.tabbed
