@@ -11,6 +11,17 @@ from doing.exceptions import ConfigurationError
 console = Console()
 REQUESTS_CA_BUNDLE = os.path.expanduser("~/Developer/ING/certificates/ing.ca-bundle")
 
+def get_repo_name():
+    """
+    Determines name of remote origin repo.
+    """
+    print('todo, update get_repo_name')
+    return "P01908-taco"
+    origin_url = os.popen("git config --get remote.origin.url").read()
+    assert origin_url, "This repository has no remote.origin.url. Is it created on azure devops yet?"
+
+    return os.popen(f"basename -s .git {origin_url}").read()
+
 def get_config(key = ""):
     conf = dotenv_values(find_dotenv('.devops-ing'))
     if not conf or len(conf) == 0:

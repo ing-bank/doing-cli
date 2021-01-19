@@ -1,9 +1,11 @@
+import os
 import click
+
 from rich.console import Console
 from rich.table import Table
 
 from doing.commands import cmd_list
-from doing.utils import run_command, get_config
+from doing.utils import get_config, get_repo_name, run_command
 from doing.devops import get_iterations
 
 
@@ -14,18 +16,104 @@ console = Console()
 def cli():
     pass
 
+def common_options(function):
+    """
+    Custom decorator to avoid repeating commonly used options.
+    """
+    function = click.option('--team', required=True, type=str, default=get_config('team'), help="The code of the team in azure")(function)
+    function = click.option('--area', required=True, type=str, default=get_config('area'), help="The area code")(function)
+    function = click.option('--iteration', required=True, type=str, default=get_config('iteration'), help="The current iteration (sprint)")(function)
+    function = click.option('--organization', required=True, type=str, default=get_config('organization'), help="The organization in azure")(function)
+    function = click.option('--project', required=True, type=str, default=get_config('project'), help="The project in azure")(function)
+    return function
+
 
 @cli.command()
-@click.option('--team', required=True, type=str, default=get_config('team'), help="The code of the team in azure")
-@click.option('--area', required=True, type=str, default=get_config('area'), help="The area code")
-@click.option('--iteration', required=True, type=str, default=get_config('iteration'), help="The current iteration (sprint)")
-@click.option('--organization', required=True, type=str, default=get_config('organization'), help="The organization in azure")
-@click.option('--project', required=True, type=str, default=get_config('project'), help="The project in azure")
+@common_options
 def list(team, area, iteration, organization, project):
     """
     List issues related to the project.
     """
     console.print(cmd_list(team, area, iteration, organization, project))
+
+
+@cli.group()
+def open():
+    """
+    Quickly open certain links
+    """
+    pass
+
+@open.command()
+@common_options
+def board(team, area, iteration, organization, project):
+    """
+    Open board view
+    """
+    console.print(f"Opening the Azure board. Make sure to filter on:")
+
+    iteration_short = os.path.basename(iteration.replace('\\','/'))
+    area_short = os.path.basename(area.replace('\\','/')) 
+    console.print(f"\titeration = '{iteration_short}'")
+    console.print(f"\tarea = '{area_short}'")
+    
+    click.launch(f"{organization}/{project}/_boards/board/t/{team}")
+
+@open.command()
+@common_options
+def sprint(team, area, iteration, organization, project):
+    """
+    Open current sprint view
+    """
+    iteration = os.path.basename(iteration.replace('\\','/'))
+    click.launch(f"{organization}/{project}/_sprints/taskboard/{team}/{iteration}")
+
+@open.command()
+@common_options
+def repo(team, area, iteration, organization, project):
+    """
+    Open repo view
+    """
+    click.launch(f"{organization}/{project}/_git/{get_repo_name()}")
+
+@open.command()
+@common_options
+def prs(team, area, iteration, organization, project):
+    """
+    Open active PRs for repository view
+    """
+    click.launch(f"{organization}/{project}/_git/{get_repo_name()}/pullrequests?_a=active")
+
+@open.command()
+@common_options
+def pipe(team, area, iteration, organization, project):
+    """
+    Open latest pipeline runs for repository view
+    """
+
+    repo_pipes = run_command(f"az pipelines list --repository {get_repo_name()}")
+    if len(repo_pipes) == 0:
+        console.print(f"{get_repo_name()} has no pipelines defined currently")
+        return None
+    
+    pipeline_id = repo_pipes[0].get('id')    
+    click.launch(f"{organization}/{project}/_build?definitionId={pipeline_id}")
+
+
+@open.command()
+@common_options
+@click.argument('issue_id')
+def issue(team, area, iteration, organization, project, issue_id):
+    """
+    Open a specific ISSUE_ID.
+    
+    ISSUE_ID is the ID number of a work item.
+    """
+    click.launch(f"{organization}/{project}/_workitems/edit/{issue_id}")
+
+
+
+
 
 
 

@@ -2,6 +2,6 @@
 # Config file to be used with the `doing` CLI tool
 organization=https://dev.azure.com/IngEurCDaaS01
 project=IngOne 
-area=taco
 team=T01894-RiskandPricingAdvancedAna
-iteration=taco_sprint5
+area=IngOne\P01908-Default\taco
+iteration=IngOne\T01894-RiskandPricingAdvancedAna\taco_sprint6

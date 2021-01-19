@@ -6,18 +6,6 @@ import re
 
 
 
-def get_repo_name():
-    process = run_command("git remote get-url origin", return_process=True)
-    if 'not a git' in process.stderr:
-        console.print("Current directory (or parents) are not a git directory.")
-        sys.exit(1)
-    
-    git_remote = process.stdout
-    git_remote = "git@gitlab.com:ing_rpaa/training_material/training-advanced-python-alm-2020.git"
-    repo_name = os.path.basename(git_remote)
-    return repo_name
-
-
 def get_purpose_id(repo_name):
     matches = re.compile('P[0-9]+').findall(repo_name)
     if len(matches) == 0:
