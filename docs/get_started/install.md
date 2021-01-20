@@ -8,6 +8,12 @@ You can install the tool with
 pip install <ssh link to repo>
 ```
 
+You should then be able to run `doing`:
+
+```bash
+doing --help
+```
+
 ## Installing Azure CLI
 
 `doing` basically wraps the Azure's `az` CLI tool, so we need to install it in order to deal with authentication and such.

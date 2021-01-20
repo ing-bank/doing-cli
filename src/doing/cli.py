@@ -34,7 +34,7 @@ def list(team, area, iteration, organization, project):
     """
     List issues related to the project.
     """
-    console.print(cmd_list(team, area, iteration, organization, project))
+    cmd_list(team, area, iteration, organization, project)
 
 
 @cli.group()
@@ -110,6 +110,27 @@ def issue(team, area, iteration, organization, project, issue_id):
     ISSUE_ID is the ID number of a work item.
     """
     click.launch(f"{organization}/{project}/_workitems/edit/{issue_id}")
+
+
+@open.command()
+@common_options
+@click.argument('pullrequest_id')
+def pr(team, area, iteration, organization, project, pullrequest_id):
+    """
+    Open a specific PULLREQUEST_ID.
+    """
+    click.launch(f"{organization}/{project}/_git/{get_repo_name()}/pullrequest/{pullrequest_id}")
+
+
+@open.command()
+@common_options
+@click.argument('branch_name')
+def branch(team, area, iteration, organization, project, branch_name):
+    """
+    Open a specific BRANCH_NAME.
+    """
+    click.launch(f"{organization}/{project}/_git/{get_repo_name()}?version=GB{branch_name}")
+
 
 
 

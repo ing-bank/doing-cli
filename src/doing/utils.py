@@ -23,7 +23,8 @@ def get_repo_name():
     return os.popen(f"basename -s .git {origin_url}").read()
 
 def get_config(key = ""):
-    conf = dotenv_values(find_dotenv('.devops-ing'))
+
+    conf = dotenv_values(find_dotenv('.devops-ing', usecwd=True))
     if not conf or len(conf) == 0:
         raise FileNotFoundError("Could not find the configuration file '.devops-ing'")
 

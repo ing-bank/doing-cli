@@ -1,4 +1,4 @@
-# Reference
+# Commands
 
 You can see all available commands with:
 

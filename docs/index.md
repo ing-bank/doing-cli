@@ -6,19 +6,7 @@ Because all teams work within one project, there is no natural coupling between 
 
 ## Documentation
 
-- [Get started](get_started/install.md) A hands-on introduction to `doing` for developers. *Recommended for all new users*
-- [How-to guides]() Step-by-step guides. Covers key tasks and operations and common problems.
-- [Reference]() Technical reference. Covers tools, components, commands and resources.
-
-## Installing
-
-```bash
-git clone <>
-pip install doing/
-```
-
-You should then be able to run `doing`:
-
-```bash
-doing --help
-```
+- [Getting started](get_started/install.md): A hands-on introduction to `doing` for developers. *Recommended for all new users*
+- [How-to guides](): Step-by-step guides. Covers key tasks and operations and common problems.
+- [Reference](): Technical reference. Covers tools, components, commands and resources.
+- [Discussion](): Explanation. Clarification and discussion of key topics.

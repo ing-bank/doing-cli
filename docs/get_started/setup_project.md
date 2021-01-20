@@ -1,42 +1,24 @@
 # Setup your project
 
-Due to the setup of ING's Azure Devops, there is a decoupling of a repository and boards. This means we cannot automatically link a repo with a team, iteration (sprint), or area path.
+In Azure Devops, your project's repository and your project's work items do not have to be linked. To be able to find work items related to a repo, `doing` requires a setup file for each repository you work in.
 
-This means we will need to setup a configuration file per repository.
-Create a `.devops-ing` file in the root of your repository.
+Create a `.devops-ing` file in the root of your repository. For information on how to find these parameters see the reference [.devops-ing config file](../reference/config_file.md)
 
 ```yaml
 # .devops-ing
-# Config file to be used with the `doing` CLI tool
-organization=IngEurCDaaS01
-project=IngOne
-area=taco
+# Example config file to be used with the `doing` CLI tool
+organization=https://dev.azure.com/IngEurCDaaS01
+project=IngOne 
 team=T01894-RiskandPricingAdvancedAna
-iteration=taco_sprint1
+area=IngOne\P01908-Default\taco
+iteration=IngOne\T01894-RiskandPricingAdvancedAna\taco_sprint6
 ```
 
-??? info "How to fill in the configuration"
 
-    `organization`
-    :   Name of the organization. Almost always "IngEurCDaaS01"
-
-    `project`
-    : Name of the project. Almost always "IngOne"
-
-    `team`
-    : The path of your team. Find it <>.
-
-    `area`
-    : The area path to assigned to work items. System.AreaPath.
-
-    `iteration`
-    : The iteration path assigned to work items. System.IterationPath.
-
-
-# Verifying the setup
+## Verifying the setup
 
 In the root of your repository, you can check if your configuration works using:
 
-```bash
-doing status
+```shell
+doing list
 ```

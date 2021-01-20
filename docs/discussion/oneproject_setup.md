@@ -1,4 +1,4 @@
-# Discussion
+# OneProject Setup
 
 TODO:
 

@@ -1,61 +1,61 @@
-from doing.utils import run_command
-from clumper import Clumper
+from doing.utils import run_command, get_repo_name
 from rich.table import Table
+from rich.live import Live
 
 def cmd_list(team: str, area: str, iteration: str, organization: str, project: str):
 
 
-    query = "SELECT * FROM WorkItems WHERE ([System.State] = 'Active' OR [System.State] = 'New') "
-    # query += f"AND [System.TeamProject] = '{project}' " # Example: IngOne
-    query += f"AND [System.IterationPath] = '{iteration}' " # Example: IngOne\T01894-RiskandPricingAdvancedAna\taco_sprint5
-    query += f"AND [System.AreaPath] = '{area}' " 
+    query = "SELECT [System.Id],[System.Title],[System.CreatedBy],[System.WorkItemType] FROM WorkItems WHERE ([System.State] = 'Active' OR [System.State] = 'New') "
+
+    # Filter on iteration. Note we use UNDER so that user can choose to provide teams path for all sprints.
+    query += f"AND [System.IterationPath] UNDER '{iteration}' " # Example: IngOne\T01894-RiskandPricingAdvancedAna\taco_sprint5
+    query += f"AND [System.AreaPath] = '{area}' "
 
     work_items = run_command(f"az boards query --wiql \"{query}\"")
-    # breakpoint()
 
+    # remote_branches_and_prs = run_command(f"az repos ref list --repository {get_repo_name()} --query '[].name'")
 
-    # First, get list of all iterations from the team
-    #cmd = f"az boards iteration team list --teamaz boards iteration team list --team {team}"
-    #iterations = run_command(cmd)
-
-    # Then find the unique ID of the current iteration
-    # iteration_id = (Clumper(iterations)
-    #     .keep(lambda d: d['name'] == iteration)
-    #     .unique('id')    
-    # )[0]
-
-    # Get all the work items in an iteration:
-    # cmd = f"az boards iteration team list-work-items --id '{iteration_id}' --team {team}"
-    # work_items = run_command(cmd)
-    # work_items = [d['target']['id'] for d in work_items.get('workItemRelations')]
-
-    # TODO, filter on only open users / tasks?
-    # TODO, we should use the MUCH faster `az boards query`
-    #breakpoint()
-    #https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/boards?view=azure-cli-latest#ext_azure_devops_az_boards_query
-    #https://docs.microsoft.com/en-us/azure/devops/boards/queries/wiql-syntax?view=azure-devops
+    # Local branches?
     
+    
+    # TODO: add rows dynamically.
     # Create our table
     table = Table(title=f"Work-items in current iteration {iteration}")
     table.add_column("ID", justify="right", style="cyan", no_wrap=True)
     table.add_column("Title", justify="right", style="cyan", no_wrap=True)
     table.add_column("Created by", justify="right", style="cyan", no_wrap=True) 
     table.add_column("Type", justify="right", style="cyan", no_wrap=True)
-    table.add_column("Link", justify="right", style="cyan", no_wrap=True)
+    table.add_column("Linked Branches", justify="right", style="cyan", no_wrap=True)
+    table.add_column("Linked PRs", justify="right", style="cyan", no_wrap=True)
 
-    for item in work_items:
-        # item = run_command(f"az boards work-item show --id {work_item_id} --fields 'System.Title,System.CreatedBy,System.WorkItemType'")
-        
-        item = item.get('fields')
+    with Live(table, refresh_per_second=4):
+        for item in work_items:
+            # item = run_command(f"az boards work-item show --id {work_item_id} --fields 'System.Title,System.CreatedBy,System.WorkItemType'")
+            
+            fields = item.get('fields')
+            item_id = fields.get('System.Id')
+            item_title = fields.get('System.Title')
+            item_createdby = fields.get("System.CreatedBy").get('displayName')
+            item_type = fields.get('System.WorkItemType')
 
-        item_id = item.get('System.Id')
-        item_title = item.get('System.Title')
-        item_createdby = item.get("System.CreatedBy").get('displayName')
-        item_type = item.get('System.WorkItemType')
-        item_link = f"https://dev.azure.com/IngEurCDaaS01/IngOne/_workitems/edit/{item_id}"
+            # relations = run_command(f"az boards work-item relation show --id {item_id} --query \"relations[?attributes.name=='Pull Request' || attributes.name=='Branch'].attributes\"")
+            relations = run_command(f"az boards work-item show --id {item_id} --expand 'relations' --query 'relations'") # example id 99035
+            
+            item_linked_branches = []
+            item_linked_prs = []
+            for rel in relations:
+                if rel.get('attributes',[]).get('name') == "Branch":
+                    # Note the branch name is encoded in the URL
+                    item_linked_branches.append(rel.get('url').rpartition("%2FGB")[2])
 
-        table.add_row(str(item_id), item_title, item_createdby, item_type, item_link)
+                if rel.get('attributes',[]).get('name') == "Pull Request": 
+                    item_linked_prs.append(rel.get('url').rpartition("%2F")[2])
 
-    return table
+            item_linked_branches = ",".join(item_linked_branches)
+            item_linked_prs = ",".join(item_linked_prs)
+            
+            # TODO: If current git branch equal to branch ID name, different color.
+            table.add_row(str(item_id), item_title, item_createdby, item_type, item_linked_branches, item_linked_prs)
+
 
 

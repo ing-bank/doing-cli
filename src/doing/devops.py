@@ -16,8 +16,6 @@ def get_purpose_id(repo_name):
 
 def find_area_path():
     
-    
-
     # TODO extract purpose_id from the git remote.
     # TODO determine default repo
     

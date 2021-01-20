@@ -24,8 +24,12 @@ nav:
     - get_started/setup_project.md
   - How to:
     - howto/getting_started.md
+    - howto/troubleshooting.md
   - Reference:
-    - reference/reference.md
+    - Config File: reference/config_file.md
+    - reference/commands.md
+  - Discussion:
+    - discussion/oneproject_setup.md
   - contributing.md
 
 

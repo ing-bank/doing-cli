@@ -21,8 +21,6 @@
 
 - `doing issue update #1235`: updates issue with all assignments, if necessary
 
-- `doing open pipelines`
-- `doing open #1234` (there's a nice CLI, use --open: `az boards work-item show --id 92793 --open`)
 
 
 ## Notes
@@ -55,14 +53,10 @@ FEEDBACK:
 - work items already exist often
 - git commits explicit user
 - git GUI stuff
-- open board link
-- open pr
-
 
 HIER GEBLEVEN. 
 - wat als je met `doing status` op een branch zit die nog geen bijbehorende issue heeft?
 - wat als je tussendoor wilt werken aan een andere issue?. 
-- what about `doing docs` to launch the docs?
 
 ## Workflow
 
@@ -71,13 +65,14 @@ HIER GEBLEVEN.
 git clone <your repo>
 git checkout <your repo>
 
-# Work on something new
+# Work on something *new*
 ado workon "make an update to the readme"
 > created new work-item #12341 "make an update to the readme"
    > added area-path "your-repo"
-> created new branch origin/12341-make-an-update-to-the-readme
-> created new branch 12341-make-an-update-to-the-readme
-> switched to branch 12341-make-an-update-to-the-readme
+> created & linked new branch origin/12341-make-an-update-to-the-readme
+> To work on the issue, use the following commands:
+   > git fetch --all
+   > git checkout 12341-make-an-update-to-the-readme 
 
 # Your normal workflow
 echo "some change" >> README.md

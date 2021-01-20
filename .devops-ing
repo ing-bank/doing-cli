@@ -1,7 +1,0 @@
-# .devops-ing
-# Config file to be used with the `doing` CLI tool
-organization=https://dev.azure.com/IngEurCDaaS01
-project=IngOne 
-team=T01894-RiskandPricingAdvancedAna
-area=IngOne\P01908-Default\taco
-iteration=IngOne\T01894-RiskandPricingAdvancedAna\taco_sprint6
