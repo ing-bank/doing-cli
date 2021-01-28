@@ -3,6 +3,7 @@ import os
 import sys
 import json
 from rich.console import Console
+import sh
 import subprocess
 from dotenv import find_dotenv, dotenv_values
 
@@ -11,16 +12,36 @@ from doing.exceptions import ConfigurationError
 console = Console()
 REQUESTS_CA_BUNDLE = os.path.expanduser("~/Developer/ING/certificates/ing.ca-bundle")
 
+
+def get_az_devop_user_email():
+    """
+    Retrieves email from azure devops
+    """
+    email = sh.az.ad("signed-in-user","show","--query","mail")
+    email = email.rstrip() # remove trailing newlines.
+    assert email, "Could not find azure devops email. Are you logged in?" 
+    return email
+
+
+def get_git_user_email():
+    """
+    Gets emailadres from git config
+    """
+    email = sh.git("config","user.email")
+    email = email.rstrip() # remove trailing newlines.
+    assert email, "Could not find git email. Are you in a git repository? Do you have your git config setup?"
+    return email
+
+
 def get_repo_name():
     """
     Determines name of remote origin repo.
     """
-    print('todo, update get_repo_name')
-    return "P01908-taco"
-    origin_url = os.popen("git config --get remote.origin.url").read()
+    origin_url = os.popen("git config --get remote.origin.url").read().rstrip()
     assert origin_url, "This repository has no remote.origin.url. Is it created on azure devops yet?"
 
-    return os.popen(f"basename -s .git {origin_url}").read()
+    repo_name = os.popen(f"basename -s .git {origin_url}").read().rstrip()
+    return repo_name
 
 def get_config(key = ""):
 
@@ -68,5 +89,8 @@ def run_command(command, return_process=False):
     if process.returncode != 0:
         console.print(f"[red]{process.stderr}[/red]")
         sys.exit(process.returncode)
-    
-    return json.loads(process.stdout)
+
+    if process.stdout:
+        return json.loads(process.stdout)
+    else:
+        return []

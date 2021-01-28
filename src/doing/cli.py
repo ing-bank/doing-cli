@@ -4,13 +4,12 @@ import click
 from rich.console import Console
 from rich.table import Table
 
-from doing.commands import cmd_list
-from doing.utils import get_config, get_repo_name, run_command
+from doing.commands import cmd_list, cmd_workon
+from doing.utils import get_config, get_repo_name, run_command, get_az_devop_user_email
 from doing.devops import get_iterations
 
 
 console = Console()
-
 
 @click.group()
 def cli():
@@ -20,11 +19,11 @@ def common_options(function):
     """
     Custom decorator to avoid repeating commonly used options.
     """
-    function = click.option('--team', required=True, type=str, default=get_config('team'), help="The code of the team in azure")(function)
-    function = click.option('--area', required=True, type=str, default=get_config('area'), help="The area code")(function)
-    function = click.option('--iteration', required=True, type=str, default=get_config('iteration'), help="The current iteration (sprint)")(function)
-    function = click.option('--organization', required=True, type=str, default=get_config('organization'), help="The organization in azure")(function)
-    function = click.option('--project', required=True, type=str, default=get_config('project'), help="The project in azure")(function)
+    function = click.option('--team', required=True, type=str, default=lambda: get_config('team'), help="The code of the team in azure")(function)
+    function = click.option('--area', required=True, type=str, default=lambda: get_config('area'), help="The area code")(function)
+    function = click.option('--iteration', required=True, type=str, default=lambda: get_config('iteration'), help="The current iteration (sprint)")(function)
+    function = click.option('--organization', required=True, type=str, default=lambda: get_config('organization'), help="The organization in azure")(function)
+    function = click.option('--project', required=True, type=str, default=lambda: get_config('project'), help="The project in azure")(function)
     return function
 
 
@@ -139,52 +138,20 @@ def branch(team, area, iteration, organization, project, branch_name):
 
 
 @cli.command()
-@click.option('--team_id', required=True, type=str)
-@click.option('--area', required=True, default="User Story", type=str)
-@click.option('--item_type', required=True, default="User Story", type=click.Choice(['Bug','Epic','Feature','Issue','Task','Test Case','User Story']))
-@click.option('--iteration', required=False, type=str)
 @click.argument('issue', required=True, type=str)
-def workon(team_id: str, 
-           area: str,
-           item_type: str,
-           iteration: str,
-           issue: str
-           ):
+@click.option('--type', required=True, default="User Story", type=click.Choice(['Bug','Epic','Feature','Issue','Task','Test Case','User Story']), help="Type of work item. Defaults to 'User Story'")
+@click.option('--assigned_to', required=True, default=lambda: get_az_devop_user_email(), help="Emailadres of person to assign the issue to. Defaults to yourself.")
+@common_options
+def workon(
+        issue, type, assigned_to,
+        team, area, iteration, organization, project
+    ):
     """
     Work on a new work item. Creates a new work item on Azure DevOps.
     
     ISSUE is the title to be used for the new work item.
     """
-    # TODO: search for a config file (use python-dotenv )
-    # write some method that gets all the input parameters.
-    # note that also uses the environment variables
-    # also set python-dotenv to not override any env vars.
-    
-    if not iteration:
-        table = Table(title="Use --iteration to specify one of the following iterations:")
-        table.add_column("Iteration", justify="right", style="cyan", no_wrap=True)
-        table.add_column("Team", justify="right", style="cyan", no_wrap=True)
-        for sprint in get_iterations(team_id):
-            table.add_row(sprint, team_id)
-        
-        console.print(table)
-    
-    # Area
-    # az boards work-item show --id 37222
-    
-    # assigned to, the uniquename is the emailaddress.
-    # az boards work-item create --title "testing from tim" --type "User Story" --area 'IngOne\\P01908-Default' --iteration 'IngOne\\T01894-RiskandPricingAdvancedAna\\example_repository_sprint4' --assigned-to "tim.vink@ing.com"
-    
-    # https://dev.azure.com/IngEurCDaaS01/bbd257b1-b8a9-4fc6-b350-4ea7cc23c363/_apis/wit/workItems/49618
-    # issue_id = response.get('url')
-    # issue_url = f"https://dev.azure.com/IngEurCDaaS01/IngOne/_backlogs/backlog/T01894-RiskandPricingAdvancedAna/?workitem={issue_id}"
-    
-    # az boards work-item update --id 49618 --area 'IngOne\\P01908-Default\\example_repo'
-    
-    
-    click.echo(f'Working on {issue}')
-    
-    console.print(f"[red]>[/red] Created issue #12345 '[cyan]{issue}[/cyan]'")
+    cmd_workon(issue, type, assigned_to, team, area, iteration, organization, project)
 
 
 # @cli.command()
