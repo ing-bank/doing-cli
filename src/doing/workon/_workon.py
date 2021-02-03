@@ -1,5 +1,4 @@
 
-from os import umask
 from doing.utils import run_command
 
 from rich.console import Console
@@ -11,22 +10,6 @@ def cmd_workon(title:str, type:str, assigned_to:str, team: str, area: str, itera
     https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/boards/work-item?view=azure-cli-latest#ext_azure_devops_az_boards_work_item_create
     """
 
-    cmd = f"az boards work-item create "
-    cmd += f"--title '{title}' --type '{type}' --assigned-to {assigned_to} "
-    cmd += f"--area '{area}' --iteration '{iteration}' --project '{project}' --organization '{organization}'"
-
-    print(cmd)
-    print()
-    issue = run_command(cmd)
-
-
-    issue_id = issue.get('id')
-    issue_url = f"{organization}/{project}/_workitems/edit/{issue_id}"
-    
-    console.print(f"[red]>[/red] Created issue #{issue_id} '[cyan]{title}[/cyan]'")
-    console.print(f"\t[red]>[/red] added area-path '{area}'")
-    console.print(f"\t[red]>[/red] added iteration-path '{iteration}'")
-    console.print(f"\t[red]>[/red] added assignee '{assigned_to}'")
 
     # az boards work-item update --id 49618 --area 'IngOne\\P01908-Default\\example_repo'
 

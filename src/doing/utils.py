@@ -7,18 +7,27 @@ import sh
 import subprocess
 from dotenv import find_dotenv, dotenv_values
 
-from doing.exceptions import ConfigurationError
+from doing.exceptions import ConfigurationError, devops_error_tips
 
 console = Console()
 REQUESTS_CA_BUNDLE = os.path.expanduser("~/Developer/ING/certificates/ing.ca-bundle")
 
 
+def to_snake_case(string):
+    string = (string
+        .lower()
+        .replace(" ","_")
+    )
+    return string
+
 def get_az_devop_user_email():
     """
     Retrieves email from azure devops
     """
-    email = sh.az.ad("signed-in-user","show","--query","mail")
-    email = email.rstrip() # remove trailing newlines.
+    # email = sh.az.ad("signed-in-user","show","--query","mail")
+    # email = email.rstrip() # remove trailing newlines.
+    email = os.popen("az ad signed-in-user show --query 'mail'").read().rstrip()
+    email = email.lstrip("\"").rstrip("\"")
     assert email, "Could not find azure devops email. Are you logged in?" 
     return email
 
@@ -87,10 +96,14 @@ def run_command(command, return_process=False):
         return process
     
     if process.returncode != 0:
+        console.print(f"[bright_black]{command}[/bright_black]")
         console.print(f"[red]{process.stderr}[/red]")
+        # Help the user
+        devops_error_tips(process.stderr)
         sys.exit(process.returncode)
 
     if process.stdout:
         return json.loads(process.stdout)
     else:
         return []
+
