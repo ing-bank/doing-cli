@@ -1,31 +1,14 @@
-# Getting started guide
+# Workflow for a new work item
 
-## Commands
-
-- `doing init`: create `.devops-ing` file
-- `doing status`: See if you're connected, which branch, issue and pr you are working on
-> branch name is not in format NNN-snakecase. Cannot find related issue.
-> Maybe check all workitems and PRs and their info?
-
-- `doing issue list`: shows list of open issues related to the repository
-> To work on an issue, git checkout <> or doing issue update 1234
-
-- `doing issue create 'quick change to README`: 
-> create issue #12345
-> assign area
-> assign iteration
-> assignee set to git config email
-> created origin/branch
-> git fetch origin
-> to workon the issue, "git checkout 12356-description"
-
-- `doing issue update #1235`: updates issue with all assignments, if necessary
 
 
 
 ## Notes
 
-We'll do the PR stuff later.
+- `doing init`: create `.devops-ing` file
+- `doing status`: See if you're connected, which branch, issue and pr you are working on
+> branch name is not in format NNN-snakecase. Cannot find related issue.
+> Maybe check all workitems and PRs and their info?
 
 <issuenumber>-<quick-change-to-README>
 
@@ -37,7 +20,6 @@ We'll do the PR stuff later.
 - `doing pr`: creates a pull request for the current branch / issue
 
 doing status
-doing issue list
 doing workon #1234
 
 doing pr --reviewer "ryan.chaves@ing.com"
@@ -69,10 +51,13 @@ git checkout <your repo>
 ado workon "make an update to the readme"
 > created new work-item #12341 "make an update to the readme"
    > added area-path "your-repo"
+   > added 'your name' as assignee
 > created & linked new branch origin/12341-make-an-update-to-the-readme
 > To work on the issue, use the following commands:
    > git fetch --all
-   > git checkout 12341-make-an-update-to-the-readme 
+   > git checkout 12341-make-an-update-to-the-readme
+   > Tip: lazy? next time use `doing workon -g`
+
 
 # Your normal workflow
 echo "some change" >> README.md
@@ -89,3 +74,12 @@ ado create_pr --reviewer="daniel.timbrell@ing.com"
 git checkout master
 ado workon "something else"
 ```
+
+## feedback round 2
+
+- `doing workon` with `-g` `--execute-git-commands` for lazy ppl.
+- `doing workon --assignee` with default on yourself (empty / nothing) but option to change it.
+- WIP PR request by creating a 'dummy' commit?
+   - label the name with prefix WIP
+   - prevents errors merging into wrong repo
+ 

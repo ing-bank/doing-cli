@@ -18,12 +18,17 @@ We are basically wrapping the Azure Devops CLI.
 
 - [Azure Devops commands reference](https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/?view=azure-cli-latest&viewFallbackFrom=azure-devops)
 
+## Ideas for future development
 
-## Notes
+- Specify default work item type to create, in config.
+- `doing change iteration "<path>"`. If a project requires changing the `.devops-ing` file every time a sprint changes, that might get annoying. This command could automate 1) creating a new work item (using `doing workon`), 2) Updating `.devops-ing`, 3) adding, committing and pushin changes, 4) creating the PR
 
-To be put somewhere or removed.
+
+## Examples of using azure devops CLI
 
 ```bash
+# Configuration
+az devops configure -l
 organization=https://dev.azure.com/IngEurCDaaS01
 project=IngOne 
 az devops configure --defaults organization=$organization project=$project
@@ -32,7 +37,8 @@ az devops configure --defaults organization=$organization project=$project
 f"az boards area team list --team {team} --org {organization} -p {project}"
 az boards area team list --team=T01894-RiskandPricingAdvancedAna
 
-# list issuers
+# list work items
+az boards work-item show --id 37222
 az boards query --wiql "SELECT * FROM WorkItems WHERE ([System.State] = 'Active' OR [System.State] = 'New') AND [System.IterationPath] = 'IngOne\T01894-RiskandPricingAdvancedAna\taco_sprint6' AND [System.AreaPath] = 'IngOne\P01908-Default\taco'"
 
 # List iterations
@@ -43,8 +49,29 @@ az boards iteration project list --path 'https://dev.azure.com/IngEurCDaaS01/Ing
 az boards iteration project show --id 'bd352cb3-129d-432e-ac36-a07daba5a8ee'
 az boards iteration team list --team 'T01894-RiskandPricingAdvancedAna'
 
+# Listing PRs
 
+# List remote branches
+az repos ref list --repository {get_repo_name()} --query '[].name'
+
+# Creating work items
 az boards work-item create --title "Test from tim's command line" --type "User Story" --area "IngOne\P01908-Default\example_repo"
+az boards work-item create --title "testing from tim" --type "User Story" --area 'IngOne\\P01908-Default' --iteration 'IngOne\\T01894-RiskandPricingAdvancedAna\\example_repository_sprint4' --assigned-to "tim.vink@ing.com"
+
+# Deleting work items
+az boards work-item delete --id 112011
+
+# Creating a branch
+
+# 1) get object id of master branch:
+az repos ref list --repository P01908-taco --query "[?name=='refs/heads/master'].objectId"
+# 2) get branch
+az repos ref create --name "heads/testbranchtim" --repository 'P01908-taco' --object-id "684c3079fc9e496dbba885b6febc84ee3bf32bdd"
+# returns
+{'customMessage': None, 'isLocked': False, 'name': 'refs/heads/testbranchtim', 'newObjectId': '684c3079fc9e496dbba885b6febc84ee3bf32bdd', 'oldObjectId': '0000000000000000000000000000000000000000', 'rejectedBy': None, 'repositoryId': '4d2e7861-c3d0-4932-8f23-c8628d05d471', 'success': True, 'updateStatus': 'succeeded'}
+
+
+
 ```
 
 

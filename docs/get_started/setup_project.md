@@ -19,6 +19,19 @@ iteration=IngOne\T01894-RiskandPricingAdvancedAna\taco_sprint6
 
 In the root of your repository, you can check if your configuration works using:
 
-```shell
-doing list
+<div class="termy termy-small">
+
+```console
+$ doing list
+                 Work-items in current iteration IngOne\T01894-RiskandPricingAdvancedAna                  
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃     ID ┃             Title      ┃ Created by ┃       Type ┃    Linked Branches ┃ Linked PRs ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│  36893 │           explore data │ John       │ User Story │ 36893-explore-data │            │
+│  43769 │       feature pipeline │ Artur      │ User Story │                    │            │
+│  99035 │             window bug │ Artur      │       Task │   99035-window-bug │      39949 │
+│ 104436 │ data loading functions │ Jane       │       Task │                    │            │
+└────────┴────────────────────────┴────────────┴────────────┴────────────────────┴────────────┘
 ```
+
+</div>

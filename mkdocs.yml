@@ -23,8 +23,8 @@ nav:
     - get_started/setup_auth.md
     - get_started/setup_project.md
   - How to:
-    - howto/getting_started.md
-    - howto/troubleshooting.md
+    - howto/workflow_new_item.md
+    - Connection problems: howto/connection_problems.md
   - Reference:
     - Config File: reference/config_file.md
     - reference/commands.md
@@ -47,3 +47,17 @@ markdown_extensions:
           options:
               custom_icons:
                   - site/overrides/.icons
+    - pymdownx.superfences:
+        custom_fences:
+            - name: mermaid
+              class: mermaid
+              format: !!python/name:pymdownx.superfences.fence_div_format
+
+extra_javascript:
+    - 'https://unpkg.com/mermaid@8.8.4/dist/mermaid.min.js'
+    - 'assets/js/termynal.js'
+    - 'assets/js/custom.js'
+
+extra_css:
+    - 'assets/css/termynal.css'
+    - 'assets/css/custom.css'
