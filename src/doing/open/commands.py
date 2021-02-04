@@ -12,7 +12,7 @@ console = Console()
 @click.group()
 def open():
     """
-    Quickly open certain links
+    Quickly open certain links.
     """
     pass
 
@@ -21,9 +21,9 @@ def open():
 @common_options
 def board(team, area, iteration, organization, project):
     """
-    Open board view
+    Open board view.
     """
-    console.print(f"Opening the Azure board. Make sure to filter on:")
+    console.print("Opening the Azure board. Make sure to filter on:")
 
     iteration_short = os.path.basename(iteration.replace("\\", "/"))
     area_short = os.path.basename(area.replace("\\", "/"))
@@ -37,7 +37,7 @@ def board(team, area, iteration, organization, project):
 @common_options
 def sprint(team, area, iteration, organization, project):
     """
-    Open current sprint view
+    Open current sprint view.
     """
     iteration = os.path.basename(iteration.replace("\\", "/"))
     click.launch(f"{organization}/{project}/_sprints/taskboard/{team}/{iteration}")
@@ -47,7 +47,7 @@ def sprint(team, area, iteration, organization, project):
 @common_options
 def repo(team, area, iteration, organization, project):
     """
-    Open repo view
+    Open repository view.
     """
     click.launch(f"{organization}/{project}/_git/{get_repo_name()}")
 
@@ -56,20 +56,17 @@ def repo(team, area, iteration, organization, project):
 @common_options
 def prs(team, area, iteration, organization, project):
     """
-    Open active PRs for repository view
+    Open active PRs for repository view.
     """
-    click.launch(
-        f"{organization}/{project}/_git/{get_repo_name()}/pullrequests?_a=active"
-    )
+    click.launch(f"{organization}/{project}/_git/{get_repo_name()}/pullrequests?_a=active")
 
 
 @open.command()
 @common_options
 def pipe(team, area, iteration, organization, project):
     """
-    Open latest pipeline runs for repository view
+    Open latest pipeline runs for repository view.
     """
-
     repo_pipes = run_command(f"az pipelines list --repository {get_repo_name()}")
     if len(repo_pipes) == 0:
         console.print(f"{get_repo_name()} has no pipelines defined currently")
@@ -98,9 +95,7 @@ def pr(team, area, iteration, organization, project, pullrequest_id):
     """
     Open a specific PULLREQUEST_ID.
     """
-    click.launch(
-        f"{organization}/{project}/_git/{get_repo_name()}/pullrequest/{pullrequest_id}"
-    )
+    click.launch(f"{organization}/{project}/_git/{get_repo_name()}/pullrequest/{pullrequest_id}")
 
 
 @open.command()
@@ -110,6 +105,4 @@ def branch(team, area, iteration, organization, project, branch_name):
     """
     Open a specific BRANCH_NAME.
     """
-    click.launch(
-        f"{organization}/{project}/_git/{get_repo_name()}?version=GB{branch_name}"
-    )
+    click.launch(f"{organization}/{project}/_git/{get_repo_name()}?version=GB{branch_name}")

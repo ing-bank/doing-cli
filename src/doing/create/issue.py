@@ -18,19 +18,18 @@ def cmd_create_issue(
     project: str,
 ):
     """
+    Run `doing issue create` command.
+
     az CLI:
     https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/boards/work-item?view=azure-cli-latest#ext_azure_devops_az_boards_work_item_create
     """
-
     if mine and assigned_to:
-        raise InputError(
-            "You cannot use --mine in combination with specifying --assigned-to."
-        )
+        raise InputError("You cannot use --mine in combination with specifying --assigned-to.")
 
     if mine:
         assigned_to = get_az_devop_user_email()
 
-    cmd = f"az boards work-item create "
+    cmd = "az boards work-item create "
     cmd += f"--title '{title}' "
     cmd += f"--type '{type}' "
     if assigned_to:
@@ -39,7 +38,7 @@ def cmd_create_issue(
 
     issue = run_command(cmd)
     issue_id = issue.get("id")
-    issue_url = f"{organization}/{project}/_workitems/edit/{issue_id}"
+    # issue_url = f"{organization}/{project}/_workitems/edit/{issue_id}"
 
     console.print(f"[red]>[/red] Created issue #{issue_id} '[cyan]{title}[/cyan]'")
     console.print(f"\t[red]>[/red] added area-path '{area}'")

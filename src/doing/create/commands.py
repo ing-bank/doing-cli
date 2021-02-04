@@ -8,16 +8,14 @@ from doing.options import common_options
 @click.group()
 def create():
     """
-    Create issues or pull requests
+    Create issues or pull requests.
     """
     pass
 
 
 @create.command()
 @click.argument("issue", required=True, type=str)
-@click.option(
-    "--mine", "-m", required=True, is_flag=True, help="Assign issue to yourself"
-)
+@click.option("--mine", "-m", required=True, is_flag=True, help="Assign issue to yourself")
 @click.option(
     "--assigned_to",
     "-a",
@@ -31,9 +29,7 @@ def create():
     "-t",
     required=True,
     default="User Story",
-    type=click.Choice(
-        ["Bug", "Epic", "Feature", "Issue", "Task", "Test Case", "User Story"]
-    ),
+    type=click.Choice(["Bug", "Epic", "Feature", "Issue", "Task", "Test Case", "User Story"]),
     help="Type of work item. Defaults to 'User Story'",
 )
 @common_options
@@ -43,9 +39,7 @@ def issue(issue, mine, assigned_to, type, team, area, iteration, organization, p
 
     ISSUE is the title to be used for the new work item.
     """
-    cmd_create_issue(
-        issue, mine, assigned_to, type, team, area, iteration, organization, project
-    )
+    cmd_create_issue(issue, mine, assigned_to, type, team, area, iteration, organization, project)
 
 
 @create.command()
@@ -62,7 +56,7 @@ def issue(issue, mine, assigned_to, type, team, area, iteration, organization, p
     "-a",
     required=True,
     is_flag=True,
-    help="Set the pull request to complete automatically when all policies have passed and the source branch can be merged into the target branch.",
+    help="Set the PR to complete autom. when all policies have passed & source branch can be merged into the target.",
 )
 @click.option(
     "--self-approve",
@@ -92,7 +86,6 @@ def pr(
     organization: str,
     project: str,
 ):
-
     """
     Create a pull request from a work item ID.
 

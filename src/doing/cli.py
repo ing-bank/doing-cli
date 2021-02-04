@@ -1,4 +1,3 @@
-import os
 import click
 
 from rich.console import Console
@@ -13,6 +12,11 @@ console = Console()
 
 @click.group()
 def cli():
+    """
+    Main entrypoint for doing CLI.
+
+    Groups all main commands together.
+    """
     pass
 
 

@@ -8,6 +8,11 @@ The tool is built on top of modern python tools like [Click](https://click.palle
 
 We use the [divio documentation system](https://documentation.divio.com/).
 
+## Setup
+
+- We use [pre-commit](https://pre-commit.com/). Setup using `pip install pre-commit` and then `pre-commit install`.
+- For development, use an editable install: `pip install -e .`
+
 ## Technical background
 
 We are basically wrapping the Azure Devops CLI.
@@ -16,6 +21,7 @@ We are basically wrapping the Azure Devops CLI.
 
 ## Ideas for future development
 
+- rename `.devops-ing` to `.doing-cli-config.yml`
 - Specify default work item type to create, in config.
 - `doing init`: create `.devops-ing` file
 - `doing status`: See if you're connected, which branch, issue and pr you are working on
