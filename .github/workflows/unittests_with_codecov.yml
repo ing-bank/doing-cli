@@ -4,10 +4,10 @@ on:
   # but only for the master branch
   push:
     branches:
-      - master
+      - main
     pull_request:
       branches:
-        - master
+        - main
 jobs:
   run:
     name: Run unit tests with codecov upload
