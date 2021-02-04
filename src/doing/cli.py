@@ -10,9 +10,11 @@ from doing.workon import commands as workon_command
 
 console = Console()
 
+
 @click.group()
 def cli():
     pass
+
 
 cli.add_command(open_group.open)
 cli.add_command(create_group.create)

@@ -1,36 +1,44 @@
-
 from doing.utils import run_command
 
 from rich.console import Console
+
 console = Console()
 
-def cmd_workon(title:str, type:str, assigned_to:str, team: str, area: str, iteration: str, organization: str, project: str):
+
+def cmd_workon(
+    title: str,
+    type: str,
+    assigned_to: str,
+    team: str,
+    area: str,
+    iteration: str,
+    organization: str,
+    project: str,
+):
     """
     az CLI:
     https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/boards/work-item?view=azure-cli-latest#ext_azure_devops_az_boards_work_item_create
     """
-
 
     # az boards work-item update --id 49618 --area 'IngOne\\P01908-Default\\example_repo'
 
     # Link a branch
     # Update a work item
 
-    # using relation-type is 
+    # using relation-type is
     # https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/boards/work-item/relation?view=azure-cli-latest#ext_azure_devops_az_boards_work_item_relation_add
-    
+
     # https://docs.microsoft.com/en-us/azure/devops/boards/queries/link-type-reference?view=azure-devops
 
-    #az boards work-item relation add --id 112011 --relation-type 'Branch' --target-id 6566809
+    # az boards work-item relation add --id 112011 --relation-type 'Branch' --target-id 6566809
 
     # list relation types
     # az boards work-item relation list-type --query 'name'
     # Artifact Link"
-    #az boards work-item relation add --id 112011 --relation-type 'Artifact Link' --target-id 6566809
-    # from ojbectID of a branch with 
+    # az boards work-item relation add --id 112011 --relation-type 'Artifact Link' --target-id 6566809
+    # from ojbectID of a branch with
     # az repos ref list --repository P01908-taco
-    #az boards work-item relation add --id 112011 --target-id "475bdee470cab59ccd1d8e25b29ed7f9285504b2" --relation-type "Artifact Link"
-
+    # az boards work-item relation add --id 112011 --target-id "475bdee470cab59ccd1d8e25b29ed7f9285504b2" --relation-type "Artifact Link"
 
     # Maybe, instead of adding branches to an issue
     # Add a Pr directly to a work item:
@@ -44,20 +52,15 @@ def cmd_workon(title:str, type:str, assigned_to:str, team: str, area: str, itera
     # leave out the entire idea of linked branches.
     # eitehr an issue has no PR yet, or a linked PR
     # add `doing create pr issue 1234
-    # 
+    #
     # az repos pr list --repository 'P01908-taco' --include-links
 
     breakpoint()
-    
 
-   # Todo:
-   #  option to checkout locally
-   # az repos pr checkout --id  
-    
-    
-    
 
-    
+# Todo:
+#  option to checkout locally
+# az repos pr checkout --id
 
 
 # Work on something *new*
@@ -70,4 +73,3 @@ def cmd_workon(title:str, type:str, assigned_to:str, team: str, area: str, itera
 #    > git fetch --all
 #    > git checkout 12341-make-an-update-to-the-readme
 #    > Tip: lazy? next time use `doing workon -g`
-
