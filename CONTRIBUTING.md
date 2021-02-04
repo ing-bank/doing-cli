@@ -4,10 +4,6 @@ The `doing` tool is an acronym for **d**ev**o**ps and ING bank. This is because 
 
 The tool is built on top of modern python tools like [Click](https://click.palletsprojects.com/), [rich](https://github.com/willmcgugan/rich) 
 
-## TODO:
-
-- Implement [sh](https://github.com/amoffat/sh) instead of subprocess
-
 ## Documentation
 
 We use the [divio documentation system](https://documentation.divio.com/).
@@ -21,8 +17,9 @@ We are basically wrapping the Azure Devops CLI.
 ## Ideas for future development
 
 - Specify default work item type to create, in config.
-- `doing change iteration "<path>"`. If a project requires changing the `.devops-ing` file every time a sprint changes, that might get annoying. This command could automate 1) creating a new work item (using `doing workon`), 2) Updating `.devops-ing`, 3) adding, committing and pushin changes, 4) creating the PR
-
+- `doing init`: create `.devops-ing` file
+- `doing status`: See if you're connected, which branch, issue and pr you are working on
+- `doing change iteration "<path>"`. If a project requires changing the `.devops-ing` file every time a sprint changes, that might get annoying. This command could automate 1) creating a new work item (using `doing workon`), 2) Updating `.devops-ing`, 3) adding, committing and pushin changes, 4) creating the PR. --> Seems hacky. Better to define a way to define a path to the default iteration?
 
 ## Examples of using azure devops CLI
 

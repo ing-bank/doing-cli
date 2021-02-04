@@ -74,3 +74,5 @@ def cmd_create_pr(work_item_id: str, draft: bool, auto_complete:bool, self_appro
         approval = run_command(f"az repos pr set-vote --id {pr_id} --vote 'approve'")
         console.print(f"\t[red]>[/red] Approved PR {pr_id} for {user_email}.")
 
+    print("TODO: print the git commands to start working on the PR branch locally.")
+    print("TODO: add flag to automatically run those git commands for you.")

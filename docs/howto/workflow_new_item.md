@@ -1,25 +1,8 @@
 # Workflow for a new work item
 
 
-
-
-## Notes
-
-- `doing init`: create `.devops-ing` file
-- `doing status`: See if you're connected, which branch, issue and pr you are working on
-> branch name is not in format NNN-snakecase. Cannot find related issue.
-> Maybe check all workitems and PRs and their info?
-
-<issuenumber>-<quick-change-to-README>
-
-`doing status`: 
-> on branch ...
-> linked issue: ...
-> etc
-
 - `doing pr`: creates a pull request for the current branch / issue
 
-doing status
 doing workon #1234
 
 doing pr --reviewer "ryan.chaves@ing.com"
