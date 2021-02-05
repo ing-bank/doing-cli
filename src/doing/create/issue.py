@@ -45,5 +45,3 @@ def cmd_create_issue(
     console.print(f"\t[red]>[/red] added iteration-path '{iteration}'")
     if assigned_to:
         console.print(f"\t[red]>[/red] added assignee '{assigned_to}'")
-
-    breakpoint()

@@ -16,6 +16,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Static code checking with pyflakes
       run: |
+        pip install .
         pip install pyflakes
         pyflakes src
     - name: Generate coverage report

@@ -1,9 +1,6 @@
-from doing.utils import (
-    run_command,
-    get_repo_name,
-    to_snake_case,
-    get_az_devop_user_email,
-)
+import os
+
+from doing.utils import run_command, get_repo_name, to_snake_case, get_az_devop_user_email, get_git_current_branch
 
 from rich.console import Console
 
@@ -16,6 +13,7 @@ def cmd_create_pr(
     auto_complete: bool,
     self_approve: bool,
     reviewers: str,
+    checkout: bool,
     team: str,
     area: str,
     iteration: str,
@@ -51,8 +49,19 @@ def cmd_create_pr(
         if len(prs) >= 1:
             console.print(
                 f"> Pull request {prs[0].get('pullRequestId')} already exists",
-                "for branch '[cyan]{branch_name}[/cyan]', aborting.",
+                f"for branch '[cyan]{branch_name}[/cyan]', aborting.",
             )
+            if not checkout and (get_git_current_branch() != branch_name):
+                explain_checkout(branch_name)
+            if checkout and (get_git_current_branch() != branch_name):
+                git_checkout(branch_name)
+                # TODO:
+                # Users might get a
+                # fatal: A branch named '121323_test_tim_28jan_2' already exists.
+                # if local branch already exists.
+                # We could test to see if it is setup to track the remote branch, and if not set that right
+                # Might help some less experienced git users.
+
             return None
     else:
         branch = run_command(
@@ -97,5 +106,31 @@ def cmd_create_pr(
         run_command(f"az repos pr set-vote --id {pr_id} --vote 'approve'")
         console.print(f"\t[red]>[/red] Approved PR {pr_id} for {user_email}.")
 
-    print("TODO: print the git commands to start working on the PR branch locally.")
-    print("TODO: add flag to automatically run those git commands for you.")
+    if not checkout:
+        explain_checkout(branch_name)
+    else:
+        git_checkout(branch_name)
+
+
+def explain_checkout(branch_name: str) -> None:
+    """
+    Explain how to checkout a remote branch locally.
+    """
+    console.print("\tTo start work on the PR run:")
+    console.print("\t[bright_black]git fetch origin[/bright_black]")
+    console.print(f"\t[bright_black]git checkout -b {branch_name} origin/{branch_name}[/bright_black]")
+
+
+def git_checkout(branch_name: str, verbose: bool = True) -> None:
+    """
+    Checkout a remote branch locally.
+    """
+    if verbose:
+        console.print("\tRunning command: [bright_black]git fetch origin[/bright_black]")
+    os.system("git fetch origin")
+
+    if verbose:
+        console.print(
+            f"\tRunning command: [bright_black]git checkout -b {branch_name} origin/{branch_name}[/bright_black]"
+        )
+    os.system(f"git checkout -b {branch_name} origin/{branch_name}")

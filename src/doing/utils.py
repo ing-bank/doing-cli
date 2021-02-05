@@ -33,6 +33,16 @@ def get_az_devop_user_email():
     return email
 
 
+def get_git_current_branch():
+    """
+    Get name of current branch in git.
+    """
+    branch = os.popen("git branch --show-current").read().rstrip()
+    branch = branch.lstrip('"').rstrip('"')
+    assert branch, "Could not retrieve current git branch. Is your working directory a git repository?"
+    return branch
+
+
 def get_git_user_email():
     """
     Gets emailadres from git config.

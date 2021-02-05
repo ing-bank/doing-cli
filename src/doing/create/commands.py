@@ -73,6 +73,13 @@ def issue(issue, mine, assigned_to, type, team, area, iteration, organization, p
     type=str,
     help="Additional users or groups to include as reviewers on the new pull request. Space separated.",
 )
+@click.option(
+    "--checkout",
+    "-c",
+    required=True,
+    is_flag=True,
+    help="Run git commands to checkout remote branch locally.",
+)
 @common_options
 def pr(
     work_item_id: str,
@@ -80,6 +87,7 @@ def pr(
     auto_complete: bool,
     self_approve: bool,
     reviewers: str,
+    checkout: bool,
     team: str,
     area: str,
     iteration: str,
@@ -97,6 +105,7 @@ def pr(
         auto_complete,
         self_approve,
         reviewers,
+        checkout,
         team,
         area,
         iteration,

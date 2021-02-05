@@ -53,7 +53,7 @@ def cmd_workon(
     #
     # az repos pr list --repository 'P01908-taco' --include-links
 
-    breakpoint()
+    pass
 
 
 # Todo:
