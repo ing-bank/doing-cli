@@ -1,4 +1,6 @@
 import os
+import subprocess
+import sys
 
 from doing.utils import run_command, get_repo_name, to_snake_case, get_az_devop_user_email, get_git_current_branch
 
@@ -19,13 +21,16 @@ def cmd_create_pr(
     iteration: str,
     organization: str,
     project: str,
-):
+) -> int:
     """
     Run command `doing create pr`.
 
     API doc:
     https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/repos/pr?view=azure-cli-latest#ext_azure_devops_az_repos_pr_create
     """
+    if checkout:
+        check_uncommitted_work()
+
     repo_name = get_repo_name()
     user_email = get_az_devop_user_email()
 
@@ -43,12 +48,15 @@ def cmd_create_pr(
     )[0]
     branch_name = f"{work_item_id}_{to_snake_case(work_item_title)}"
     if branch_name in remote_branches:
-        console.print(f"> Branch '[cyan]{branch_name}[/cyan]' already exists on remote, using that one")
+        console.print(
+            f"[dark_orange3]>[/dark_orange3] Remote branch '[cyan]{branch_name}[/cyan]' already exists, using that one"
+        )
         # Check if there is not already an existing PR for this branch
         prs = run_command(f"az repos pr list -r {repo_name} -s {branch_name}")
         if len(prs) >= 1:
+            pr_id = prs[0].get("pullRequestId")
             console.print(
-                f"> Pull request {prs[0].get('pullRequestId')} already exists",
+                f"[dark_orange3]>[/dark_orange3] Pull request {pr_id} already exists",
                 f"for branch '[cyan]{branch_name}[/cyan]', aborting.",
             )
             if not checkout and (get_git_current_branch() != branch_name):
@@ -62,14 +70,13 @@ def cmd_create_pr(
                 # We could test to see if it is setup to track the remote branch, and if not set that right
                 # Might help some less experienced git users.
 
-            return None
+            return pr_id
     else:
-        branch = run_command(
-            f"az repos ref create --name 'heads/{branch_name}' --repository '{repo_name}'",
-            f"--object-id '{master_branch_object_id}' --project '{project}' --organization '{organization}'",
-        )
+        cmd = f"az repos ref create --name 'heads/{branch_name}' --repository '{repo_name}' "
+        cmd += f"--object-id '{master_branch_object_id}' --project '{project}' --organization '{organization}'"
+        branch = run_command(cmd)
         assert branch.get("success")
-        console.print(f"[red]>[/red] Created branch '[cyan]{branch_name}[/cyan]'")
+        console.print(f"[dark_orange3]>[/dark_orange3] Created remote branch '[cyan]{branch_name}[/cyan]'")
 
     # Create the PR
     command = f"az repos pr create --repository '{repo_name}' "
@@ -86,7 +93,10 @@ def cmd_create_pr(
     # auto-complete.
     command += f"--auto-complete '{str(auto_complete).lower()}' "
     if self_approve:
-        reviewers = f"{reviewers} {user_email}"
+        if len(reviewers) > 0:
+            reviewers = f"{reviewers} {user_email}"
+        else:
+            reviewers = user_email
 
     if reviewers != "":
         command += f"--reviewers '{reviewers}' "
@@ -95,21 +105,24 @@ def cmd_create_pr(
 
     # Report to user
     pr_id = pr.get("pullRequestId")
-    console.print(f"[red]>[/red] Created pr #{pr_id} '{work_item_title}'")
-    console.print(f"\t[red]>[/red] linked work-item #{work_item_id}")
+    console.print(f"[dark_orange3]>[/dark_orange3] Created pull request #{pr_id} [cyan]'{work_item_title}'[cyan]")
+    console.print(f"\t[dark_orange3]>[/dark_orange3] linked work-item #{work_item_id}")
     if draft:
-        console.print("\t[red]>[/red] marked PR as draft'")
+        console.print("\t[dark_orange3]>[/dark_orange3] marked as draft pull request")
     if auto_complete:
-        console.print("\t[red]>[/red] Set auto-complete to True'")
+        console.print("\t[dark_orange3]>[/dark_orange3] set auto-complete to True'")
+    if len(reviewers) > 0:
+        console.print(f"\t[dark_orange3]>[/dark_orange3] added reviewers: '{reviewers}'")
     if self_approve:
-        console.print(f"\t[red]>[/red] Added self ({user_email}) as reviewer'")
         run_command(f"az repos pr set-vote --id {pr_id} --vote 'approve'")
-        console.print(f"\t[red]>[/red] Approved PR {pr_id} for {user_email}.")
+        console.print(f"\t[dark_orange3]>[/dark_orange3] Approved PR {pr_id} for '{user_email}'")
 
     if not checkout:
         explain_checkout(branch_name)
     else:
         git_checkout(branch_name)
+
+    return pr_id
 
 
 def explain_checkout(branch_name: str) -> None:
@@ -126,11 +139,28 @@ def git_checkout(branch_name: str, verbose: bool = True) -> None:
     Checkout a remote branch locally.
     """
     if verbose:
-        console.print("\tRunning command: [bright_black]git fetch origin[/bright_black]")
+        console.print("\t[dark_orange3]$[/dark_orange3] Running command: [bright_black]git fetch origin[/bright_black]")
     os.system("git fetch origin")
 
     if verbose:
         console.print(
-            f"\tRunning command: [bright_black]git checkout -b {branch_name} origin/{branch_name}[/bright_black]"
+            "\t[dark_orange3]$[/dark_orange3] Running command:",
+            f"[bright_black]git checkout -b {branch_name} origin/{branch_name}[/bright_black]",
         )
     os.system(f"git checkout -b {branch_name} origin/{branch_name}")
+
+
+def check_uncommitted_work() -> None:
+    """
+    See if there are unstaged changes in git repo that would prevent switching branches.
+    """
+    result = subprocess.Popen(
+        ["git", "diff", "--exit-code"], shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    )
+    result.communicate()[0]
+    if result.returncode != 0:
+        console.print(
+            "You have local unstaged changes (see [bright_black]git diff[/bright_black]).",
+            "Commit them before running this command.",
+        )
+        sys.exit(1)

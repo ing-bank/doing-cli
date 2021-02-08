@@ -16,7 +16,7 @@ def cmd_create_issue(
     iteration: str,
     organization: str,
     project: str,
-):
+) -> int:
     """
     Run `doing issue create` command.
 
@@ -40,8 +40,10 @@ def cmd_create_issue(
     issue_id = issue.get("id")
     # issue_url = f"{organization}/{project}/_workitems/edit/{issue_id}"
 
-    console.print(f"[red]>[/red] Created issue #{issue_id} '[cyan]{title}[/cyan]'")
-    console.print(f"\t[red]>[/red] added area-path '{area}'")
-    console.print(f"\t[red]>[/red] added iteration-path '{iteration}'")
+    console.print(f"[dark_orange3]>[/dark_orange3] Created issue #{issue_id} '[cyan]{title}[/cyan]'")
+    console.print(f"\t[dark_orange3]>[/dark_orange3] added area-path '{area}'")
+    console.print(f"\t[dark_orange3]>[/dark_orange3] added iteration-path '{iteration}'")
     if assigned_to:
-        console.print(f"\t[red]>[/red] added assignee '{assigned_to}'")
+        console.print(f"\t[dark_orange3]>[/dark_orange3] added assignee '{assigned_to}'")
+
+    return issue_id

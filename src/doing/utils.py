@@ -9,8 +9,10 @@ from typing import Dict, List
 
 from doing.exceptions import ConfigurationError, devops_error_tips
 
+from rich.traceback import install
+
+install()
 console = Console()
-REQUESTS_CA_BUNDLE = os.path.expanduser("~/Developer/ING/certificates/ing.ca-bundle")
 
 
 def to_snake_case(string):
@@ -68,15 +70,17 @@ def get_config(key=""):
     """
     Finds and reads doing configuration file.
     """
-    conf = dotenv_values(find_dotenv(".devops-ing", usecwd=True))
+    conf = dotenv_values(find_dotenv(".doing-cli-config.yml", usecwd=True))
     if not conf or len(conf) == 0:
-        raise FileNotFoundError("Could not find the configuration file '.devops-ing'")
+        raise FileNotFoundError("Could not find the configuration file '.doing-cli-config.yml'")
 
     if key:
         try:
             return conf[key]
         except KeyError:
-            raise ConfigurationError(f"Your '.devops-ing' configuration file does not contain an entry for '{key}'")
+            raise ConfigurationError(
+                f"Your '.doing-cli-config.yml' configuration file does not contain an entry for '{key}'"
+            )
 
     return conf
 
@@ -103,7 +107,7 @@ def run_command(command: str) -> List:
 
     if process.returncode != 0:
         console.print(f"[bright_black]{command}[/bright_black]")
-        console.print(f"[red]{str(process.stderr)}[/red]")
+        console.print(f"[dark_orange3]{str(process.stderr)}[/dark_orange3]")
         # Help the user
         devops_error_tips(str(process.stderr))
         sys.exit(process.returncode)

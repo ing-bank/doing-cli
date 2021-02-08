@@ -19,13 +19,6 @@ We are basically wrapping the Azure Devops CLI.
 
 - [Azure Devops commands reference](https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/?view=azure-cli-latest&viewFallbackFrom=azure-devops)
 
-## Ideas for future development
-
-- rename `.devops-ing` to `.doing-cli-config.yml`
-- Specify default work item type to create, in config.
-- `doing init`: create `.devops-ing` file
-- `doing status`: See if you're connected, which branch, issue and pr you are working on
-- `doing change iteration "<path>"`. If a project requires changing the `.devops-ing` file every time a sprint changes, that might get annoying. This command could automate 1) creating a new work item (using `doing workon`), 2) Updating `.devops-ing`, 3) adding, committing and pushin changes, 4) creating the PR. --> Seems hacky. Better to define a way to define a path to the default iteration?
 
 ## Examples of using azure devops CLI
 
@@ -43,6 +36,17 @@ az boards area team list --team=T01894-RiskandPricingAdvancedAna
 # list work items
 az boards work-item show --id 37222
 az boards query --wiql "SELECT * FROM WorkItems WHERE ([System.State] = 'Active' OR [System.State] = 'New') AND [System.IterationPath] = 'IngOne\T01894-RiskandPricingAdvancedAna\taco_sprint6' AND [System.AreaPath] = 'IngOne\P01908-Default\taco'"
+
+# Update a work item
+az boards work-item relation add --id 112011 --relation-type 'Branch' --target-id 6566809
+
+# list relation types
+az boards work-item relation list-type --query 'name'
+# Artifact Link
+az boards work-item relation add --id 112011 --relation-type 'Artifact Link' --target-id 6566809
+# from ojbectID of a branch with
+az repos ref list --repository P01908-taco
+az boards work-item relation add --id 112011 --target-id "475bdee470cab59ccd1d8e25b29ed7f9285504b2" --relation-type "Artifact Link"
 
 # List iterations
 #https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/boards?view=azure-cli-latest#ext_azure_devops_az_boards_query
@@ -64,8 +68,10 @@ az boards work-item create --title "testing from tim" --type "User Story" --area
 # Deleting work items
 az boards work-item delete --id 112011
 
-# Creating a branch
+# Creating a PR
+az repos pr create --repository 'P01908-taco' --work-items '112011' --draft --title "test pr from tim" --source-branch "testbranchtim" --transition-work-items 'true'
 
+# Creating a branch
 # 1) get object id of master branch:
 az repos ref list --repository P01908-taco --query "[?name=='refs/heads/master'].objectId"
 # 2) get branch
