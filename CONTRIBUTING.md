@@ -2,7 +2,7 @@
 
 The `doing` tool is an acronym for **d**ev**o**ps and ING bank. This is because the tool was built to speed up development for data science teams using ING's setup of Azure Devops.
 
-The tool is built on top of modern python tools like [Click](https://click.palletsprojects.com/), [rich](https://github.com/willmcgugan/rich) 
+The tool is built on top of modern python tools like [Click](https://click.palletsprojects.com/) and [rich](https://github.com/willmcgugan/rich).
 
 ## Documentation
 

@@ -1,6 +1,6 @@
-# The .devops-ing config file
+# The .doing-cli-config.yml config file
 
-`doing` searches for YAML config file named `.devops-ing`. The config must contain the following parameters (in lowercase):
+`doing` searches for YAML config file named `.doing-cli-config.yml`. The config must contain the following parameters (in lowercase):
 
 | Method      | Description                          |
 | ----------- | ------------------------------------ |

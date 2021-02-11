@@ -15,7 +15,7 @@ Successfully installed doing-cli
 </div>
 
 
-You should then be able to run `doing`:
+You should then be able to view the help file by running `doing`:
 
 <div class="termy">
 
@@ -38,18 +38,20 @@ Commands:
 
 ## Installing Azure CLI
 
-`doing` basically wraps the Azure's `az` CLI tool, so we need to install it in order to deal with authentication and such.
+To use `doing` we also need to install Azure's `az` CLI tool.
 
-- Install [azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
-- Install [azure cli devops extension](https://docs.microsoft.com/en-us/azure/devops/cli/?view=azure-devops)
+=== "Manually"
 
-If you're on mac, you can install both quickly via the command line:
+    - Install [azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
+    - Install [azure cli devops extension](https://docs.microsoft.com/en-us/azure/devops/cli/?view=azure-devops)
 
-<div class="termy">
+=== "On Mac via command line"
 
-```console
-$ brew update && brew install azure-cli
-$ az extension add --name azure-devops
-```
+    If you're on mac, you can install both quickly via the command line:
 
-</div>
+    ```shell
+    brew update && brew install azure-cli
+    az extension add --name azure-devops
+    ```
+
+You can confirm the installation by running `az devops --help`. If you see the help files, the installation was succesfull.

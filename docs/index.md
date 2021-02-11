@@ -2,13 +2,11 @@
 
 `doing` is a CLI tool for Azure DevOps that helps mimic the common repository/issue workflow from Github and Gitlab.
 
-## Features
+In Azure DevOps an issue (work item) is not directly related to a repository (here's [why](discussions/oneproject_setup.md)). `doing` solves this by adding a `.doing-cli-config.yml` file to the root of a repository containing information on the associated area and iteration paths. This enables `doing` to list, create and quickly access repository-related issues.
 
-In Azure DevOps a work item is not directly related to a repository. This is because 1) a project can have multiple repositories, and 2) work items are linked to iterations (sprints), areas, and potentially certain repo branches.
+## Highlights
 
-To solve this, `doing` adds a `.doing` config file to the root of a project providing linked area and iteration paths. This enables `doing` to list and work with repository-related work items. 
-
-### listing issues
+**listing issues linked to a repository**
 
 <div class="termy termy-small">
 
@@ -26,6 +24,29 @@ $ doing list
 ```
 
 </div>
+
+**quickly starting work on a new issue**
+
+<div class="termy termy-small">
+
+```console
+$ doing workon "fixing a small typo"
+> Created issue #146545 'fixing a small typo'
+        > added area-path '{your area path}'
+        > added iteration-path '{your iteration path}'
+        > added assignee '{your azure account}'
+> Created remote branch '146545_fixing_a_small_typo'
+> Created pull request #49281 'fixing a small typo'
+        > linked work-item #146545
+        > marked as draft pull request
+        > set auto-complete to True'
+        > added reviewers: '{your azure account}'
+        $ Running command: git fetch origin
+        $ Running command: git checkout -b 146545_fixing_a_small_typo origin/146545_fixing_a_small_typo
+```
+
+</div>
+
 
 ## Documentation
 

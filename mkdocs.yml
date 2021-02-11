@@ -1,5 +1,5 @@
 
-site_name: ING Azure DevOps CLI
+site_name: doing CLI for Azure DevOps
 site_description: 'Speed up work with INGs Azure Devops'
 edit_uri: ''
 copyright: 'Copyright &copy; 2020 ING'
@@ -23,7 +23,9 @@ nav:
     - get_started/setup_auth.md
     - get_started/setup_project.md
   - How to:
-    - howto/workflow_new_item.md
+    - Workflow new issues: howto/workflow_new_item.md
+    - Workflow existing issues: howto/workflow_existing_item.md
+    - Workflow sprints: howto/workflow_sprints.md
     - Connection problems: howto/connection_problems.md
   - Reference:
     - Config File: reference/config_file.md
@@ -34,6 +36,7 @@ nav:
 
 
 markdown_extensions:
+    - abbr
     - admonition
     - pymdownx.highlight
     - pymdownx.inlinehilite
