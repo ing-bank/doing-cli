@@ -8,13 +8,7 @@
 
 CLI app to help speed up development on ING's Azure DevOps.
 
-## Features
-
-- Python-based, easy to install
-- Lightweight, almost no dependencies
-- Encourages best practices!
-
-## Install
+## Installation
 
 ```shell
 pip install doing-cli
