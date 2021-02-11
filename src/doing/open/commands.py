@@ -1,6 +1,7 @@
 import os
 import click
 
+from urllib.parse import quote
 from rich.console import Console
 
 from doing.utils import get_repo_name, run_command
@@ -86,6 +87,25 @@ def issue(team, area, iteration, organization, project, issue_id):
     ISSUE_ID is the ID number of a work item.
     """
     click.launch(f"{organization}/{project}/_workitems/edit/{issue_id}")
+
+
+@open.command()
+@common_options
+def issues(team, area, iteration, organization, project):
+    """
+    Open all active issues view.
+    """
+    # More on hyperlink query syntax:
+    # https://docs.microsoft.com/en-us/azure/devops/boards/queries/define-query-hyperlink?view=azure-devops
+    query = f"""
+    SELECT [System.Id],[System.AssignedTo],[System.WorkItemType],[System.Title],[System.Parent],[System.CreatedDate]
+    FROM WorkItems
+    WHERE [System.AreaPath]='{area}'
+    AND ([System.State] = 'Active' OR [System.State] = 'New')
+    AND [System.IterationPath] UNDER '{iteration}'
+    """
+
+    click.launch(f"{organization}/{project}/_workitems/?_a=query&wiql={quote(query)}")
 
 
 @open.command()
