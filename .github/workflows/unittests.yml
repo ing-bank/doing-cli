@@ -23,4 +23,4 @@ jobs:
       run: |
         pip install -r tests/test_requirements.txt
         pip install .
-        pytest --cov=doing --cov-report=xml
+        pytest --cov=src --cov-report=xml
