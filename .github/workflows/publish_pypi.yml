@@ -19,8 +19,8 @@ jobs:
         pip install setuptools wheel twine
     - name: Make sure unit tests succeed
       run: |
-        pip install -r tests/test_requirements.txt
-        pip install .
+        pip3 install -r tests/test_requirements.txt
+        pip3 install .
         pytest
     - name: Build package & publish to PyPi
       env:
