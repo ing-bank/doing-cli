@@ -13,9 +13,7 @@ console = Console()
 @click.group()
 def cli():
     """
-    Main entrypoint for doing CLI.
-
-    Groups all main commands together.
+    CLI for repository/issue workflow on Azure Devops.
     """
     pass
 

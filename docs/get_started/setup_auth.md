@@ -22,4 +22,4 @@ Token:
 
 </div>
 
-If you want to check if you are logged in and have a connection, run the command `az account show -o jsonc`. You should see a JSON response with some of your account details. Not working? See [Connection problems](http://localhost:8000/howto/connection_problems/).
+If you want to check if you are logged in and have a connection, run the commands `az account show -o jsonc` and `az account list-locations -o jsonc`. You should see a JSON response. Not working? See [Connection problems](http://localhost:8000/howto/connection_problems/).

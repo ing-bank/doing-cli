@@ -2,7 +2,8 @@
 site_name: doing CLI for Azure DevOps
 site_description: 'Speed up work with INGs Azure Devops'
 edit_uri: ''
-copyright: 'Copyright &copy; 2020 ING'
+copyright: 'Copyright &copy; 2021 ING'
+repo_url: https://github.com/timvink/doing-cli
 
 theme:
     name: material
@@ -15,6 +16,7 @@ theme:
     features:
         - tabs
         - instant
+        - autohide
 
 nav:
   - index.md
@@ -31,7 +33,7 @@ nav:
     - Config File: reference/config_file.md
     - reference/commands.md
   - Discussion:
-    - discussion/oneproject_setup.md
+    - One Project Setup: discussion/oneproject_setup.md
   - contributing.md
 
 

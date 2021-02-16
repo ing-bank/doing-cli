@@ -48,9 +48,9 @@ $ doing workon "fixing a small typo"
 
 This automates a lot of clicking in the Azure Devops web portal and even runs git commands locally, so you can immediately start your normal `git add`, `git commit` and `git push` development workflow.
 
-When you're done you can view the associated:
+When you're done you can view the:
 
 - pull request using `doing open pr <pullrequest id>`. Use `doing list` to find your PR id.
-- issue using `doing open issue <issue id>`. The git branch name has the issue id as a prefix, or alternatively you can use `doing list`.
-
- 
+- issue using `doing open issue <issue id>`. The git branch name has the issue id as a prefix, or alternatively you can use `doing list` to find the issue id.
+- active pull requests using `doing open prs`
+- pipeline runs using `doing open pipe` 

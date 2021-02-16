@@ -9,14 +9,16 @@ $ doing --help
 
 Usage: doing [OPTIONS] COMMAND [ARGS]...
 
+  CLI for repository/issue workflow on Azure Devops.
+
 Options:
   --help  Show this message and exit.
 
 Commands:
-  list     List issues related to the project.
-  nothing  Take a break.
-  open     Quickly open certain links
-  workon   Work on a new work item.
+  create  Create issues or pull requests.
+  list    List issues related to the project.
+  open    Quickly open certain links.
+  workon  Create issue with PR and switch git branch.
 ```
 
 </div>

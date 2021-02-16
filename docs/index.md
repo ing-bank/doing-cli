@@ -39,7 +39,7 @@ $ doing workon "fixing a small typo"
 > Created pull request #49281 'fixing a small typo'
         > linked work-item #146545
         > marked as draft pull request
-        > set auto-complete to True'
+        > set auto-complete to 'True'
         > added reviewers: '{your azure account}'
         $ Running command: git fetch origin
         $ Running command: git checkout -b 146545_fixing_a_small_typo origin/146545_fixing_a_small_typo
@@ -51,6 +51,6 @@ $ doing workon "fixing a small typo"
 ## Documentation
 
 - [Getting started](get_started/install.md): A hands-on introduction to `doing` for developers. *Recommended for all new users*
-- [How-to guides](): Step-by-step guides. Covers key tasks and operations and common problems.
-- [Reference](): Technical reference. Covers tools, components, commands and resources.
-- [Discussion](): Explanation. Clarification and discussion of key topics.
+- [How-to guides](howto/workflow_new_item.md): Step-by-step guides. Covers key tasks and operations and common problems.
+- [Reference](reference/commands.md): Technical reference. Covers tools, components, commands and resources.
+- [Discussion](discussion/oneproject_setup.md): Explanation. Clarification and discussion of key topics.
