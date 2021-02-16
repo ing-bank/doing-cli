@@ -20,7 +20,7 @@ jobs:
     - name: Make sure unit tests succeed
       run: |
         pip3 install -r tests/test_requirements.txt
-        pip3 install .
+        pip3 install -e .
         pytest
     - name: Build package & publish to PyPi
       env:
