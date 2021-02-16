@@ -12,7 +12,7 @@ We use the [divio documentation system](https://documentation.divio.com/).
 
 - We use [pre-commit](https://pre-commit.com/). Setup using `pip install pre-commit` and then `pre-commit install`.
 - For development, use an editable install: `pip install -e .`
-
+- For publishing, use syntax: `git tag -a v0.1 -m "doing-cli v0.1" && git push origin v0.1`
 ## Technical background
 
 We are basically wrapping the Azure Devops CLI.

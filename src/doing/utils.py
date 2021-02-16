@@ -2,7 +2,6 @@ import os
 import sys
 import json
 from rich.console import Console
-import sh
 import subprocess
 from dotenv import find_dotenv, dotenv_values
 from typing import Dict, List
@@ -49,8 +48,8 @@ def get_git_user_email():
     """
     Gets emailadres from git config.
     """
-    email = sh.git("config", "user.email")
-    email = email.rstrip()  # remove trailing newlines.
+    email = os.popen("git config user.email").read().rstrip()
+    email = email.lstrip('"').rstrip('"')
     assert email, "Could not find git email. Are you in a git repository? Do you have your git config setup?"
     return email
 

@@ -5,7 +5,7 @@ setup(
     version="0.1",
     packages=find_packages("src"),
     package_dir={"": "src"},
-    install_requires=["Click", "python-dotenv", "sh>=1.14.1", "rich>=9.10.0"],
+    install_requires=["Click", "python-dotenv", "rich>=9.10.0"],
     entry_points={
         "console_scripts": [
             "doing = doing.cli:cli",
