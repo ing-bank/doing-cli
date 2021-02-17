@@ -2,7 +2,7 @@
 
 `doing` is a CLI tool for Azure DevOps that helps mimic the common repository/issue workflow from Github and Gitlab.
 
-In Azure DevOps an issue (work item) is not directly related to a repository (here's [why](discussions/oneproject_setup.md)). `doing` solves this by adding a `.doing-cli-config.yml` file to the root of a repository containing information on the associated area and iteration paths. This enables `doing` to list, create and quickly access repository-related issues.
+In Azure DevOps an issue (work item) is not directly related to a repository (here's [why](discussion/oneproject_setup.md)). `doing` solves this by adding a `.doing-cli-config.yml` file to the root of a repository containing information on the associated area and iteration paths. This enables `doing` to list, create and quickly access repository-related issues.
 
 ## Highlights
 
