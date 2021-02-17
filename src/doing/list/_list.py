@@ -2,8 +2,11 @@ from doing.utils import run_command, get_repo_name
 from rich.table import Table
 from rich.live import Live
 from rich.progress import track
+from rich.console import Console
 
 from typing import List, Dict
+
+console = Console()
 
 
 def cmd_list(team: str, area: str, iteration: str, organization: str, project: str):
@@ -18,10 +21,10 @@ def cmd_list(team: str, area: str, iteration: str, organization: str, project: s
     query += f"AND [System.AreaPath] = '{area}' "
     work_items = run_command(f'az boards query --wiql "{query}"')
 
-    with Live() as live:
+    workitem_prs = {}  # type: Dict
 
-        workitem_prs = {}  # type: Dict
-        live.update(build_table(work_items, workitem_prs, iteration))
+    with Live(build_table(work_items, workitem_prs, iteration, False), refresh_per_second=4, console=console) as live:
+
         # Now for each work item we could get linked PRs
         # However, APIs requests are slow, and most work items don't have a PR.
         # Instead, we'll retrieve all active PRs and see which items are linked (less API calls)
@@ -39,7 +42,7 @@ def cmd_list(team: str, area: str, iteration: str, organization: str, project: s
                 else:
                     workitem_prs[work_item] = [str(pr_id)]
 
-            live.update(build_table(work_items, workitem_prs, iteration))
+            live.update(build_table(work_items, workitem_prs, iteration, False))
 
         live.update(build_table(work_items, workitem_prs, iteration, last_build=True))
 

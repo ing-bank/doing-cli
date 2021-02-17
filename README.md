@@ -3,6 +3,7 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/doing-cli)
 ![PyPI](https://img.shields.io/pypi/v/doing-cli)
 ![PyPI - License](https://img.shields.io/pypi/l/doing-cli)
+![GitHub contributors](https://img.shields.io/github/contributors/timvink/doing-cli)
 
 # doing-cli: Simplify your azure devops workflow
 
