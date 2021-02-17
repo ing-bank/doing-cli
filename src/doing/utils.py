@@ -4,7 +4,7 @@ import json
 from rich.console import Console
 import subprocess
 from dotenv import find_dotenv, dotenv_values
-from typing import Dict, List
+from typing import Dict
 
 from doing.exceptions import ConfigurationError, devops_error_tips
 
@@ -91,7 +91,7 @@ def pprint(obj: Dict) -> None:
     print(json.dumps(obj, indent=2))
 
 
-def run_command(command: str) -> List:
+def run_command(command: str):
     """
     Run a shell command.
     """

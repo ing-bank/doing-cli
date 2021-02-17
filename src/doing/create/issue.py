@@ -11,6 +11,7 @@ def cmd_create_issue(
     mine: bool,
     assigned_to: str,
     type: str,
+    parent: str,
     team: str,
     area: str,
     iteration: str,
@@ -45,5 +46,13 @@ def cmd_create_issue(
     console.print(f"\t[dark_orange3]>[/dark_orange3] added iteration-path '{iteration}'")
     if assigned_to:
         console.print(f"\t[dark_orange3]>[/dark_orange3] added assignee '{assigned_to}'")
+
+    if parent:
+        cmd = "az boards work-item relation add "
+        cmd += f"--id {issue_id} "
+        cmd += "--relation-type 'parent' "
+        cmd += f"--target-id {parent} "
+        run_command(cmd)
+        console.print(f"\t[dark_orange3]>[/dark_orange3] added work-item #{parent} as a parent")
 
     return issue_id

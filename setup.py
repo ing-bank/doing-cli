@@ -6,7 +6,7 @@ file.close()
 
 setup(
     name="doing-cli",
-    version="0.1.1",
+    version="0.2",
     packages=find_packages("src"),
     package_dir={"": "src"},
     long_description=LONG_DESCRIPTION,

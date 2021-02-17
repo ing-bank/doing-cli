@@ -32,14 +32,22 @@ def create():
     type=click.Choice(["Bug", "Epic", "Feature", "Issue", "Task", "Test Case", "User Story"]),
     help="Type of work item. Defaults to 'User Story'",
 )
+@click.option(
+    "--parent",
+    "-p",
+    required=True,
+    default="",
+    type=str,
+    help="To create a child work item, specify the ID of the parent work item.",
+)
 @common_options
-def issue(issue, mine, assigned_to, type, team, area, iteration, organization, project):
+def issue(issue, mine, assigned_to, type, parent, team, area, iteration, organization, project):
     """
     Create an issue.
 
     ISSUE is the title to be used for the new work item.
     """
-    cmd_create_issue(issue, mine, assigned_to, type, team, area, iteration, organization, project)
+    cmd_create_issue(issue, mine, assigned_to, type, parent, team, area, iteration, organization, project)
 
 
 @create.command()
