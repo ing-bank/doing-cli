@@ -39,6 +39,7 @@ $ doing workon "fixing a small typo"
         > linked work-item #146545
         > marked as draft pull request
         > set auto-complete to True'
+        > set to delete remote source branch after PR completion
         > added reviewers: '{your azure account}'
         $ Running command: git fetch origin
         $ Running command: git checkout -b 146545_fixing_a_small_typo origin/146545_fixing_a_small_typo

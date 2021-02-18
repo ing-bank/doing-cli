@@ -16,6 +16,7 @@ def cmd_create_pr(
     self_approve: bool,
     reviewers: str,
     checkout: bool,
+    delete_source_branch: bool,
     team: str,
     area: str,
     iteration: str,
@@ -88,7 +89,7 @@ def cmd_create_pr(
 
     # Some sensible defaults
     command += "--transition-work-items 'true' "
-    command += "--delete-source-branch 'true' "
+    command += f"--delete-source-branch '{str(delete_source_branch).lower()}' "
 
     # auto-complete.
     command += f"--auto-complete '{str(auto_complete).lower()}' "
@@ -111,6 +112,8 @@ def cmd_create_pr(
         console.print("\t[dark_orange3]>[/dark_orange3] marked as draft pull request")
     if auto_complete:
         console.print("\t[dark_orange3]>[/dark_orange3] set auto-complete to True'")
+    if delete_source_branch:
+        console.print("\t[dark_orange3]>[/dark_orange3] set to delete remote source branch after PR completion")
     if len(reviewers) > 0:
         console.print(f"\t[dark_orange3]>[/dark_orange3] added reviewers: '{reviewers}'")
     if self_approve:

@@ -88,6 +88,12 @@ def issue(issue, mine, assigned_to, type, parent, team, area, iteration, organiz
     is_flag=True,
     help="Run git commands to checkout remote branch locally.",
 )
+@click.option(
+    "--delete-source-branch",
+    required=True,
+    is_flag=True,
+    help="Set to delete source branch when pull request completes.",
+)
 @common_options
 def pr(
     work_item_id: str,
@@ -96,6 +102,7 @@ def pr(
     self_approve: bool,
     reviewers: str,
     checkout: bool,
+    delete_source_branch: bool,
     team: str,
     area: str,
     iteration: str,
@@ -114,6 +121,7 @@ def pr(
         self_approve,
         reviewers,
         checkout,
+        delete_source_branch,
         team,
         area,
         iteration,

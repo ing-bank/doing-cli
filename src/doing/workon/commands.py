@@ -34,6 +34,7 @@ def workon(issue, type, team, area, iteration, organization, project):
         mine=True,
         assigned_to="",
         type=type,
+        parent="",
         team=team,
         area=area,
         iteration=iteration,
@@ -46,6 +47,7 @@ def workon(issue, type, team, area, iteration, organization, project):
     # - draft = True,
     # - reviewers = (own email adress)
     # - checkout = True
+    # - delete-source-branch = True
     cmd_create_pr(
         work_item_id=issue_id,
         draft=True,
@@ -53,6 +55,7 @@ def workon(issue, type, team, area, iteration, organization, project):
         self_approve=False,
         reviewers=user_email,
         checkout=True,
+        delete_source_branch=True,
         team=team,
         area=area,
         iteration=iteration,
