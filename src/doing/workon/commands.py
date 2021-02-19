@@ -15,7 +15,15 @@ from doing.utils import get_az_devop_user_email
     type=click.Choice(["Bug", "Epic", "Feature", "Issue", "Task", "Test Case", "User Story"]),
     help="Type of work item. Defaults to 'User Story'",
 )
-def workon(issue, type):
+@click.option(
+    "--parent",
+    "-p",
+    required=True,
+    default="",
+    type=str,
+    help="To create a child work item, specify the ID of the parent work item.",
+)
+def workon(issue, type, parent):
     """
     Create issue with PR and switch git branch.
 
@@ -28,7 +36,9 @@ def workon(issue, type):
 
     # Create the issue. Note we changed some defaults:
     # - it's assigned to self (mine = True)
-    issue_id = cmd_create_issue(title=issue, mine=True, assigned_to="", type=type, parent="", **get_common_options())
+    issue_id = cmd_create_issue(
+        title=issue, mine=True, assigned_to="", type=type, parent=parent, **get_common_options()
+    )
 
     user_email = get_az_devop_user_email()
     # Open a PR. Note we changed some defaults:

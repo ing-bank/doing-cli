@@ -55,3 +55,11 @@ When you're done you can view the:
 - issue using `doing open issue <issue id>`. The git branch name has the issue id as a prefix, or alternatively you can use `doing list` to find the issue id.
 - active pull requests using `doing open prs`
 - pipeline runs using `doing open pipe` 
+
+## Starting work on a new child issue
+
+Another common workflow is to work on tasks that are part of a user story. In azure devops, work items can be linked (parent/child relationship). `doing workon` has `--parent` and `--type` to accomodate the use case:
+
+```shell
+doing workon "some work" --type 'Task' --parent 1234
+```
