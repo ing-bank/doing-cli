@@ -2,7 +2,7 @@ import click
 
 from doing.create.issue import cmd_create_issue
 from doing.create.pr import cmd_create_pr
-from doing.options import common_options
+from doing.options import get_common_options
 
 
 @click.group()
@@ -40,14 +40,19 @@ def create():
     type=str,
     help="To create a child work item, specify the ID of the parent work item.",
 )
-@common_options
-def issue(issue, mine, assigned_to, type, parent, team, area, iteration, organization, project):
+def issue(
+    issue,
+    mine,
+    assigned_to,
+    type,
+    parent,
+):
     """
     Create an issue.
 
     ISSUE is the title to be used for the new work item.
     """
-    cmd_create_issue(issue, mine, assigned_to, type, parent, team, area, iteration, organization, project)
+    cmd_create_issue(issue, mine, assigned_to, type, parent, **get_common_options())
 
 
 @create.command()
@@ -94,7 +99,6 @@ def issue(issue, mine, assigned_to, type, parent, team, area, iteration, organiz
     is_flag=True,
     help="Set to delete source branch when pull request completes.",
 )
-@common_options
 def pr(
     work_item_id: str,
     draft: bool,
@@ -103,11 +107,6 @@ def pr(
     reviewers: str,
     checkout: bool,
     delete_source_branch: bool,
-    team: str,
-    area: str,
-    iteration: str,
-    organization: str,
-    project: str,
 ):
     """
     Create a pull request from a work item ID.
@@ -122,9 +121,5 @@ def pr(
         reviewers,
         checkout,
         delete_source_branch,
-        team,
-        area,
-        iteration,
-        organization,
-        project,
+        **get_common_options()
     )

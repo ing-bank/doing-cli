@@ -5,7 +5,7 @@ from urllib.parse import quote
 from rich.console import Console
 
 from doing.utils import get_repo_name, run_command
-from doing.options import common_options
+from doing.options import get_config
 
 console = Console()
 
@@ -19,11 +19,16 @@ def open():
 
 
 @open.command()
-@common_options
-def board(team, area, iteration, organization, project):
+def board():
     """
     Open board view.
     """
+    iteration = get_config("iteration")
+    area = get_config("area")
+    team = get_config("team")
+    project = get_config("project")
+    organization = get_config("organization")
+
     console.print("Opening the Azure board. Make sure to filter on:")
 
     iteration_short = os.path.basename(iteration.replace("\\", "/"))
@@ -35,39 +40,47 @@ def board(team, area, iteration, organization, project):
 
 
 @open.command()
-@common_options
-def sprint(team, area, iteration, organization, project):
+def sprint():
     """
     Open current sprint view.
     """
+    iteration = get_config("iteration")
+    team = get_config("team")
+    project = get_config("project")
+    organization = get_config("organization")
+
     iteration = os.path.basename(iteration.replace("\\", "/"))
     click.launch(f"{organization}/{project}/_sprints/taskboard/{team}/{iteration}")
 
 
 @open.command()
-@common_options
-def repo(team, area, iteration, organization, project):
+def repo():
     """
     Open repository view.
     """
+    project = get_config("project")
+    organization = get_config("organization")
     click.launch(f"{organization}/{project}/_git/{get_repo_name()}")
 
 
 @open.command()
-@common_options
-def prs(team, area, iteration, organization, project):
+def prs():
     """
     Open active PRs for repository view.
     """
+    project = get_config("project")
+    organization = get_config("organization")
     click.launch(f"{organization}/{project}/_git/{get_repo_name()}/pullrequests?_a=active")
 
 
 @open.command()
-@common_options
-def pipe(team, area, iteration, organization, project):
+def pipe():
     """
     Open latest pipeline runs for repository view.
     """
+    project = get_config("project")
+    organization = get_config("organization")
+
     repo_pipes = run_command(f"az pipelines list --repository {get_repo_name()}")
     if len(repo_pipes) == 0:
         console.print(f"{get_repo_name()} has no pipelines defined currently")
@@ -78,23 +91,29 @@ def pipe(team, area, iteration, organization, project):
 
 
 @open.command()
-@common_options
 @click.argument("issue_id")
-def issue(team, area, iteration, organization, project, issue_id):
+def issue(issue_id):
     """
     Open a specific ISSUE_ID.
 
     ISSUE_ID is the ID number of a work item.
     """
+    project = get_config("project")
+    organization = get_config("organization")
+
     click.launch(f"{organization}/{project}/_workitems/edit/{issue_id}")
 
 
 @open.command()
-@common_options
-def issues(team, area, iteration, organization, project):
+def issues():
     """
     Open all active issues view.
     """
+    iteration = get_config("iteration")
+    area = get_config("area")
+    project = get_config("project")
+    organization = get_config("organization")
+
     # More on hyperlink query syntax:
     # https://docs.microsoft.com/en-us/azure/devops/boards/queries/define-query-hyperlink?view=azure-devops
     query = f"""
@@ -109,20 +128,24 @@ def issues(team, area, iteration, organization, project):
 
 
 @open.command()
-@common_options
 @click.argument("pullrequest_id")
-def pr(team, area, iteration, organization, project, pullrequest_id):
+def pr(pullrequest_id):
     """
     Open a specific PULLREQUEST_ID.
     """
+    project = get_config("project")
+    organization = get_config("organization")
+
     click.launch(f"{organization}/{project}/_git/{get_repo_name()}/pullrequest/{pullrequest_id}")
 
 
 @open.command()
-@common_options
 @click.argument("branch_name")
-def branch(team, area, iteration, organization, project, branch_name):
+def branch(branch_name):
     """
     Open a specific BRANCH_NAME.
     """
+    project = get_config("project")
+    organization = get_config("organization")
+
     click.launch(f"{organization}/{project}/_git/{get_repo_name()}?version=GB{branch_name}")

@@ -65,23 +65,43 @@ def get_repo_name():
     return repo_name
 
 
-def get_config(key=""):
+def get_config(key: str = "", envvar_prefix: str = "DOING_CONFIG_"):
     """
     Finds and reads doing configuration file.
+
+    Note you can overwrite a value in the config by setting an environment variable:
+
+    ```python
+    import os
+    os.environ["DOING_TEAM"] = "my team"
+
+    from doing.utils import get_config
+    assert get_config("team") == "my team"
+    ```
+
+    Args:
+        key (str): Name of config item to return
+        envvar_prefix (str): prefix before key to look for in environment variables
     """
+    # Allow environment variable override
+    if key:
+        env_var = os.getenv(f"{envvar_prefix}{key.upper()}")
+        if env_var:
+            return env_var
+
     conf = dotenv_values(find_dotenv(".doing-cli-config.yml", usecwd=True))
     if not conf or len(conf) == 0:
         raise FileNotFoundError("Could not find the configuration file '.doing-cli-config.yml'")
 
-    if key:
-        try:
-            return conf[key]
-        except KeyError:
-            raise ConfigurationError(
-                f"Your '.doing-cli-config.yml' configuration file does not contain an entry for '{key}'"
-            )
+    if not key:
+        return conf
 
-    return conf
+    try:
+        return conf[key]
+    except KeyError:
+        msg = f"Your '.doing-cli-config.yml' configuration file does not contain an entry for '{key}'."
+        msg += f"\nAlso no environment variable found with {envvar_prefix}{key}"
+        raise ConfigurationError(msg)
 
 
 def pprint(obj: Dict) -> None:

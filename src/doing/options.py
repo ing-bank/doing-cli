@@ -3,9 +3,26 @@ import click
 from doing.utils import get_config
 
 
+def get_common_options():
+    """
+    Retrieve common config options.
+
+    Retrieves set of config settings from config file that are used in every command.
+    """
+    return {
+        "team": get_config("team"),
+        "area": get_config("area"),
+        "iteration": get_config("iteration"),
+        "organization": get_config("organization"),
+        "project": get_config("project"),
+    }
+
+
 def common_options(function):
     """
     Custom decorator to avoid repeating commonly used options.
+
+    To be used in Click commands.
     """
     function = click.option(
         "--team",
