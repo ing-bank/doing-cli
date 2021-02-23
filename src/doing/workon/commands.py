@@ -3,25 +3,27 @@ import click
 from doing.create.issue import cmd_create_issue
 from doing.create.pr import cmd_create_pr, check_uncommitted_work
 from doing.options import get_common_options
-from doing.utils import get_az_devop_user_email
+from doing.utils import get_az_devop_user_email, get_config
 
 
 @click.command()
 @click.argument("issue", required=True, type=str)
 @click.option(
     "--type",
-    required=True,
-    default="User Story",
+    required=False,
+    default=lambda: get_config("default_workitem_type", "User Story"),
     type=click.Choice(["Bug", "Epic", "Feature", "Issue", "Task", "Test Case", "User Story"]),
-    help="Type of work item. Defaults to 'User Story'",
+    help=f"Type of work item. Defaults to \"{get_config('default_workitem_type','User Story')}\"",
+    show_envvar=True,
 )
 @click.option(
     "--parent",
     "-p",
-    required=True,
+    required=False,
     default="",
     type=str,
     help="To create a child work item, specify the ID of the parent work item.",
+    show_envvar=True,
 )
 def workon(issue, type, parent):
     """
@@ -54,5 +56,5 @@ def workon(issue, type, parent):
         reviewers=user_email,
         checkout=True,
         delete_source_branch=True,
-        **get_common_options()
+        **get_common_options(),
     )

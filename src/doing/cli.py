@@ -10,7 +10,9 @@ from doing.workon import commands as workon_command
 console = Console()
 
 
-@click.group()
+@click.group(
+    context_settings={"auto_envvar_prefix": "DOING", "default_map": {"issue": {"show_envvar": True}}},
+)
 def cli():
     """
     CLI for repository/issue workflow on Azure Devops.

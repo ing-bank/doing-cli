@@ -2,7 +2,7 @@ import click
 
 from doing.create.issue import cmd_create_issue
 from doing.create.pr import cmd_create_pr
-from doing.options import get_common_options
+from doing.options import get_common_options, get_config
 
 
 @click.group()
@@ -15,30 +15,40 @@ def create():
 
 @create.command()
 @click.argument("issue", required=True, type=str)
-@click.option("--mine", "-m", required=True, is_flag=True, help="Assign issue to yourself")
+@click.option(
+    "--mine",
+    "-m",
+    required=False,
+    is_flag=True,
+    help="Assign issue to yourself",
+    show_envvar=True,
+)
 @click.option(
     "--assigned_to",
     "-a",
-    required=True,
+    required=False,
     default="",
     type=str,
     help="Emailadres of person to assign the issue to. Defaults to empty (unassigned).",
+    show_envvar=True,
 )
 @click.option(
     "--type",
     "-t",
-    required=True,
-    default="User Story",
+    required=False,
+    default=lambda: get_config("default_workitem_type", "User Story"),
     type=click.Choice(["Bug", "Epic", "Feature", "Issue", "Task", "Test Case", "User Story"]),
-    help="Type of work item. Defaults to 'User Story'",
+    help=f"Type of work item. Defaults to \"{get_config('default_workitem_type','User Story')}\"",
+    show_envvar=True,
 )
 @click.option(
     "--parent",
     "-p",
-    required=True,
+    required=False,
     default="",
     type=str,
     help="To create a child work item, specify the ID of the parent work item.",
+    show_envvar=True,
 )
 def issue(
     issue,
@@ -60,44 +70,50 @@ def issue(
 @click.option(
     "--draft",
     "-d",
-    required=True,
+    required=False,
     is_flag=True,
     help="Create draft/WIP pull request. Reviewers will not be notified untill you publish.",
+    show_envvar=True,
 )
 @click.option(
     "--auto-complete",
     "-a",
-    required=True,
+    required=False,
     is_flag=True,
     help="Set the PR to complete autom. when all policies have passed & source branch can be merged into the target.",
+    show_envvar=True,
 )
 @click.option(
     "--self-approve",
     "-s",
-    required=True,
+    required=False,
     is_flag=True,
     help="Add yourself as reviewer and add your approval.",
+    show_envvar=True,
 )
 @click.option(
     "--reviewers",
     "-r",
-    required=True,
+    required=False,
     default="",
     type=str,
     help="Additional users or groups to include as reviewers on the new pull request. Space separated.",
+    show_envvar=True,
 )
 @click.option(
     "--checkout",
     "-c",
-    required=True,
+    required=False,
     is_flag=True,
     help="Run git commands to checkout remote branch locally.",
+    show_envvar=True,
 )
 @click.option(
     "--delete-source-branch",
-    required=True,
+    required=False,
     is_flag=True,
     help="Set to delete source branch when pull request completes.",
+    show_envvar=True,
 )
 def pr(
     work_item_id: str,
@@ -121,5 +137,5 @@ def pr(
         reviewers,
         checkout,
         delete_source_branch,
-        **get_common_options()
+        **get_common_options(),
     )

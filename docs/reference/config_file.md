@@ -10,10 +10,24 @@
 | `area`    | The area path assigned to work items. You can find it by going to a work item (Azure Devops > Boards > Work items) and copying the Area field. This corresponds to the work item field *System.AreaPath*. |
 | `iteration`    | The iteration path assigned to work items. You can find it going by to a work item (Azure Devops > Boards > Work items) and copying the Iteration field. This corresponds to the work item field *System.IterationPath*. |
 
+The config can also contain some optional parameters that are not required to be set: 
+
+| Optional Parameter      | Description |
+| ----------------------- | ------------------------------------ |
+| `default_workitem_type` | The default work item type used when creating work items. Should be one of "Bug", "Epic", "Feature", "Issue", "Task", "Test Case", "User Story". Defaults to "User Story" if not specified. 
+
 ## Using environment variables
 
-You can overwrite the values set in `doing-cli-config.yml` using environment variables. Use the prefix `DOING_CONFIG_` followed by the parameter name in uppercase.
-Examples: `DOING_CONFIG_TEAM`, `DOING_CONFIG_ITERATION`.
+You can overwrite the values set in `doing-cli-config.yml` using environment variables. Use the prefix `DOING_CONFIG_` followed by the parameter name in uppercase. 
 
+Some examples: 
 
+| Parameter      | Environment variable |
+| -------------- | -------------------- |
+| `team`         | `DOING_CONFIG_TEAM` |
+| `iteration`    | `DOING_CONFIG_ITERATION` |
+| `default_workitem_type`    | `DOING_CONFIG_DEFAULT_WORKITEM_TYPE` |
+
+!!! note ""
+    See also the [workflow using environment variables](../howto/workflow_envvars.md) for examples on how to use these in practice
 

@@ -17,10 +17,12 @@ You can specify more options (see `doing create issue --help`). Some examples:
 doing create issue "something that needs to be done" --mine 
 doing create issue "something that needs to be done" --assigned_to "john.doe@company.com" 
 doing create issue "something that needs to be done" --assigned_to "john.doe@company.com" --type "Bug"
+doing create issue "something that needs to be done" --parent "1234" --type "Task"
 ```
 
 !!! note ""
     See also the workflow for [starting work on an existing item](workflow_existing_item.md)
+
 
 ## Starting work on a new issue
 

@@ -1,5 +1,6 @@
-from doing.utils import to_snake_case, get_config
 import os
+import pytest
+from doing.utils import to_snake_case, get_config
 
 
 def test_to_snake_case():
@@ -17,3 +18,13 @@ def test_get_config_key():
     """
     os.environ["DOING_CONFIG_TEAM"] = "my team"
     assert get_config("team") == "my team"
+
+
+def test_get_config_fallbackl():
+    """
+    Test overrides via env vars.
+    """
+    with pytest.raises(Exception):
+        get_config("team1")
+
+    assert get_config("team1", "foobar") == "foobar"

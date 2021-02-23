@@ -28,6 +28,8 @@ nav:
     - Workflow new issues: howto/workflow_new_item.md
     - Workflow existing issues: howto/workflow_existing_item.md
     - Workflow sprints: howto/workflow_sprints.md
+    - Workflows with envvars: howto/workflow_envvars.md
+    - Python scripting: howto/python_scripting.md
     - Connection problems: howto/connection_problems.md
   - Reference:
     - Config File: reference/config_file.md

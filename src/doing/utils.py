@@ -65,7 +65,7 @@ def get_repo_name():
     return repo_name
 
 
-def get_config(key: str = "", envvar_prefix: str = "DOING_CONFIG_"):
+def get_config(key: str = "", fallback="", envvar_prefix: str = "DOING_CONFIG_"):
     """
     Finds and reads doing configuration file.
 
@@ -81,6 +81,7 @@ def get_config(key: str = "", envvar_prefix: str = "DOING_CONFIG_"):
 
     Args:
         key (str): Name of config item to return
+        fallback (str): Value to return if key cannot be found.
         envvar_prefix (str): prefix before key to look for in environment variables
     """
     # Allow environment variable override
@@ -91,6 +92,8 @@ def get_config(key: str = "", envvar_prefix: str = "DOING_CONFIG_"):
 
     conf = dotenv_values(find_dotenv(".doing-cli-config.yml", usecwd=True))
     if not conf or len(conf) == 0:
+        if fallback:
+            return fallback
         raise FileNotFoundError("Could not find the configuration file '.doing-cli-config.yml'")
 
     if not key:
@@ -99,6 +102,9 @@ def get_config(key: str = "", envvar_prefix: str = "DOING_CONFIG_"):
     try:
         return conf[key]
     except KeyError:
+        if fallback:
+            return fallback
+
         msg = f"Your '.doing-cli-config.yml' configuration file does not contain an entry for '{key}'."
         msg += f"\nAlso no environment variable found with {envvar_prefix}{key}"
         raise ConfigurationError(msg)
