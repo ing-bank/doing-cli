@@ -49,8 +49,6 @@ You can also temporarily set a different default work item type using an [enviro
     ```
 
 
-
-
 ## Creating a set of tasks
 
 You might want to quickly create a set of tasks for a user story. Instead of 
