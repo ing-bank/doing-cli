@@ -16,10 +16,10 @@ def create():
 @create.command()
 @click.argument("issue", required=True, type=str)
 @click.option(
-    "--mine",
+    "--mine/--not-mine",
     "-m",
+    default=False,
     required=False,
-    is_flag=True,
     help="Assign issue to yourself",
     show_envvar=True,
 )
@@ -68,26 +68,26 @@ def issue(
 @create.command()
 @click.argument("work-item-id", required=True, type=str)
 @click.option(
-    "--draft",
+    "--draft/--no-draft",
     "-d",
     required=False,
-    is_flag=True,
+    default=False,
     help="Create draft/WIP pull request. Reviewers will not be notified untill you publish.",
     show_envvar=True,
 )
 @click.option(
-    "--auto-complete",
+    "--auto-complete/--no-auto-complete",
     "-a",
     required=False,
-    is_flag=True,
+    default=False,
     help="Set the PR to complete autom. when all policies have passed & source branch can be merged into the target.",
     show_envvar=True,
 )
 @click.option(
-    "--self-approve",
+    "--self-approve/--no-self-approve",
     "-s",
     required=False,
-    is_flag=True,
+    default=False,
     help="Add yourself as reviewer and add your approval.",
     show_envvar=True,
 )
@@ -101,17 +101,17 @@ def issue(
     show_envvar=True,
 )
 @click.option(
-    "--checkout",
+    "--checkout/--no-checkout",
     "-c",
     required=False,
-    is_flag=True,
+    default=False,
     help="Run git commands to checkout remote branch locally.",
     show_envvar=True,
 )
 @click.option(
-    "--delete-source-branch",
+    "--delete-source-branch/--no-delete-source-branch",
     required=False,
-    is_flag=True,
+    default=False,
     help="Set to delete source branch when pull request completes.",
     show_envvar=True,
 )
