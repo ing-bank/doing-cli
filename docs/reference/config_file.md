@@ -10,11 +10,12 @@
 | `area`    | The area path assigned to work items. You can find it by going to a work item (Azure Devops > Boards > Work items) and copying the Area field. This corresponds to the work item field *System.AreaPath*. |
 | `iteration`    | The iteration path assigned to work items. You can find it going by to a work item (Azure Devops > Boards > Work items) and copying the Iteration field. This corresponds to the work item field *System.IterationPath*. |
 
-The config can also contain some optional parameters that are not required to be set: 
+The config can also contain some optional parameters that are not required to be set:
 
 | Optional Parameter      | Description |
 | ----------------------- | ------------------------------------ |
 | `default_workitem_type` | The default work item type used when creating work items. Should be one of "Bug", "Epic", "Feature", "Issue", "Task", "Test Case", "User Story". Defaults to "User Story" if not specified. 
+| `default_reviewers` | The default reviewers assigned when creating pull requests. Space separated list of user emails.
 
 ## Using environment variables
 

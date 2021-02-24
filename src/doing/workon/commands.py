@@ -25,7 +25,16 @@ from doing.utils import get_az_devop_user_email, get_config
     help="To create a child work item, specify the ID of the parent work item.",
     show_envvar=True,
 )
-def workon(issue, type, parent):
+@click.option(
+    "--reviewers",
+    "-r",
+    required=False,
+    default=lambda: get_config("default_reviewers", ""),
+    type=str,
+    help=f"Space separated list of reviewer emails. Defaults to \"{get_config('default_reviewers','')}\"",
+    show_envvar=True,
+)
+def workon(issue, type, parent, reviewers):
     """
     Create issue with PR and switch git branch.
 
@@ -43,6 +52,9 @@ def workon(issue, type, parent):
     )
 
     user_email = get_az_devop_user_email()
+    if user_email not in reviewers:
+        reviewers = f"{reviewers} {user_email}"
+
     # Open a PR. Note we changed some defaults:
     # - draft = True,
     # - reviewers = (own email adress)
@@ -53,7 +65,7 @@ def workon(issue, type, parent):
         draft=True,
         auto_complete=True,
         self_approve=False,
-        reviewers=user_email,
+        reviewers=reviewers,
         checkout=True,
         delete_source_branch=True,
         **get_common_options(),

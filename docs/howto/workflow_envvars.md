@@ -48,6 +48,16 @@ You can also temporarily set a different default work item type using an [enviro
     doing workon "A task"
     ```
 
+## Setting default reviewers
+
+You might have a project where all pull requests have the same set of reviewers. Or you are part of an international team with colleagues that have impossible last names (I'm thinking about you Dr. Bjelogrlic :smile:). Instead of using the lengthy `doing create pr --reviewers 'email1@domain.com email2@domain.com'`, you can set a default set of reviewers in the `.doing-cli-config.yml` (see [config](../reference/config_file.md)) by specifying `default_reviewers`. For example:
+
+=== ".doing-cli-config.yml"
+
+    ``` yaml
+    # ... other required parameters ...
+    default_reviewers='email1@domain.com email2@domain.com'
+    ```
 
 ## Creating a set of tasks
 
@@ -60,7 +70,7 @@ doing create issue "Thing 2" -t "Task" --parent 1234
 doing create issue "Thing 10" -t "Task" --parent 1234
 ```
 
-You could:
+You could use:
 
 ```shell
 export DOING_CREATE_ISSUE_PARENT=1234

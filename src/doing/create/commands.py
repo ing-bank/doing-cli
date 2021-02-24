@@ -95,9 +95,9 @@ def issue(
     "--reviewers",
     "-r",
     required=False,
-    default="",
+    default=lambda: get_config("default_reviewers", ""),
     type=str,
-    help="Additional users or groups to include as reviewers on the new pull request. Space separated.",
+    help=f"Space separated list of reviewer emails. Defaults to \"{get_config('default_reviewers','')}\"",
     show_envvar=True,
 )
 @click.option(
