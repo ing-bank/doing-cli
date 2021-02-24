@@ -15,7 +15,8 @@ The config can also contain some optional parameters that are not required to be
 | Optional Parameter      | Description |
 | ----------------------- | ------------------------------------ |
 | `default_workitem_type` | The default work item type used when creating work items. Should be one of "Bug", "Epic", "Feature", "Issue", "Task", "Test Case", "User Story". Defaults to "User Story" if not specified. 
-| `default_reviewers` | The default reviewers assigned when creating pull requests. Space separated list of user emails.
+| `default_reviewers` | The default reviewers assigned when creating pull requests. Space separated list of user emails. Note they are case-sensitive.. find your own with `az ad signed-in-user show --query 'mail'`
+| `verbose_shell` | When set to 'true', will print every shell command `doing` runs for you in the background. Meant for debugging and interested developers.
 
 ## Using environment variables
 

@@ -22,14 +22,25 @@ def to_snake_case(string):
     return string
 
 
+def shell_output(command) -> str:
+    """
+    Lightweight function to quickly run a shell command.
+
+    For longer queries with json output use 'run_command'
+    """
+    if verbose_shell():
+        console.print(f"[bright_black]{command}[/bright_black]")
+
+    std_out = os.popen(command).read().rstrip()
+    std_out = std_out.lstrip('"').rstrip('"')
+    return std_out
+
+
 def get_az_devop_user_email():
     """
     Retrieves email from azure devops cli configuration.
     """
-    # email = sh.az.ad("signed-in-user","show","--query","mail")
-    # email = email.rstrip() # remove trailing newlines.
-    email = os.popen("az ad signed-in-user show --query 'mail'").read().rstrip()
-    email = email.lstrip('"').rstrip('"')
+    email = shell_output("az ad signed-in-user show --query 'mail'")
     assert email, "Could not find azure devops email. Are you logged in?"
     return email
 
@@ -38,8 +49,7 @@ def get_git_current_branch():
     """
     Get name of current branch in git.
     """
-    branch = os.popen("git branch --show-current").read().rstrip()
-    branch = branch.lstrip('"').rstrip('"')
+    branch = shell_output("git branch --show-current")
     assert branch, "Could not retrieve current git branch. Is your working directory a git repository?"
     return branch
 
@@ -48,8 +58,7 @@ def get_git_user_email():
     """
     Gets emailadres from git config.
     """
-    email = os.popen("git config user.email").read().rstrip()
-    email = email.lstrip('"').rstrip('"')
+    email = shell_output("git config user.email")
     assert email, "Could not find git email. Are you in a git repository? Do you have your git config setup?"
     return email
 
@@ -58,10 +67,10 @@ def get_repo_name():
     """
     Determines name of remote origin repo.
     """
-    origin_url = os.popen("git config --get remote.origin.url").read().rstrip()
+    origin_url = shell_output("git config --get remote.origin.url")
     assert origin_url, "This repository has no remote.origin.url. Is it created on azure devops yet?"
 
-    repo_name = os.popen(f"basename -s .git {origin_url}").read().rstrip()
+    repo_name = shell_output(f"basename -s .git {origin_url}")
     return repo_name
 
 
@@ -141,3 +150,13 @@ def run_command(command: str):
         return json.loads(process.stdout)
     else:
         return []
+
+
+def verbose_shell():
+    """
+    If shell commands should be printed.
+
+    Users can define verbose_shell='true' in the .doing-cli-config.yml file.
+    """
+    verbose = get_config("verbose_shell", fallback="")
+    return verbose == "true"
