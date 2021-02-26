@@ -1,9 +1,10 @@
 import os
 import sys
 import json
+import yaml
 from rich.console import Console
 import subprocess
-from dotenv import find_dotenv, dotenv_values
+from dotenv import find_dotenv
 from typing import Dict
 
 from doing.exceptions import ConfigurationError, devops_error_tips
@@ -99,11 +100,16 @@ def get_config(key: str = "", fallback: str = None, envvar_prefix: str = "DOING_
         if env_var:
             return env_var
 
-    conf = dotenv_values(find_dotenv(".doing-cli-config.yml", usecwd=True))
-    if not conf or len(conf) == 0:
+    # Find the config file
+    conf_path = find_dotenv(".doing-cli-config.yml", usecwd=True)
+    if not conf_path:
         if fallback is not None:
             return fallback
         raise FileNotFoundError("Could not find the configuration file '.doing-cli-config.yml'")
+
+    # Load the config file
+    with open(conf_path) as file:
+        conf = yaml.load(file, Loader=yaml.FullLoader)
 
     if not key:
         return conf
@@ -156,7 +162,6 @@ def verbose_shell():
     """
     If shell commands should be printed.
 
-    Users can define verbose_shell='true' in the .doing-cli-config.yml file.
+    Users can define 'verbose_shell: True' in the .doing-cli-config.yml file.
     """
-    verbose = get_config("verbose_shell", fallback="")
-    return verbose == "true"
+    return get_config("verbose_shell", fallback=False)

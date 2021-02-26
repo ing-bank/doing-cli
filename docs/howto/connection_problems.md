@@ -17,8 +17,8 @@ If you want to connect to azure devops while connected to a VPN (behind a proxy)
 1. See more information from Azure on [working behind a proxy](https://docs.microsoft.com/en-us/cli/azure/use-cli-effectively#work-behind-a-proxy)
 1. [This](https://stackoverflow.com/questions/55463706/ssl-handshake-error-with-some-azure-cli-commands) stackoverflow question suggests trying to set these settings in your shell:
     ```shell
-    set ADAL_PYTHON_SSL_NO_VERIFY=1
-    set AZURE_CLI_DISABLE_CONNECTION_VERIFICATION=1
+    export ADAL_PYTHON_SSL_NO_VERIFY=1
+    export AZURE_CLI_DISABLE_CONNECTION_VERIFICATION=1
     ```
 
 

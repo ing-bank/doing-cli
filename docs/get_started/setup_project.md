@@ -2,17 +2,19 @@
 
 Work items are not directly linked to a repository in azure devops. `doing` looks for a `.doing-cli-config.yml` file in the root of your repository, that should contain information on how work items are linked. Every work item always has a organization, a devops project, a team, an area path, and an iteration path. For more background on this see [this discussion](../discussion/oneproject_setup.md).
 
-Create a `.doing-cli-config.yml` file in the root of your repository and specify the parameters. The easiest way to find these parameters is by creating or opening a work item, and copying the parameters from there. For information on how to find these parameters see the reference [.doing-cli-config.yml config file](../reference/config_file.md)
+The easiest way to setup that config file is by using a reference work item. Find the url and run `doing init <url>` in the root of your repository, which will create the config file with the required parameters for you. For example:
 
-```yaml
-# .doing-cli-config.yml
-# Example config file to be used with the `doing` CLI tool
-organization=https://dev.azure.com/IngEurCDaaS01
-project=IngOne 
-team=T01894-RiskandPricingAdvancedAna
-area=IngOne\P01908-Default\taco
-iteration=IngOne\T01894-RiskandPricingAdvancedAna\taco_sprint6
+<div class="termy">
+
+```console
+$ doing init https://dev.azure.com/IngEurCDaaS01/IngOne/_workitems/edit/73554
+> Created new .doing-cli-config.yml file
+        > Filled in required parameters using reference work item #73554
 ```
+
+</div>
+
+Alternatively, create a `.doing-cli-config.yml` file in the root of your repository (you can use `doing init` to do that quickly) and specify the parameters. The easiest way to find these parameters is by creating or opening a work item, and copying the parameters from there. For information on how to find and set these parameters see the reference [.doing-cli-config.yml config file](../reference/config_file.md)
 
 ## Verifying the setup
 

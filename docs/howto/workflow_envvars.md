@@ -27,7 +27,7 @@ Azure Devops has [different work item types](https://docs.microsoft.com/en-us/az
 
     ``` yaml
     # ... other required parameters ...
-    default_workitem_type='Task'
+    default_workitem_type: 'Task'
     ```
 
 
@@ -54,9 +54,9 @@ You might have a project where all pull requests have the same set of reviewers.
 
 === ".doing-cli-config.yml"
 
-    ``` yaml
+    ```yaml
     # ... other required parameters ...
-    default_reviewers='email1@domain.com email2@domain.com'
+    default_reviewers: 'email1@domain.com email2@domain.com'
     ```
 
 ## Creating a set of tasks

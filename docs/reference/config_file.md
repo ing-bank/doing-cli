@@ -18,6 +18,21 @@ The config can also contain some optional parameters that are not required to be
 | `default_reviewers` | The default reviewers assigned when creating pull requests. Space separated list of user emails. Note they are case-sensitive.. find your own with `az ad signed-in-user show --query 'mail'`
 | `verbose_shell` | When set to 'true', will print every shell command `doing` runs for you in the background. Meant for debugging and interested developers.
 
+Example `.doing-cli-config.yml`:
+
+```yaml
+# .doing-cli-config.yml
+# Config file to be used with the `doing` CLI tool
+organization: https://dev.azure.com/IngEurCDaaS01
+project: IngOne
+team: T01894-RiskandPricingAdvancedAna
+area: IngOne\P01908-Default\project
+iteration: IngOne\T01894-RiskandPricingAdvancedAna\project_sprint_8
+default_workitem_type: Task
+default_reviewers: 'tim.vink@ing.com'
+verbose_shell: True
+```
+
 ## Using environment variables
 
 You can overwrite the values set in `doing-cli-config.yml` using environment variables. Use the prefix `DOING_CONFIG_` followed by the parameter name in uppercase. 

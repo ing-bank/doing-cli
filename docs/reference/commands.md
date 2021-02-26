@@ -16,6 +16,7 @@ Options:
 
 Commands:
   create  Create issues or pull requests.
+  init    Create a .doing-cli-config file.
   list    List issues related to the project.
   open    Quickly open certain links.
   workon  Create issue with PR and switch git branch.
