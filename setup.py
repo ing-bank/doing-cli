@@ -11,7 +11,7 @@ setup(
     package_dir={"": "src"},
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
-    install_requires=["Click", "python-dotenv", "rich>=9.10.0"],
+    install_requires=["Click", "python-dotenv", "rich>=9.10.0", "pyyaml>=5.4.0"],
     entry_points={
         "console_scripts": [
             "doing = doing.cli:cli",
