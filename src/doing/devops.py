@@ -14,7 +14,7 @@ def get_iterations(team_id: str, project: str, organization: str):
     """
     assert team_id.startswith("T")
 
-    az_cmd = f"az boards iteration team list --team '{team_id}' --org {organization} --p {project}"
+    az_cmd = f"az boards iteration team list --team '{team_id}' --org '{organization}' --p '{project}'"
     # From the team, find all iterations
     all_iterations = run_command(az_cmd)
 
