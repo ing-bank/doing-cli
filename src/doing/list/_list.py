@@ -19,7 +19,7 @@ def cmd_list(team: str, area: str, iteration: str, organization: str, project: s
     query += "FROM WorkItems WHERE ([System.State] = 'Active' OR [System.State] = 'New') "
     query += f"AND [System.IterationPath] UNDER '{iteration}' "
     query += f"AND [System.AreaPath] = '{area}' "
-    work_items = run_command(f'az boards query --wiql "{query}"')
+    work_items = run_command(f'az boards query --wiql "{query}" --org {organization} -p {project}')
 
     workitem_prs = {}  # type: Dict
 
@@ -29,13 +29,15 @@ def cmd_list(team: str, area: str, iteration: str, organization: str, project: s
         # However, APIs requests are slow, and most work items don't have a PR.
         # Instead, we'll retrieve all active PRs and see which items are linked (less API calls)
         repo_name = get_repo_name()
-        query = f"az repos pr list --repository {repo_name} --organization {organization} --project {project} "
+        query = f"az repos pr list --repository {repo_name} --org {organization} -p {project} "
         query += "--status 'active' --query '[].pullRequestId'"
         active_pullrequest_ids = run_command(query)
 
         # For each PR, get linked work items. Note that "az repos pr list --include-links" does not work :(
         for pr_id in track(active_pullrequest_ids, description="Processing pull requests"):
-            linked_workitems = run_command(f"az repos pr work-item list --id {pr_id} --query '[].id'")
+            linked_workitems = run_command(
+                f"az repos pr work-item list --id {pr_id} --query '[].id' --org {organization}"
+            )
             for work_item in linked_workitems:
                 if work_item in workitem_prs.keys():
                     workitem_prs[work_item].append(str(pr_id))

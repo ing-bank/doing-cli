@@ -36,24 +36,26 @@ def cmd_create_pr(
     user_email = get_az_devop_user_email()
 
     # Info on related work item
-    work_item = run_command(f"az boards work-item show --id {work_item_id} --query 'fields'")
+    work_item = run_command(f"az boards work-item show --id {work_item_id} --query 'fields' --org {organization}")
     work_item_title = work_item.get("System.Title")
 
     # Info on remote branches
-    remote_branches = run_command(f"az repos ref list --repository {repo_name} --query '[].name'")
+    remote_branches = run_command(
+        f"az repos ref list --repository {repo_name} --query '[].name' --org {organization} -p {project}"
+    )
     remote_branches = [x.rpartition("/")[2] for x in remote_branches if x.startswith("refs/heads")]
 
     # Create a new branch, only if it does yet exist
-    master_branch_object_id = run_command(
-        f"az repos ref list --repository '{repo_name}' --query \"[?name=='refs/heads/master'].objectId\""
-    )[0]
+    cmd = f"az repos ref list --repository '{repo_name}' --query \"[?name=='refs/heads/master'].objectId\" "
+    cmd += f"--org {organization} -p {project}"
+    master_branch_object_id = run_command(cmd)[0]
     branch_name = f"{work_item_id}_{to_snake_case(work_item_title)}"
     if branch_name in remote_branches:
         console.print(
             f"[dark_orange3]>[/dark_orange3] Remote branch '[cyan]{branch_name}[/cyan]' already exists, using that one"
         )
         # Check if there is not already an existing PR for this branch
-        prs = run_command(f"az repos pr list -r {repo_name} -s {branch_name}")
+        prs = run_command(f"az repos pr list -r {repo_name} -s {branch_name} --org {organization} -p {project}")
         if len(prs) >= 1:
             pr_id = prs[0].get("pullRequestId")
             console.print(
@@ -74,7 +76,7 @@ def cmd_create_pr(
             return pr_id
     else:
         cmd = f"az repos ref create --name 'heads/{branch_name}' --repository '{repo_name}' "
-        cmd += f"--object-id '{master_branch_object_id}' --project '{project}' --organization '{organization}'"
+        cmd += f"--object-id '{master_branch_object_id}' -p '{project}' --org '{organization}'"
         branch = run_command(cmd)
         assert branch.get("success")
         console.print(f"[dark_orange3]>[/dark_orange3] Created remote branch '[cyan]{branch_name}[/cyan]'")
@@ -117,7 +119,7 @@ def cmd_create_pr(
     if len(reviewers) > 0:
         console.print(f"\t[dark_orange3]>[/dark_orange3] added reviewers: '{reviewers}'")
     if self_approve:
-        run_command(f"az repos pr set-vote --id {pr_id} --vote 'approve'")
+        run_command(f"az repos pr set-vote --id {pr_id} --vote 'approve' --org {organization}")
         console.print(f"\t[dark_orange3]>[/dark_orange3] Approved PR {pr_id} for '{user_email}'")
 
     if not checkout:

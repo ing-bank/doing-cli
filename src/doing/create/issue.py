@@ -52,6 +52,7 @@ def cmd_create_issue(
         cmd += f"--id {issue_id} "
         cmd += "--relation-type 'parent' "
         cmd += f"--target-id {parent} "
+        cmd += f"--org {organization} "
         run_command(cmd)
         console.print(f"\t[dark_orange3]>[/dark_orange3] added work-item #{parent} as a parent")
 

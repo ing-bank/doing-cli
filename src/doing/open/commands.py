@@ -81,7 +81,7 @@ def pipe():
     project = get_config("project")
     organization = get_config("organization")
 
-    repo_pipes = run_command(f"az pipelines list --repository {get_repo_name()}")
+    repo_pipes = run_command(f"az pipelines list --repository {get_repo_name()} --org {organization} -p {project}")
     if len(repo_pipes) == 0:
         console.print(f"{get_repo_name()} has no pipelines defined currently")
         return None
