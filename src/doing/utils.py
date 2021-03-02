@@ -34,7 +34,7 @@ def shell_output(command) -> str:
 
     std_out = os.popen(command).read().rstrip()
     std_out = std_out.lstrip('"').rstrip('"')
-    return std_out
+    return std_out.strip()
 
 
 def get_az_devop_user_email():

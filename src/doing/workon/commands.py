@@ -53,7 +53,7 @@ def workon(issue, type, parent, reviewers):
 
     user_email = get_az_devop_user_email()
     if user_email not in reviewers:
-        reviewers = f"{reviewers} {user_email}"
+        reviewers = f"{reviewers} {user_email}".strip()
 
     # Open a PR. Note we changed some defaults:
     # - draft = True,
