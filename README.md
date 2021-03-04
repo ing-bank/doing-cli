@@ -7,7 +7,7 @@
 
 # doing-cli: Simplify your azure devops workflow
 
-CLI app to help speed up development on ING's Azure DevOps.
+CLI app to help speed up development on Azure DevOps. Allows for a more natural repo/issue workflow like github/gitlab. 
 
 ## Installation
 
