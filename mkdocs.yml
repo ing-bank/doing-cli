@@ -9,14 +9,16 @@ theme:
     name: material
     palette:
         primary: white
+        accent: deep orange
+        scheme: preference
     font: false
     icon:
         logo: octicons/terminal-16
     favicon: assets/images/cli.png
     features:
-        - tabs
-        - instant
-        - autohide
+        - navigation.instant
+        - navigation.tracking
+        - header.autohide
 
 nav:
   - index.md
