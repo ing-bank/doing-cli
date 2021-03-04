@@ -7,7 +7,7 @@
 ## Creating a personal access token
 
 - Open [dev.azure.com](https://dev.azure.com/) in your browser and sign in with your account.
-- Navigate to your organization's devops space. (for example *dev.azure.com/IngEurCDaaS01/*)
+- Navigate to your organization's devops space. (for example *dev.azure.com/organization_name/*)
 - In the top right menu, click on the user gear icon (:fontawesome-solid-user-cog:) and choose 'Personal Access Token' to create a token. See this [guide](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page) for more detailed instructions.
 - Don't worry about losing this token: you can create a new one easily and just login again with that one.
 

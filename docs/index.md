@@ -12,7 +12,7 @@ In Azure DevOps an issue (work item) is not directly related to a repository (he
 
 ```console
 $ doing list
-                 Work-items in current iteration IngOne\T01894-RiskandPricingAdvancedAna                  
+                 Work-items in current iteration project_name\team_name                  
 ┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
 ┃     ID ┃             Title      ┃ Created by ┃       Type ┃    Linked Branches ┃ Linked PRs ┃
 ┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩

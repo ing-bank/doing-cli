@@ -7,7 +7,7 @@ The easiest way to setup that config file is by using a reference work item. Fin
 <div class="termy">
 
 ```console
-$ doing init https://dev.azure.com/IngEurCDaaS01/IngOne/_workitems/edit/73554
+$ doing init https://dev.azure.com/organization_name/project_name/_workitems/edit/73554
 > Created new .doing-cli-config.yml file
         > Filled in required parameters using reference work item #73554
 ```
@@ -24,7 +24,7 @@ In the root of your repository, you can check if your configuration works using:
 
 ```console
 $ doing list
-                 Work-items in current iteration IngOne\T01894-RiskandPricingAdvancedAna                  
+                 Work-items in current iteration project_name\team_name                  
 ┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
 ┃     ID ┃             Title      ┃ Created by ┃       Type ┃    Linked Branches ┃ Linked PRs ┃
 ┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩

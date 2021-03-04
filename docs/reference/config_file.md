@@ -4,11 +4,11 @@
 
 | Parameter      | Description                          |
 | ----------- | ------------------------------------ |
-| `organization`       | Name of the organization. You can quickly find the organization in your devops url, after *https://dev.azure.com*. Example: The organization for *https://dev.azure.com/IngEurCDaaS01/IngOne* is *IngEurCDaaS01*.  |
-| `project`       | Name of the project. You can quickly find the organization in your devops url, after *https://dev.azure.com/YourOrganization/*. Example: The project for *https://dev.azure.com/IngEurCDaaS01/IngOne* is *IngOne*. |
-| `team`    | The name of your team. You can quickly find it when navigating on Azure Devops to Boards > Boards. Example: The team in *https://dev.azure.com/IngEurCDaaS01/IngOne/_boards/board/t/T01894-RiskandPricingAdvancedAna/Stories* is *T01894-RiskandPricingAdvancedAna*. |
-| `area`    | The area path assigned to work items. You can find it by going to a work item (Azure Devops > Boards > Work items) and copying the Area field. This corresponds to the work item field *System.AreaPath*. |
-| `iteration`    | The iteration path assigned to work items. You can find it going by to a work item (Azure Devops > Boards > Work items) and copying the Iteration field. This corresponds to the work item field *System.IterationPath*. |
+| `organization`       | Azure DevOps organization URL. You can quickly find the organization in your devops url, right after *https://dev.azure.com*. Example: *https://dev.azure.com/organization_name*.  |
+| `project`       | Name of the project. You can quickly find the organization in a devops url, right after the organization url. Example: The project for *https://dev.azure.com/your_organization/your_project/...* is *your_project*. |
+| `team`    | The name of your team. You can quickly find it when navigating on Azure Devops to Boards > Boards. Example: The team in *https://dev.azure.com/organization_name/project_name/_boards/board/t/my_team/Stories* is *my_team*. |
+| `area`    | The area path assigned to work items. You can find it by going to a work item (Azure Devops > Boards > Work items) and copying the Area field. This corresponds to the work item field *System.AreaPath*. [More about area and iteration paths](https://docs.microsoft.com/en-us/azure/devops/organizations/settings/about-areas-iterations?view=azure-devops). |
+| `iteration`    | The iteration path assigned to work items. You can find it going by to a work item (Azure Devops > Boards > Work items) and copying the Iteration field. This corresponds to the work item field *System.IterationPath*. [More about area and iteration paths](https://docs.microsoft.com/en-us/azure/devops/organizations/settings/about-areas-iterations?view=azure-devops). |
 
 The config can also contain some optional parameters that are not required to be set:
 
@@ -23,14 +23,14 @@ Example `.doing-cli-config.yml`:
 ```yaml
 # .doing-cli-config.yml
 # Config file to be used with the `doing` CLI tool
-organization: https://dev.azure.com/IngEurCDaaS01
-project: IngOne
-team: T01894-RiskandPricingAdvancedAna
-area: IngOne\P01908-Default\project
-iteration: IngOne\T01894-RiskandPricingAdvancedAna\project_sprint_8
+organization: https://dev.azure.com/organization_name
+project: project_name
+team: team-name
+area: organization_name\repo_name\area_name
+iteration: organization_name\team_name\iteration_name
 default_workitem_type: Task
-default_reviewers: 'tim.vink@ing.com'
-verbose_shell: True
+default_reviewers: 'john.doe@domain.com'
+verbose_shell: False
 ```
 
 ## Using environment variables

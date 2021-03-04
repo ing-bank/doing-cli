@@ -1,10 +1,10 @@
 # Azure Devops One Project Setup
 
-Azure Devops has a limit of 250 projects per azure organization. A lot of collaboration possibilities are not between between azure organizations. This means that it is not possible for larger companies to allow teams to have one or more projects.
+Azure Devops has a limit of 250 projects per azure organization. A lot of collaboration possibilities are not possible between azure organizations. As a consequence, larger companies cannot allow teams to have one or more projects.
 
-The solution is surprisingly simple: combine all teams into a single project. Many developers however are used to the github or gitlab way of working, where a project has a single repository and a single board with issues. In the One Project setup, the link between a repository and an issue (work item) is not so clear.
+The solution is surprisingly simple: combine all teams into a single project from a single organization. In this 'One Project' setup, the link between a repository and an issue (work item) is not so clear, because a team can have multiple repositories but only a single board. Many developers however are used to the github or gitlab way of working, where a project has a single repository and a single associated board with issues.
 
-In the diagram below you can see that a work-item always has an area-path and an iteration-path, which are unique to a certain team. You can link a work-item to a *branch* of an existing repository, which is often a branch made specifically to work on the issue. Of course this enables managing projects with multiple repositories and different teams working on different aspects, but often a project means you would like a single issue board to match a single repository. 
+In the diagram below you can see that a work-item always has an area-path and an iteration-path, which are unique to a certain team. A work-item can be linked to a *branch* of an existing repository, which is often a branch made specifically to work on the issue. Of course this enables managing projects with multiple repositories and different teams working on different aspects, but often an actual *project* means you would like a single issue board to match a single repository. 
 
 ```mermaid
 erDiagram
