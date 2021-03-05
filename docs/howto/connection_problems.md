@@ -9,7 +9,7 @@ Some basic things to try:
 
 ## Working behind a company proxy / virtual private network (VPN)
 
-First check that you can access the internet from your shell by running `ping google.com`. If you cannot, contact your company's IT.
+First check that you can access the internet from your shell. For example, try cloning a public repository or updating a package using `pip` through the public PyPi repository. If you cannot, contact your company's IT.
 
 If you want to connect to azure devops while connected to a VPN (behind a proxy), you can try the following:
 
