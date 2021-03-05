@@ -7,18 +7,35 @@ Some basic things to try:
 - Disconnect from any company VPNs and check if everything works.
 - Try renewing your personal access token and logging in once again through `az devops login`.
 
-## Working behind a company proxy / virtual private network (VPN)
+## Working behind a corporate proxy / virtual private network (VPN)
 
-First check that you can access the internet from your shell. For example, try cloning a public repository or updating a package using `pip` through the public PyPi repository. If you cannot, contact your company's IT.
+First check that you can access the internet from your shell. 
+When connected to a VPN, your company may require you to do this behind a corporate proxy. 
+For example, try cloning a public repository or updating a package using `pip` through the public PyPi repository. 
+If you cannot, contact your company's IT.
 
-If you want to connect to azure devops while connected to a VPN (behind a proxy), you can try the following:
+To use Azure DevOps, you might have to add the certificates of your company to the ones from [`certifi`](https://pypi.org/project/certifi/), which the Python `requests` package uses to connect to the internet.
+If this is the case, you will receive an error indicating that you might not have the right certificates to connect to Azure DevOps.
 
-1. Install your companies's certificates, and set the environment variable `REQUESTS_CA_BUNDLE` to point to the certificate bundle.
-1. See more information from Azure on [working behind a proxy](https://docs.microsoft.com/en-us/cli/azure/use-cli-effectively#work-behind-a-proxy)
-1. [This](https://stackoverflow.com/questions/55463706/ssl-handshake-error-with-some-azure-cli-commands) stackoverflow question suggests trying to set these settings in your shell:
-    ```shell
-    export ADAL_PYTHON_SSL_NO_VERIFY=1
-    export AZURE_CLI_DISABLE_CONNECTION_VERIFICATION=1
-    ```
+To fix this you must install your company's certificates. 
+Then, set the environment variable `REQUESTS_CA_BUNDLE` to a bundle of your company's and `certifi`'s certificate bundles with `export REQUESTS_CA_BUNDLE=<bundle location>`.
+
+You can add the following script to the end of your `.zshrc` to keep the certificate bundle up-to-date:
+```bash
+# Set CA bundle certificate for doing-cli to connect to AzDo
+CERTIFICATES_DIR=$HOME/Documents/certificates
+## Check if there's a new version of the certifi bundle
+if ! cmp -s $CERTIFICATES_DIR/certifi.ca-bundle $(python -m certifi) ; then
+    echo "certifi has new certificates. Updating the local certificate bundle."
+    cat $(python -m certifi) > $CERTIFICATES_DIR/certifi.ca-bundle
+    cat $CERTIFICATES_DIR/<corporate.ca-bundle> $CERTIFICATES_DIR/certifi.ca-bundle > $CERTIFICATES_DIR/corporate-certifi.ca-bundle
+fi
+export REQUESTS_CA_BUNDLE=$CERTIFICATES_DIR/corporate-certifi.ca-bundle
+```
+where:
+- `CERTIFICATES_DIR` is the directory where your company's certificate bundle is stored;
+- <corporate.ca-bundle> is your company's certificate bundle;
+
+See more information from Azure on [working behind a proxy](https://docs.microsoft.com/en-us/cli/azure/use-cli-effectively#work-behind-a-proxy)
 
 
