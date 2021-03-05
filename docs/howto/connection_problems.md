@@ -20,7 +20,11 @@ If this is the case, you will receive an error indicating that you might not hav
 To fix this you must install your company's certificates. 
 Then, set the environment variable `REQUESTS_CA_BUNDLE` to a bundle of your company's and `certifi`'s certificate bundles with `export REQUESTS_CA_BUNDLE=<bundle location>`.
 
-You can add the following script to the end of your `.zshrc` to keep the certificate bundle up-to-date:
+If the certificates are correctly setup, both these commands should work:
+- `az devops login`
+- `az ad signed-in-user show --query 'mail'`
+
+To keep the `certifi` certificates up-to-date, add the following script to the end of your `.zshrc`:
 ```bash
 # Set CA bundle certificate for doing-cli to connect to AzDo
 CERTIFICATES_DIR=$HOME/Documents/certificates
