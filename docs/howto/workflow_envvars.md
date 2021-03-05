@@ -50,7 +50,7 @@ You can also temporarily set a different default work item type using an [enviro
 
 ## Setting default reviewers
 
-You might have a project where all pull requests have the same set of reviewers. Or you are part of an international team with colleagues that have impossible last names (I'm thinking about you Dr. Bjelogrlic :smile:). Instead of using the lengthy `doing create pr --reviewers 'email1@domain.com email2@domain.com'`, you can set a default set of reviewers in the `.doing-cli-config.yml` (see [config](../reference/config_file.md)) by specifying `default_reviewers`. For example:
+You might have a project where all pull requests have the same set of reviewers. Instead of using the lengthy `doing create pr --reviewers 'email1@domain.com email2@domain.com'`, you can set a default set of reviewers in the `.doing-cli-config.yml` (see [config](../reference/config_file.md)) by specifying `default_reviewers`. For example:
 
 === ".doing-cli-config.yml"
 
