@@ -16,7 +16,6 @@ theme:
         logo: octicons/terminal-16
     favicon: assets/images/cli.png
     features:
-        - navigation.instant
         - navigation.tracking
         - header.autohide
 
@@ -32,6 +31,7 @@ nav:
     - Workflow sprints: howto/workflow_sprints.md
     - Workflows with envvars: howto/workflow_envvars.md
     - Python scripting: howto/python_scripting.md
+    - Shell completion: howto/command_completion.md
     - Connection problems: howto/connection_problems.md
   - Reference:
     - Config File: reference/config_file.md
@@ -44,6 +44,7 @@ nav:
 markdown_extensions:
     - abbr
     - admonition
+    - pymdownx.keys
     - pymdownx.highlight
     - pymdownx.inlinehilite
     - pymdownx.snippets
