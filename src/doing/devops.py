@@ -8,7 +8,7 @@ def get_iterations(team_id: str, project: str, organization: str):
     Example:
 
     ```python
-    team_id = "T01894-RiskandPricingAdvancedAna"
+    team_id = "Your team name"
     get_iterations(team_id)
     ```
     """

@@ -1,8 +1,8 @@
 
 site_name: doing CLI for Azure DevOps
-site_description: 'Speed up work with INGs Azure Devops'
+site_description: 'Speed up work with Azure Devops'
 edit_uri: ''
-copyright: 'Copyright &copy; 2021 ING'
+copyright: 'Copyright &copy; 2021'
 repo_url: https://github.com/timvink/doing-cli
 
 theme:
@@ -40,6 +40,14 @@ nav:
     - One Project Setup: discussion/oneproject_setup.md
   - contributing.md
 
+plugins:
+  - mkdocstrings:
+      handlers:
+          python:
+            rendering:
+              show_root_toc_entry: false
+      watch:
+        - doing
 
 markdown_extensions:
     - abbr
