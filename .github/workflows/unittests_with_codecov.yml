@@ -26,13 +26,10 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Static code checking with pyflakes
       run: |
-        pip3 install .
-        pip3 install pyflakes
+        pip3 install ".[all]"
         pyflakes src
     - name: Generate coverage report
       run: |
-        pip3 install -r tests/test_requirements.txt
-        pip3 install -e .
         pytest --cov=src --cov-report=xml -vvv
     # - name: Upload coverage to Codecov
     #   if: "contains(env.USING_COVERAGE, matrix.python-version)"
