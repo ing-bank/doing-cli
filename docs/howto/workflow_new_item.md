@@ -1,11 +1,11 @@
 # Workflow for new issues
 
-Before creating a new issue, you'll likely want to review existing issues first. `cd` into your repository and use `doing list` for a quick view.
-If you need more detail, considering opening the relevant views in the azure devops web portal using commands like `doing open issues`, `doing open board` or `doing open sprint`.
+Before creating a new issue, you'll likely want to review existing issues first. `cd` into your repository and use [`doing list`](../reference/manual/list.md) for a quick view.
+If you need more detail you can use [`doing open`](../reference/manual/open.md) to open relevant views in the azure devops web portal, for example `doing open issues`, `doing open board` or `doing open sprint`.
 
 ## Planning multiple items
 
-If you don't plan to start work on an issue immediately, you can create a new (unassigned) work item with:
+If you don't plan to start work on an issue immediately, you can use [`doing create issue`](../reference/manual/create_issue.md) to create a new (unassigned) work item with:
 
 ```shell
 doing create issue "something that needs to be done"
@@ -26,7 +26,7 @@ doing create issue "something that needs to be done" --parent "1234" --type "Tas
 
 ## Starting work on a new issue
 
-If you plan to start work on a new issue immediately, it is better to use `doing workon` instead. All you need to provide is the title:
+If you plan to start work on a new issue immediately, it is better to use [`doing workon`](../reference/manual/workon.md) instead. All you need to provide is the title:
 
 <div class="termy termy-small">
 
@@ -53,8 +53,8 @@ This automates a lot of clicking in the Azure Devops web portal and even runs gi
 
 When you're done you can view the:
 
-- pull request using `doing open pr <pullrequest id>`. Use `doing list` to find your PR id.
-- issue using `doing open issue <issue id>`. The git branch name has the issue id as a prefix, or alternatively you can use `doing list` to find the issue id.
+- pull request using `doing open pr <pullrequest id>`. Use [`doing list`](../reference/manual/list.md) to find your PR id.
+- issue using `doing open issue <issue id>`. The git branch name has the issue id as a prefix, or alternatively you can use [`doing list`](../reference/manual/list.md) to find the issue id.
 - active pull requests using `doing open prs`
 - pipeline runs using `doing open pipe` 
 

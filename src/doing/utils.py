@@ -165,3 +165,13 @@ def verbose_shell():
     Users can define 'verbose_shell: True' in the .doing-cli-config.yml file.
     """
     return get_config("verbose_shell", fallback=False)
+
+
+def define_env(env):
+    """
+    Macros for mkdocs_macros_plugin.
+    """
+
+    @env.macro
+    def shell_out(command: str):
+        return shell_output(command)

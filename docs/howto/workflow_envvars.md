@@ -21,7 +21,7 @@ doing create issue "a new issue in the next sprint"
 
 ## Setting a default work item type
 
-Azure Devops has [different work item types](https://docs.microsoft.com/en-us/azure/devops/boards/work-items/about-work-items?view=azure-devops&tabs=agile-process#wit) to help track different types of work. By default `doing create issue` and `doing workon` will create a work item of type *User Story*. You can set a different default work item type in the `.doing-cli-config.yml` [config](../reference/config_file.md) by specifying `default_workitem_type`. For example:
+Azure Devops has [different work item types](https://docs.microsoft.com/en-us/azure/devops/boards/work-items/about-work-items?view=azure-devops&tabs=agile-process#wit) to help track different types of work. By default [`doing create issue`](../reference/manual/create_issue.md) and [`doing workon`](../reference/manual/workon.md) will create a work item of type *User Story*. You can set a different default work item type in the `.doing-cli-config.yml` [config](../reference/config_file.md) by specifying `default_workitem_type`. For example:
 
 === ".doing-cli-config.yml"
 
@@ -32,7 +32,6 @@ Azure Devops has [different work item types](https://docs.microsoft.com/en-us/az
 
 
 You can also temporarily set a different default work item type using an [environment variable](https://en.wikipedia.org/wiki/Environment_variable). You can find which value to set by using `doing create issue --help` and `doing workon --help`.
-
 
 === "doing create issue"
 
@@ -79,4 +78,5 @@ doing create issue "Thing 1"
 doing create issue "Thing 2"
 ...
 doing create issue "Thing 10"
+unset DOING_CREATE_ISSUE_PARENT
 ```

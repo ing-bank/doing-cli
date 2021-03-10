@@ -5,7 +5,7 @@ LONG_DESCRIPTION = file.read()
 file.close()
 
 base_packages = ["Click", "python-dotenv", "rich>=9.10.0", "pyyaml>=5.4.0"]
-dev = ["mkdocs-material", "mkdocstrings", "pytest", "pytest-cov", "pyflakes"]
+dev = ["mkdocs-material", "mkdocs-macros-plugin", "pytest", "pytest-cov", "pyflakes"]
 
 setup(
     name="doing-cli",

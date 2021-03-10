@@ -19,10 +19,7 @@ def cmd_create_issue(
     project: str,
 ) -> int:
     """
-    Run `doing issue create` command.
-
-    az CLI:
-    https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/boards/work-item?view=azure-cli-latest#ext_azure_devops_az_boards_work_item_create
+    Create a new issue.
     """
     if mine and assigned_to:
         raise InputError("You cannot use --mine in combination with specifying --assigned-to.")

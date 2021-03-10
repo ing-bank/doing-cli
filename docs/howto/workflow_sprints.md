@@ -6,7 +6,7 @@ In azure devops, all work items already have both an area path and an iteration 
 
 A sprint is basically an iteration path. You can view the issues using `doing open sprint`, `doing open board` or `doing open issues`.
 
-Note that `doing list` will show all active issues under the iteration path. This means that if you specify *`<projectname>/<teamname>`* as your iteration path, you might see issues with iteration path *`<projectname>/<teamname>/<sprint name>`* as well as issues with *`<projectname>/<teamname>`*.
+Note that [`doing list`](../reference/manual/list.md) will show all active issues under the iteration path. This means that if you specify *`<projectname>/<teamname>`* as your iteration path, you might see issues with iteration path *`<projectname>/<teamname>/<sprint name>`* as well as issues with *`<projectname>/<teamname>`*.
 
 ## Changing sprints
 
