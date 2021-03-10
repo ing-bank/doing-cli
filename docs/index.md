@@ -31,7 +31,7 @@ $ doing list
 
 ```console
 $ doing workon "fixing a small typo"
-> Created issue #146545 'fixing a small typo'
+> Created issue #146545 'fixing a small typo' (User Story)
         > added area-path '{your area path}'
         > added iteration-path '{your iteration path}'
         > added assignee '{your azure account}'

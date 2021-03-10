@@ -38,7 +38,7 @@ def cmd_create_issue(
     issue_id = issue.get("id")
     # issue_url = f"{organization}/{project}/_workitems/edit/{issue_id}"
 
-    console.print(f"[dark_orange3]>[/dark_orange3] Created issue #{issue_id} '[cyan]{title}[/cyan]'")
+    console.print(f"[dark_orange3]>[/dark_orange3] Created issue #{issue_id} '[cyan]{title}[/cyan]' ({type})")
     console.print(f"\t[dark_orange3]>[/dark_orange3] added area-path '{area}'")
     console.print(f"\t[dark_orange3]>[/dark_orange3] added iteration-path '{iteration}'")
     if assigned_to:
