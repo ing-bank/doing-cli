@@ -29,6 +29,8 @@ def cmd_create_pr(
     API doc:
     https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/repos/pr?view=azure-cli-latest#ext_azure_devops_az_repos_pr_create
     """
+    work_item_id = str(work_item_id).lstrip("#")
+
     if checkout:
         check_uncommitted_work()
 
@@ -108,8 +110,8 @@ def cmd_create_pr(
 
     # Report to user
     pr_id = pr.get("pullRequestId")
-    console.print(f"[dark_orange3]>[/dark_orange3] Created pull request #{pr_id} [cyan]'{work_item_title}'[cyan]")
-    console.print(f"\t[dark_orange3]>[/dark_orange3] linked work-item #{work_item_id}")
+    console.print(f"[dark_orange3]>[/dark_orange3] Created pull request {pr_id} [cyan]'{work_item_title}'[cyan]")
+    console.print(f"\t[dark_orange3]>[/dark_orange3] linked work-item {work_item_id}")
     if draft:
         console.print("\t[dark_orange3]>[/dark_orange3] marked as draft pull request")
     if auto_complete:

@@ -6,6 +6,9 @@ from rich.console import Console
 
 from doing.utils import get_repo_name, run_command
 from doing.options import get_config
+from doing.open.pr import open_pr
+from doing.open.issue import open_issue
+
 
 console = Console()
 
@@ -96,12 +99,9 @@ def issue(issue_id):
     """
     Open a specific ISSUE_ID.
 
-    ISSUE_ID is the ID number of a work item.
+    ISSUE_ID is the ID number of a work item. '#' prefix is allowed.
     """
-    project = get_config("project")
-    organization = get_config("organization")
-
-    click.launch(f"{organization}/{project}/_workitems/edit/{issue_id}")
+    open_issue(issue_id)
 
 
 @open.command()
@@ -131,12 +131,9 @@ def issues():
 @click.argument("pullrequest_id")
 def pr(pullrequest_id):
     """
-    Open a specific PULLREQUEST_ID.
+    Open a specific PULLREQUEST_ID. '!' prefix is allowed.
     """
-    project = get_config("project")
-    organization = get_config("organization")
-
-    click.launch(f"{organization}/{project}/_git/{get_repo_name()}/pullrequest/{pullrequest_id}")
+    open_pr(pullrequest_id)
 
 
 @open.command()
