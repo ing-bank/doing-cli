@@ -3,6 +3,8 @@ import click
 from doing.create.issue import cmd_create_issue
 from doing.create.pr import cmd_create_pr
 from doing.options import get_common_options, get_config
+from doing.open.issue import open_issue
+from doing.open.pr import open_pr
 
 
 @click.group()
@@ -50,19 +52,31 @@ def create():
     help="To create a child work item, specify the ID of the parent work item.",
     show_envvar=True,
 )
+@click.option(
+    "--web/--no-web",
+    "-w",
+    required=False,
+    default=False,
+    type=bool,
+    help="Open newly created issue in the web browser.",
+    show_envvar=True,
+)
 def issue(
-    issue,
-    mine,
-    assigned_to,
-    type,
-    parent,
-):
+    issue: str,
+    mine: bool,
+    assigned_to: str,
+    type: str,
+    parent: str,
+    web: bool,
+) -> None:
     """
     Create an issue.
 
     ISSUE is the title to be used for the new work item.
     """
-    cmd_create_issue(issue, mine, assigned_to, type, parent, **get_common_options())
+    issue_id = cmd_create_issue(issue, mine, assigned_to, type, parent, **get_common_options())
+    if web:
+        open_issue(issue_id)
 
 
 @create.command()
@@ -115,6 +129,15 @@ def issue(
     help="Set to delete source branch when pull request completes.",
     show_envvar=True,
 )
+@click.option(
+    "--web/--no-web",
+    "-w",
+    required=False,
+    default=False,
+    type=bool,
+    help="Open newly created issue in the web browser.",
+    show_envvar=True,
+)
 def pr(
     work_item_id: str,
     draft: bool,
@@ -123,13 +146,14 @@ def pr(
     reviewers: str,
     checkout: bool,
     delete_source_branch: bool,
-):
+    web: bool,
+) -> None:
     """
     Create a pull request from a work item ID.
 
     WORK_ITEM_ID is the work item ID that will be linked to the PR.
     """
-    cmd_create_pr(
+    pr_id = cmd_create_pr(
         work_item_id,
         draft,
         auto_complete,
@@ -139,3 +163,5 @@ def pr(
         delete_source_branch,
         **get_common_options(),
     )
+    if web:
+        open_pr(pr_id)
