@@ -43,11 +43,11 @@ def pr(pr_id):
     PR_ID is the ID number of a pull request. '!' prefix is allowed.
     You can specify multiple IDs by separating with a space.
     """
-    pr_id = str(pr_id).lstrip("!")
     organization = get_config("organization")
     state = "abandoned"
 
     for id in pr_id:
+        id = str(id).lstrip("!")
         cmd = f"az repos pr update --id {id} --status '{state}' "
         cmd += f"--org '{organization}'"
         result = run_command(cmd)
