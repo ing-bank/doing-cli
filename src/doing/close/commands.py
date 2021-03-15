@@ -19,9 +19,10 @@ def issue(issue_id):
     """
     Close a specific ISSUE_ID.
 
-    ISSUE_ID is the ID number of a work item.
+    ISSUE_ID is the ID number of a work item. '#' prefix is allowed.
     You can specify multiple IDs by separating with a space.
     """
+    issue_id = issue_id.lstrip("#")
     organization = get_config("organization")
     state = "Closed"
 
@@ -39,9 +40,10 @@ def pr(pr_id):
     """
     Close a specific PR_ID.
 
-    PR_ID is the ID number of a pull request.
+    PR_ID is the ID number of a pull request. '!' prefix is allowed.
     You can specify multiple IDs by separating with a space.
     """
+    pr_id = pr_id.lstrip("!")
     organization = get_config("organization")
     state = "abandoned"
 

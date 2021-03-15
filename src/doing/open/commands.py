@@ -96,8 +96,10 @@ def issue(issue_id):
     """
     Open a specific ISSUE_ID.
 
-    ISSUE_ID is the ID number of a work item.
+    ISSUE_ID is the ID number of a work item. '#' prefix is allowed.
     """
+    issue_id = issue_id.lstrip("#")
+
     project = get_config("project")
     organization = get_config("organization")
 
@@ -131,8 +133,10 @@ def issues():
 @click.argument("pullrequest_id")
 def pr(pullrequest_id):
     """
-    Open a specific PULLREQUEST_ID.
+    Open a specific PULLREQUEST_ID. '!' prefix is allowed.
     """
+    pullrequest_id = pullrequest_id.lstrip("!")
+
     project = get_config("project")
     organization = get_config("organization")
 

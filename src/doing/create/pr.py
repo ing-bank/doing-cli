@@ -29,6 +29,8 @@ def cmd_create_pr(
     API doc:
     https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/repos/pr?view=azure-cli-latest#ext_azure_devops_az_repos_pr_create
     """
+    work_item_id = work_item_id.lstrip("#")
+
     if checkout:
         check_uncommitted_work()
 
