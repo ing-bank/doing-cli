@@ -2,7 +2,14 @@ import os
 import subprocess
 import sys
 
-from doing.utils import run_command, get_repo_name, to_snake_case, get_az_devop_user_email, get_git_current_branch
+from doing.utils import (
+    replace_user_aliases,
+    run_command,
+    get_repo_name,
+    to_snake_case,
+    get_az_devop_user_email,
+    get_git_current_branch,
+)
 
 from rich.console import Console
 
@@ -30,6 +37,7 @@ def cmd_create_pr(
     https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/repos/pr?view=azure-cli-latest#ext_azure_devops_az_repos_pr_create
     """
     work_item_id = str(work_item_id).lstrip("#")
+    reviewers = replace_user_aliases(reviewers)
 
     if checkout:
         check_uncommitted_work()

@@ -16,12 +16,9 @@ You can specify more options (see `doing create issue --help`). Some examples:
 ```shell
 doing create issue "something that needs to be done" --mine 
 doing create issue "something that needs to be done" --assigned_to "john.doe@company.com" 
-doing create issue "something that needs to be done" --assigned_to "john.doe@company.com" --type "Bug"
+doing create issue "something that needs to be done" --a "john.doe@company.com" --type "Bug"
 doing create issue "something that needs to be done" --parent "1234" --type "Task"
 ```
-
-!!! note ""
-    See also the workflow for [starting work on an existing item](workflow_existing_item.md)
 
 
 ## Starting work on a new issue
@@ -51,12 +48,29 @@ $ doing workon "fixing a small typo"
 
 This automates a lot of clicking in the Azure Devops web portal and even runs git commands locally, so you can immediately start your normal `git add`, `git commit` and `git push` development workflow.
 
-When you're done you can view the:
+!!! note ""
+    See also the workflow for [starting work on an existing item](workflow_existing_item.md)
 
-- pull request using `doing open pr <pullrequest id>`. Use [`doing list`](../reference/manual/list.md) to find your PR id.
-- issue using `doing open issue <issue id>`. The git branch name has the issue id as a prefix, or alternatively you can use [`doing list`](../reference/manual/list.md) to find the issue id.
-- active pull requests using `doing open prs`
-- pipeline runs using `doing open pipe` 
+## Using aliases
+
+To avoid having to type the emailadresses of your teammates every time (which are case sensitive in Azure), you can setup aliases in your `.doing-cli-config.yml` (see also [config file](../reference/config_file.md) reference):
+
+=== "using aliases"
+
+    ```shell
+    doing create issue "fix bug" -a john
+    # or
+    doing workon "fix bug" --reviewers "john jane"
+    ```
+
+=== ".doing-cli-config.yml"
+
+    ```yaml
+    # ... other config items ...
+    user_aliases:
+       john: John.Doe@company.com
+       jane: Jane.Doe@email.net
+    ```
 
 ## Starting work on a new child issue
 
@@ -65,3 +79,13 @@ Another common workflow is to work on tasks that are part of a user story. In az
 ```shell
 doing workon "some work" --type 'Task' --parent 1234
 ```
+
+## Wrap up
+
+When you're done you can view the:
+
+- pull request using `doing open pr <pullrequest id>`. Use [`doing list`](../reference/manual/list.md) to find your PR id.
+- issue using `doing open issue <issue id>`. The git branch name has the issue id as a prefix, or alternatively you can use [`doing list`](../reference/manual/list.md) to find the issue id.
+- active pull requests using `doing open prs`
+- pipeline runs using `doing open pipe` 
+

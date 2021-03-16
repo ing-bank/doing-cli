@@ -24,13 +24,35 @@ $ doing create pr 146545
 You can also create a draft PR, assign reviewers, run the git checkout commands and more. See `doing create pr --help` for the options. Some examples:
 
 ```shell
-doing create pr 146545 --reviewer "john.doe@email.com"
+doing create pr 146545 --reviewers "john.doe@email.com"
 doing create pr 146545 --checkout --draft
 ```
+
+## Using aliases
+
+To avoid having to type the emailadresses of your teammates every time (which are case sensitive in Azure), you can setup aliases in your `.doing-cli-config.yml` (see also [config file](../reference/config_file.md) reference):
+
+=== "using aliases"
+
+    ```shell
+    doing create pr 146545 --reviewers "john jane"
+    ```
+
+=== ".doing-cli-config.yml"
+
+    ```yaml
+    # ... other config items ...
+    user_aliases:
+       john: John.Doe@company.com
+       jane: Jane.Doe@email.net
+    ```
+
+
+## Wrap up
 
 When you're done you can view the:
 
 - pull request using `doing open pr <pullrequest id>`. Use [`doing list`](../reference/manual/list.md) to find your PR id.
 - issue using `doing open issue <issue id>`. The git branch name has the issue id as a prefix, or alternatively you can use [`doing list`](../reference/manual/list.md) to find the issue id.
 - active pull requests using `doing open prs`
-- pipeline runs using `doing open pipe` 
+- pipeline runs using `doing open pipe`

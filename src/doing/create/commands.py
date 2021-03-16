@@ -31,7 +31,7 @@ def create():
     required=False,
     default="",
     type=str,
-    help="Emailadres of person to assign the issue to. Defaults to empty (unassigned).",
+    help="Emailadres or alias of person to assign the issue to. Defaults to empty (unassigned).",
     show_envvar=True,
 )
 @click.option(
@@ -111,7 +111,7 @@ def issue(
     required=False,
     default=lambda: get_config("default_reviewers", ""),
     type=str,
-    help=f"Space separated list of reviewer emails. Defaults to \"{get_config('default_reviewers','')}\"",
+    help=f"Space separated list of reviewer emails or aliases. Defaults to \"{get_config('default_reviewers','')}\"",
     show_envvar=True,
 )
 @click.option(

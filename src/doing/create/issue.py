@@ -1,5 +1,5 @@
 from doing.exceptions import InputError
-from doing.utils import run_command, get_az_devop_user_email
+from doing.utils import replace_user_aliases, run_command, get_az_devop_user_email
 
 from rich.console import Console
 
@@ -26,6 +26,8 @@ def cmd_create_issue(
 
     if mine:
         assigned_to = get_az_devop_user_email()
+
+    assigned_to = replace_user_aliases(assigned_to)
 
     cmd = "az boards work-item create "
     cmd += f"--title '{title}' "

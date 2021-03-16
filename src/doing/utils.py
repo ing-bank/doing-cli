@@ -170,8 +170,24 @@ def verbose_shell():
 def define_env(env):
     """
     Macros for mkdocs_macros_plugin.
+
+    Allows use to use jinja2 tags inside .md files in docs/.
+
+    For example '{{ shell_out('echo hello') }}' would be replaced by 'hello'
+
+    More info: https://mkdocs-macros-plugin.readthedocs.io/
     """
 
     @env.macro
     def shell_out(command: str):
         return shell_output(command)
+
+
+def replace_user_aliases(text: str) -> str:
+    """
+    Replace alias with emailadres in a string.
+    """
+    words = text.split()
+    aliases = get_config("user_aliases")
+
+    return " ".join([aliases.get(word, word) for word in words])

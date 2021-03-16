@@ -20,3 +20,25 @@ doing create pr 1234 --delete-source-branch --self-approve --auto-complete
 ```nohighlight
 {{ shell_out('doing create pr --help') }}
 ```
+
+## In use
+
+Using user_aliases set in the [config file](../config_file.md):
+
+=== "Shell"
+
+    ```shell
+    doing create pr 1234 --reviewers 'john jane'
+    # > Created pull request #49281 'fixing a small typo'
+    #     > linked work-item #1234
+    #     > added reviewers: 'John.Doe@company.com Jane.Doe@email.net'
+    ```
+
+=== ".doing-cli-config.yml"
+
+    ```yaml
+    # ... other (required) config items...
+    user_aliases:
+        john: John.Doe@company.com
+        jane: Jane.Doe@email.net
+    ```

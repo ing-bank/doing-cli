@@ -1,6 +1,10 @@
 # The .doing-cli-config.yml config file
 
-`doing` searches for YAML config file named `.doing-cli-config.yml`. The config must contain the following parameters (in lowercase):
+`doing` searches for YAML config file named `.doing-cli-config.yml`. 
+
+## Required parameters
+
+The config must contain the following parameters (in lowercase):
 
 | Parameter      | Description                          |
 | ----------- | ------------------------------------ |
@@ -10,27 +14,39 @@
 | `area`    | The area path assigned to work items. You can find it by going to a work item (Azure Devops > Boards > Work items) and copying the Area field. This corresponds to the work item field *System.AreaPath*. [More about area and iteration paths](https://docs.microsoft.com/en-us/azure/devops/organizations/settings/about-areas-iterations?view=azure-devops). |
 | `iteration`    | The iteration path assigned to work items. You can find it going by to a work item (Azure Devops > Boards > Work items) and copying the Iteration field. This corresponds to the work item field *System.IterationPath*. [More about area and iteration paths](https://docs.microsoft.com/en-us/azure/devops/organizations/settings/about-areas-iterations?view=azure-devops). |
 
-The config can also contain some optional parameters that are not required to be set:
-
-| Optional Parameter      | Description |
-| ----------------------- | ------------------------------------ |
-| `default_workitem_type` | The default work item type used when creating work items. Should be one of "Bug", "Epic", "Feature", "Issue", "Task", "Test Case", "User Story". Defaults to "User Story" if not specified. 
-| `default_reviewers` | The default reviewers assigned when creating pull requests. Space separated list of user emails. Note they are case-sensitive.. find your own with `az ad signed-in-user show --query 'mail'`
-| `verbose_shell` | When set to 'true', will print every shell command `doing` runs for you in the background. Meant for debugging and interested developers.
-
 Example `.doing-cli-config.yml`:
 
 ```yaml
 # .doing-cli-config.yml
-# Config file to be used with the `doing` CLI tool
 organization: https://dev.azure.com/organization_name
 project: project_name
 team: team-name
 area: organization_name\repo_name\area_name
 iteration: organization_name\team_name\iteration_name
+```
+
+## Optional parameters
+
+The config can also contain some optional parameters that are not required to be set:
+
+| Optional Parameter      | Description |
+| ----------------------- | ------------------------------------ |
+| `default_workitem_type` | The default work item type used when creating work items. Should be one of "Bug", "Epic", "Feature", "Issue", "Task", "Test Case", "User Story". Defaults to "User Story" if not specified. 
+| `default_reviewers` | The default reviewers assigned when creating pull requests. Space separated list of user emails (case sensitive). Find your own with `az ad signed-in-user show --query 'mail'`.
+| `verbose_shell` | Set to 'true' to print every shell command `doing` runs for you in the background. Meant for debugging and interested developers.
+| `user_aliases` | A list of user aliases that you can use when specifying reviewers or assignees.
+
+Example `.doing-cli-config.yml`:
+
+```yaml
+# .doing-cli-config.yml
+# ... other required parameters ...
 default_workitem_type: Task
 default_reviewers: 'john.doe@domain.com'
 verbose_shell: False
+user_aliases:
+    john: John.Doe@company.com
+    jane: Jane.Doe@email.net
 ```
 
 ## Using environment variables

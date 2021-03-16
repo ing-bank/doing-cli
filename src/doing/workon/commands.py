@@ -51,6 +51,7 @@ def workon(issue, type, parent, reviewers):
         title=issue, mine=True, assigned_to="", type=type, parent=parent, **get_common_options()
     )
 
+    # add self to reviewers
     user_email = get_az_devop_user_email()
     if user_email not in reviewers:
         reviewers = f"{reviewers} {user_email}".strip()
