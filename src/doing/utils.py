@@ -188,6 +188,9 @@ def replace_user_aliases(text: str) -> str:
     Replace alias with emailadres in a string.
     """
     words = text.split()
-    aliases = get_config("user_aliases")
+    aliases = get_config("user_aliases", "")
+
+    if not len(aliases):
+        return text
 
     return " ".join([aliases.get(word, word) for word in words])

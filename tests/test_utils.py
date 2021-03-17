@@ -62,6 +62,10 @@ def test_replace_user_aliases(tmp_path):
     """
     Test replacing user aliases.
     """
+    # no aliases set just yet
+    text = "john another_john@company.com john_doe@email.com"
+    assert replace_user_aliases(text) == "john another_john@company.com john_doe@email.com"
+
     config = {"user_aliases": {"john": "john.doe@email.net", "jane": "jane.doe@webmail.org"}}
 
     with working_directory(tmp_path):
