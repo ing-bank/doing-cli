@@ -7,6 +7,7 @@ from doing.utils import (
     run_command,
     get_repo_name,
     to_snake_case,
+    remove_special_chars,
     get_az_devop_user_email,
     get_git_current_branch,
 )
@@ -59,7 +60,7 @@ def cmd_create_pr(
     cmd = f"az repos ref list --repository '{repo_name}' --query \"[?name=='refs/heads/master'].objectId\" "
     cmd += f"--org '{organization}' -p '{project}'"
     master_branch_object_id = run_command(cmd)[0]
-    branch_name = f"{work_item_id}_{to_snake_case(work_item_title)}"
+    branch_name = f"{work_item_id}_{to_snake_case(remove_special_chars(work_item_title))}"
     if branch_name in remote_branches:
         console.print(
             f"[dark_orange3]>[/dark_orange3] Remote branch '[cyan]{branch_name}[/cyan]' already exists, using that one"

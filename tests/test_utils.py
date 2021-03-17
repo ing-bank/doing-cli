@@ -1,7 +1,7 @@
 import os
 import pytest
 import yaml
-from doing.utils import to_snake_case, get_config, replace_user_aliases
+from doing.utils import remove_special_chars, to_snake_case, get_config, replace_user_aliases
 
 from contextlib import contextmanager
 
@@ -37,7 +37,28 @@ def test_to_snake_case():
     """
     assert to_snake_case("Some kind of string!") == "some_kind_of_string!"
     assert to_snake_case("") == ""
-    assert to_snake_case("  ") == "__"
+    assert to_snake_case("  ") == ""
+    assert to_snake_case("snake_case") == "snake_case"
+    assert to_snake_case("! weird @ chars #") == "!_weird_@_chars_#"
+
+
+def test_remove_special_chars():
+    """
+    Test remove_special_chars.
+    """
+    assert remove_special_chars("@tim hi there!") == "tim hi there"
+    assert remove_special_chars("@#$^&*()!") == ""
+    assert remove_special_chars("123456790") == "123456790"
+    assert remove_special_chars(r"\--/") == ""
+    assert remove_special_chars("my-project") == "myproject"
+
+
+def test_creating_branchnames():
+    """
+    Combines testing remove_special_chars and to_snake_case.
+    """
+    assert to_snake_case(remove_special_chars(r"My issue! ~ solves #12 \--/ :)")) == "my_issue_solves_12"
+    assert to_snake_case(remove_special_chars("! # issue %")) == "issue"
 
 
 def test_get_config_key():

@@ -2,6 +2,8 @@ import os
 import sys
 import json
 import yaml
+import re
+import string
 from rich.console import Console
 import subprocess
 from dotenv import find_dotenv
@@ -15,12 +17,21 @@ install()
 console = Console()
 
 
-def to_snake_case(string):
+def to_snake_case(text: str) -> str:
     """
     Transform string to snake_case.
     """
-    string = string.lower().replace(" ", "_")
-    return string
+    text = re.sub(" +", " ", text)
+    text = text.lower().strip().replace(" ", "_")
+    return text
+
+
+def remove_special_chars(text: str) -> str:
+    """
+    Removes all special characters from a string.
+    """
+    chars = re.escape(string.punctuation)
+    return re.sub(r"[" + chars + "]", "", text)
 
 
 def shell_output(command) -> str:
