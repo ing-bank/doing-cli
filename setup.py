@@ -9,20 +9,14 @@ dev = ["mkdocs-material", "mkdocs-macros-plugin", "pytest", "pytest-cov", "pyfla
 
 setup(
     name="doing-cli",
-    version="0.6",
+    version="0.6.1",
     packages=find_packages("src"),
     package_dir={"": "src"},
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     install_requires=base_packages,
-    extras_require={
-        "all": base_packages + dev,
-    },
-    entry_points={
-        "console_scripts": [
-            "doing = doing.cli:cli",
-        ]
-    },
+    extras_require={"all": base_packages + dev},
+    entry_points={"console_scripts": ["doing = doing.cli:cli"]},
     python_requires=">=3.6",
     license="MIT",
     classifiers=[
