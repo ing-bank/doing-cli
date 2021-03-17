@@ -146,7 +146,7 @@ def explain_checkout(branch_name: str) -> None:
     """
     console.print("\tTo start work on the PR run:")
     console.print("\t[bright_black]git fetch origin[/bright_black]")
-    console.print(f"\t[bright_black]git checkout -b {branch_name} origin/{branch_name}[/bright_black]")
+    console.print(f"\t[bright_black]git checkout -b '{branch_name}' 'origin/{branch_name}'[/bright_black]")
 
 
 def git_checkout(branch_name: str, verbose: bool = True) -> None:
@@ -160,9 +160,9 @@ def git_checkout(branch_name: str, verbose: bool = True) -> None:
     if verbose:
         console.print(
             "\t[dark_orange3]$[/dark_orange3] Running command:",
-            f"[bright_black]git checkout -b {branch_name} origin/{branch_name}[/bright_black]",
+            f"[bright_black]git checkout -b '{branch_name}' 'origin/{branch_name}'[/bright_black]",
         )
-    os.system(f"git checkout -b {branch_name} origin/{branch_name}")
+    os.system(f"git checkout -b '{branch_name}' 'origin/{branch_name}'")
 
 
 def check_uncommitted_work() -> None:
