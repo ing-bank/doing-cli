@@ -24,7 +24,7 @@ mkdocs serve
 We are basically wrapping the Azure Devops CLI.
 
 - [Azure Devops commands reference](https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/?view=azure-cli-latest&viewFallbackFrom=azure-devops)
-
+- [Tips for using azure devops cli effectively](https://docs.microsoft.com/en-us/cli/azure/use-cli-effectively)
 
 ## Examples of using azure devops CLI
 
