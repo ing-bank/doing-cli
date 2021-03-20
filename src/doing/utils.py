@@ -143,10 +143,18 @@ def pprint(obj: Dict) -> None:
     print(json.dumps(obj, indent=2))
 
 
-def run_command(command: str):
+def run_command(command: str, allow_verbose=True):
     """
     Run a shell command.
+
+    Args:
+        command: The shell command.
+        allow_verbose: Allow printing. In some situations verbose
+            printing will lead to recursion error with rich.
     """
+    if allow_verbose and verbose_shell():
+        console.print(f"[bright_black]{command}[/bright_black]")
+
     process = subprocess.run(
         [command],
         stdin=subprocess.PIPE,
