@@ -16,6 +16,9 @@ doing create pr 1234 --draft --checkout
 doing create pr 1234 --delete-source-branch --self-approve --auto-complete
 ```
 
+!!! notes ""
+    `doing` will create a branch name using the format *{issue_id}*_*{issue_title}*, where the *{issue_title}* is in lowercase, [snake_case](https://en.wikipedia.org/wiki/Snake_case) with all special characters removed. Example: issue #13 'Fix @ bug !' becomes *13_fix bug*. If that branch already exists on the remote, `doing` will use that one.
+
 ## Options
 
 ```nohighlight
