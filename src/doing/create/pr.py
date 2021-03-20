@@ -113,7 +113,9 @@ def cmd_create_pr(
             reviewers = user_email
 
     if reviewers != "":
-        command += f"--reviewers '{reviewers}' "
+        # Azure wants the format --reviewers 'one' 'two' 'three'
+        az_reviewers = " ".join([f"'{x}'" for x in reviewers.split(" ")])
+        command += f"--reviewers {az_reviewers} "
 
     pr = run_command(command)
 
