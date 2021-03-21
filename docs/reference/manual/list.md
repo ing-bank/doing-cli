@@ -19,6 +19,11 @@ doing list -a "John.Doe@company.com" -s all
 doing list --web
 ```
 
+!!! Note "Issue state open or closed?"
+
+    To determine if an issue is open or closed, `doing` maps the different [workflow states](https://docs.microsoft.com/en-us/azure/devops/boards/work-items/workflow-and-state-categories?view=azure-devops&tabs=cmmi-process#workflow-states). 
+
+
 ## Options
 
 ```nohighlight
