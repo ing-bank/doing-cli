@@ -33,9 +33,9 @@ def work_item_query(assignee: str, author: str, label: str, state: str, area: st
         for lab in label.split(" "):
             query += f"AND [System.Tags] Contains '{lab}' "
     if state == "open":
-        query += "AND ([System.State] = 'Active' OR [System.State] = 'New') "
+        query += "AND [System.State] IN ('Active', 'New', 'To Do', 'Doing', 'Approved', 'Committed', 'Proposed') "
     if state == "closed":
-        query += "AND ([System.State] = 'Resolved' OR [System.State] = 'Closed') "
+        query += "AND [System.State] IN ('Resolved','Closed','Done') "
     if state == "all":
         query += "AND [System.State] <> 'Removed' "
 
