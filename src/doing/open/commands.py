@@ -8,7 +8,7 @@ from doing.utils import get_repo_name, run_command
 from doing.options import get_config
 from doing.open.pr import open_pr
 from doing.open.issue import open_issue
-
+from doing.list._list import work_item_query
 
 console = Console()
 
@@ -107,23 +107,17 @@ def issue(issue_id):
 @open.command()
 def issues():
     """
-    Open all active issues view.
+    Open all active issues view. Alternatively, use `doing list --web`.
     """
     iteration = get_config("iteration")
     area = get_config("area")
     project = get_config("project")
     organization = get_config("organization")
 
+    query = work_item_query(assignee="", author="", label="", state="open", area=area, iteration=iteration)
+
     # More on hyperlink query syntax:
     # https://docs.microsoft.com/en-us/azure/devops/boards/queries/define-query-hyperlink?view=azure-devops
-    query = f"""
-    SELECT [System.Id],[System.AssignedTo],[System.WorkItemType],[System.Title],[System.Parent],[System.CreatedDate]
-    FROM WorkItems
-    WHERE [System.AreaPath]='{area}'
-    AND ([System.State] = 'Active' OR [System.State] = 'New')
-    AND [System.IterationPath] UNDER '{iteration}'
-    """
-
     click.launch(f"{organization}/{project}/_workitems/?_a=query&wiql={quote(query)}")
 
 
