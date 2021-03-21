@@ -6,7 +6,7 @@
 You can create more advanced workflows by using [environment variables](https://en.wikipedia.org/wiki/Environment_variable) to (temporarily) overwrite configuration values (see [config file](../reference/config_file.md)) or set certain command options (see the 'env var' value in the `--help` of different `doing` commands). 
 
 !!! note ""
-    You can also permanently overwrite command option defaults, see [Config File: overwriting command defaults](../reference/config_file.md#overwriting-command-defaults)
+    You can also permanently overwrite command option defaults, see [Config File: overwriting command defaults](../reference/config_file.md#setting-command-defaults)
 
 Below are some more advanced example workflows examples:
 

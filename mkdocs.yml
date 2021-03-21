@@ -18,6 +18,7 @@ theme:
     features:
         - navigation.tracking
         - header.autohide
+        - navigation.tabs
 
 nav:
   - index.md
@@ -33,7 +34,7 @@ nav:
     - Python scripting: howto/python_scripting.md
     - Shell completion: howto/command_completion.md
     - Connection problems: howto/connection_problems.md
-  - Reference:
+  - Commands:
     - .doing-cli-config.yml: reference/config_file.md
     - init: reference/manual/init.md
     - create:
@@ -47,7 +48,7 @@ nav:
       - pr: reference/manual/close_pr.md
   - Discussion:
     - One Project Setup: discussion/oneproject_setup.md
-  - contributing.md
+    - contributing.md
 
 plugins:
   - macros:

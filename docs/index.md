@@ -53,7 +53,7 @@ $ doing workon "fixing a small typo"
 
 - [Getting started](get_started/install.md): A hands-on introduction to `doing` for developers. *Recommended for all new users*
 - [How-to guides](howto/workflow_new_item.md): Step-by-step guides. Covers key tasks and operations and common problems.
-- [Reference](reference/config_file.md): Technical reference. Covers tools, components, commands and resources.
+- [Commands](reference/config_file.md): Technical reference covering the config file and all commands.
 - [Discussion](discussion/oneproject_setup.md): Explanation. Clarification and discussion of key topics.
 
 ## `--help`

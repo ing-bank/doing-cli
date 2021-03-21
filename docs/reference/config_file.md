@@ -1,6 +1,6 @@
 # The .doing-cli-config.yml config file
 
-`doing` searches for YAML config file named `.doing-cli-config.yml`. 
+When running a command `doing` searches for YAML config file named `.doing-cli-config.yml`. 
 
 ## Required parameters
 
@@ -64,7 +64,7 @@ Some examples:
 !!! note ""
     See also the [workflow using environment variables](../howto/workflow_envvars.md) for examples on how to use these in practice
 
-## Overwriting command defaults
+## Setting command defaults
 
 For every `doing` command, you can use `--help` to see any default for an optoin (if applicable), as well as the 'env var' that applies to that option.
 You can use those env vars to overwrite defaults (see [workflow using environment variables](../howto/workflow_envvars.md)), 
