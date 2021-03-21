@@ -1,11 +1,13 @@
 import click
 import collections
+import os
 
 from rich.console import Console
 
 from doing.open import commands as open_group
 from doing.create import commands as create_group
 from doing.list import commands as list_command
+from doing.utils import get_config
 from doing.workon import commands as workon_command
 from doing.init import commands as init_command
 from doing.close import commands as close_command
@@ -43,7 +45,20 @@ def cli():
     """
     CLI for repository/issue workflow on Azure Devops.
     """
-    pass
+    # Set doing default as environment variables
+    defaults = get_config("defaults", fallback="")
+    if defaults:
+        for setting, default in defaults.items():
+            if setting not in os.environ:
+                os.environ[setting] = default
+            else:
+                if os.environ[setting] != default:
+                    console.print(
+                        f"Warning: Trying to set {setting} to '{default}' (specified in .doing-ing-config.yml)"
+                    )
+                    console.print(
+                        f"\tbut {setting} has already been set to '{os.environ[setting]}' in the environment variables."
+                    )
 
 
 cli.add_command(init_command.init)

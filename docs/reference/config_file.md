@@ -64,3 +64,27 @@ Some examples:
 !!! note ""
     See also the [workflow using environment variables](../howto/workflow_envvars.md) for examples on how to use these in practice
 
+## Overwriting command defaults
+
+For every `doing` command, you can use `--help` to see any default for an optoin (if applicable), as well as the 'env var' that applies to that option.
+You can use those env vars to overwrite defaults (see [workflow using environment variables](../howto/workflow_envvars.md)), 
+but you can also choose to set different defaults in your `.doing-cli-config.yml` file.
+
+Example `.doing-cli-config.yml`:
+
+```yaml
+# .doing-cli-config.yml
+# ... other required or optional parameters ...
+defaults:
+    DOING_LIST_STATE: all
+    DOING_WORKON_TYPE: Bug
+    DOING_LIST_LABEL: "some_tag another_tag something"
+```
+
+!!! Note "Priority of settings"
+
+    `doing` uses the following order of priority:
+
+    1. Options set directly on the command list, f.e.: `doing list --state all`
+    1. Options set as environment variable, f.e.: `export DOING_LIST_STATE=all`
+    1. Options set in the `.doing-cli-config.yml` file, f.e.: setting `DOING_LIST_STATE: all` under `defaults`
