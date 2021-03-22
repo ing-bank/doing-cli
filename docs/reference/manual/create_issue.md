@@ -11,7 +11,8 @@ doing create issue [flags]
 ```shell
 doing create issue "I found a bug"
 doing create issue "I found a bug" --mine
-doing create issue "I found a bug" -a "john.doe@company.com" 
+doing create issue "I found a bug" -a "john.doe@company.com"
+doing create issue "I found a bug" -a @me
 doing create issue "I found a bug" --type "Bug"
 doing create issue "This is a task" --type "Task" --parent 12345 
 doing create issue "This is a task" --web

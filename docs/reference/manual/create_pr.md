@@ -12,6 +12,7 @@ doing create pr [flags]
 doing create pr 1234
 doing create pr 1234 --draft -r "john.doe@company.com"
 doing create pr 1234 --draft -r "john.doe@company.com jane.doe@company.com"
+doing create pr 1234 --draft -r "@me jane.doe@company.com"
 doing create pr 1234 --draft --checkout 
 doing create pr 1234 --delete-source-branch --self-approve --auto-complete
 ```

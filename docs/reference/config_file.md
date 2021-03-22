@@ -34,7 +34,7 @@ The config can also contain some optional parameters that are not required to be
 | `default_workitem_type` | The default work item type used when creating work items. Should be one of "Bug", "Epic", "Feature", "Issue", "Task", "Test Case", "User Story". Defaults to "User Story" if not specified. 
 | `default_reviewers` | The default reviewers assigned when creating pull requests. Space separated list of user emails (case sensitive). Find your own with `az ad signed-in-user show --query 'mail'`.
 | `verbose_shell` | Set to 'true' to print every shell command `doing` runs for you in the background. Meant for debugging and interested developers.
-| `user_aliases` | A list of user aliases that you can use when specifying reviewers or assignees.
+| `user_aliases` | A list of user aliases that you can use when specifying reviewers or assignees. Note that the `@me` alias is always available. 
 
 Example `.doing-cli-config.yml`:
 

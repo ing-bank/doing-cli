@@ -1,7 +1,7 @@
 import os
 import pytest
 import yaml
-from doing.utils import remove_special_chars, to_snake_case, get_config, replace_user_aliases
+from doing.utils import get_az_devop_user_email, remove_special_chars, to_snake_case, get_config, replace_user_aliases
 
 from contextlib import contextmanager
 
@@ -97,11 +97,24 @@ def test_replace_user_aliases(tmp_path):
         text = "john another_john@company.com john_doe@email.com"
         assert replace_user_aliases(text) == "john.doe@email.net another_john@company.com john_doe@email.com"
 
+        text = "john another_john@company.com john_doe@email.com"
+        assert replace_user_aliases(text) == "john.doe@email.net another_john@company.com john_doe@email.com"
+
         text = "john jane john"
         assert replace_user_aliases(text) == "john.doe@email.net jane.doe@webmail.org john.doe@email.net"
 
         text = "johnjane"
         assert replace_user_aliases(text) == "johnjane"
+
+
+@pytest.mark.skip(reason="Only works when logged into az, not on CI builds")
+def test_me_alias():
+    """
+    Only runs in env where you can get user alias.
+    """
+    # test @me alias
+    text = get_az_devop_user_email()
+    assert replace_user_aliases(text) == get_az_devop_user_email()
 
 
 def test_create_file(tmp_path):

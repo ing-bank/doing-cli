@@ -7,7 +7,7 @@ import string
 from rich.console import Console
 import subprocess
 from dotenv import find_dotenv
-from typing import Dict
+from typing import Dict, Union
 
 from doing.exceptions import ConfigurationError, devops_error_tips
 
@@ -86,7 +86,7 @@ def get_repo_name():
     return repo_name
 
 
-def get_config(key: str = "", fallback: str = None, envvar_prefix: str = "DOING_CONFIG_"):
+def get_config(key: str = "", fallback: Union[str, Dict] = None, envvar_prefix: str = "DOING_CONFIG_"):
     """
     Finds and reads doing configuration file.
 
@@ -205,11 +205,20 @@ def define_env(env):
 def replace_user_aliases(text: str) -> str:
     """
     Replace alias with emailadres in a string.
+
+    User aliases are defined under 'user_aliases' in the .doing-cli.config.yml file.
+    Additionally, the @me alias point to current user.
     """
     words = text.split()
-    aliases = get_config("user_aliases", "")
+    aliases = get_config("user_aliases", {})
 
-    if not len(aliases):
+    # If the user is logged in, replace the @me alias
+    try:
+        aliases["@me"] = get_az_devop_user_email()
+    except AssertionError:
+        pass
+
+    if not aliases:
         return text
 
     return " ".join([aliases.get(word, word) for word in words])

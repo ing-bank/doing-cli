@@ -12,6 +12,7 @@ doing list [flags]
 doing list
 doing list -assignee "John.Doe@company.com"
 doing list -a "John.Doe@company.com"
+doing list -a @me
 doing list -author "John.Doe@company.com"
 doing list --label "some_tag"
 doing list --state all
