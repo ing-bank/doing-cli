@@ -83,26 +83,23 @@ def issue(
 @click.argument("work-item-id", required=True, type=str)
 @click.option(
     "--draft/--no-draft",
-    "-d",
     required=False,
     default=False,
-    help="Create draft/WIP pull request. Reviewers will not be notified untill you publish.",
+    help="Create draft/WIP pull request. Reviewers will not be notified until you publish. Default is --draft.",
     show_envvar=True,
 )
 @click.option(
     "--auto-complete/--no-auto-complete",
-    "-a",
     required=False,
-    default=False,
-    help="Set the PR to complete autom. when all policies have passed & source branch can be merged into the target.",
+    default=True,
+    help="Set the PR to complete autom. when all policies have passed. Default is --auto-complete.",
     show_envvar=True,
 )
 @click.option(
     "--self-approve/--no-self-approve",
-    "-s",
     required=False,
     default=False,
-    help="Add yourself as reviewer and add your approval.",
+    help="Add yourself as reviewer and add your approval. Default is --no-self-approve.",
     show_envvar=True,
 )
 @click.option(
@@ -116,17 +113,16 @@ def issue(
 )
 @click.option(
     "--checkout/--no-checkout",
-    "-c",
     required=False,
-    default=False,
-    help="Run git commands to checkout remote branch locally.",
+    default=True,
+    help="Run git commands to checkout remote branch locally. Default is --checkout.",
     show_envvar=True,
 )
 @click.option(
     "--delete-source-branch/--no-delete-source-branch",
     required=False,
-    default=False,
-    help="Set to delete source branch when pull request completes.",
+    default=True,
+    help="Set to delete source branch when pull request completes. Default is --delete-source-branch.",
     show_envvar=True,
 )
 @click.option(

@@ -50,6 +50,7 @@ nav:
   - Discussion:
     - One Project Setup: discussion/oneproject_setup.md
     - contributing.md
+    - discussion/upgrading.md
 
 plugins:
   - macros:

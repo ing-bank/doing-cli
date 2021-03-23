@@ -38,6 +38,9 @@ def cmd_create_pr(
     https://docs.microsoft.com/en-us/cli/azure/ext/azure-devops/repos/pr?view=azure-cli-latest#ext_azure_devops_az_repos_pr_create
     """
     work_item_id = str(work_item_id).lstrip("#")
+
+    # add self to reviewers & replace user aliases
+    reviewers = f"{reviewers} @me".strip()
     reviewers = replace_user_aliases(reviewers)
 
     if checkout:
@@ -79,7 +82,7 @@ def cmd_create_pr(
                 git_checkout(branch_name)
                 # TODO:
                 # Users might get a
-                # fatal: A branch named '121323_test_tim_28jan_2' already exists.
+                # fatal: A branch named '<issue_id>_<issue_title>' already exists.
                 # if local branch already exists.
                 # We could test to see if it is setup to track the remote branch, and if not set that right
                 # Might help some less experienced git users.

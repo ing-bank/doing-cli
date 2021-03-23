@@ -8,6 +8,7 @@ from rich.console import Console
 import subprocess
 from dotenv import find_dotenv
 from typing import Dict, Union
+from collections import OrderedDict
 
 from doing.exceptions import ConfigurationError, devops_error_tips
 
@@ -210,6 +211,8 @@ def replace_user_aliases(text: str) -> str:
     Additionally, the @me alias point to current user.
     """
     words = text.split()
+    words = list(OrderedDict.fromkeys(words))  # deduplicate keeping ordering
+
     aliases = get_config("user_aliases", {})
 
     # If the user is logged in, replace the @me alias

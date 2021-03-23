@@ -87,6 +87,12 @@ def test_replace_user_aliases(tmp_path):
     text = "john another_john@company.com john_doe@email.com"
     assert replace_user_aliases(text) == "john another_john@company.com john_doe@email.com"
 
+    # Deduplication
+    text = "john jane john"
+    assert replace_user_aliases(text) == "john jane"
+    text = "jane john jane john john"
+    assert replace_user_aliases(text) == "jane john"
+
     config = {"user_aliases": {"john": "john.doe@email.net", "jane": "jane.doe@webmail.org"}}
 
     with working_directory(tmp_path):
@@ -101,7 +107,7 @@ def test_replace_user_aliases(tmp_path):
         assert replace_user_aliases(text) == "john.doe@email.net another_john@company.com john_doe@email.com"
 
         text = "john jane john"
-        assert replace_user_aliases(text) == "john.doe@email.net jane.doe@webmail.org john.doe@email.net"
+        assert replace_user_aliases(text) == "john.doe@email.net jane.doe@webmail.org"
 
         text = "johnjane"
         assert replace_user_aliases(text) == "johnjane"

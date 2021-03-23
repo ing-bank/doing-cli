@@ -3,7 +3,7 @@ import click
 from doing.create.issue import cmd_create_issue
 from doing.create.pr import cmd_create_pr, check_uncommitted_work
 from doing.options import get_common_options
-from doing.utils import get_az_devop_user_email, get_config
+from doing.utils import get_config
 
 
 @click.command()
@@ -51,16 +51,7 @@ def workon(issue, type, parent, reviewers):
         title=issue, mine=True, assigned_to="", type=type, parent=parent, **get_common_options()
     )
 
-    # add self to reviewers
-    user_email = get_az_devop_user_email()
-    if user_email not in reviewers:
-        reviewers = f"{reviewers} {user_email}".strip()
-
-    # Open a PR. Note we changed some defaults:
-    # - draft = True,
-    # - reviewers = (own email adress)
-    # - checkout = True
-    # - delete-source-branch = True
+    # Open a PR. Note we use the same defaults as `doing create pr`
     cmd_create_pr(
         work_item_id=issue_id,
         draft=True,
