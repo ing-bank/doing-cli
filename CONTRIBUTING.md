@@ -28,7 +28,7 @@ We are basically wrapping the Azure Devops CLI.
 
 ## Examples of using azure devops CLI
 
-Here for reference. To view all shell commands being executed during a `doing` command, set `verbose_shell` to `True` in the `.doing-cli-config.yml` file (see [config reference](https://timvink.github.io/doing-cli/reference/config_file/)), or use environment variables: `export DOING_CONFIG_VERBOSE_SHELL=true`.
+Here for reference. To view all shell commands being executed during a `doing` command, set `verbose_shell` to `True` in the `.doing-cli-config.yml` file (see [config reference](https://ing-bank.github.io/doing-cli/reference/config_file/)), or use environment variables: `export DOING_CONFIG_VERBOSE_SHELL=true`.
 
 ```bash
 # Settings
