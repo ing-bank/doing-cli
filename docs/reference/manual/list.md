@@ -15,6 +15,7 @@ doing list -a "John.Doe@company.com"
 doing list -a @me
 doing list -author "John.Doe@company.com"
 doing list --label "some_tag"
+doing list --label "some_tag, another tag"
 doing list --state all
 doing list -a "John.Doe@company.com" -s all
 doing list --web

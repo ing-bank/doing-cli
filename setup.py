@@ -9,7 +9,7 @@ dev = ["mkdocs-material", "mkdocs-macros-plugin", "pytest", "pytest-cov", "pyfla
 
 setup(
     name="doing-cli",
-    version="0.8.01",
+    version="1.0",
     packages=find_packages("src"),
     package_dir={"": "src"},
     long_description=LONG_DESCRIPTION,

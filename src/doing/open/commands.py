@@ -6,8 +6,8 @@ from rich.console import Console
 
 from doing.utils import get_repo_name, run_command
 from doing.options import get_config
-from doing.open.pr import open_pr
-from doing.open.issue import open_issue
+from doing.pr.open_pr import cmd_open_pr
+from doing.issue.open_issue import cmd_open_issue
 from doing.list._list import work_item_query
 
 console = Console()
@@ -94,14 +94,14 @@ def pipe():
 
 
 @open.command()
-@click.argument("issue_id")
-def issue(issue_id):
+@click.argument("work_item_id")
+def issue(work_item_id):
     """
-    Open a specific ISSUE_ID.
+    Open a specific WORK_ITEM_ID.
 
-    ISSUE_ID is the ID number of a work item. '#' prefix is allowed.
+    '#' prefix is allowed.
     """
-    open_issue(issue_id)
+    cmd_open_issue(work_item_id)
 
 
 @open.command()
@@ -127,7 +127,7 @@ def pr(pullrequest_id):
     """
     Open a specific PULLREQUEST_ID. '!' prefix is allowed.
     """
-    open_pr(pullrequest_id)
+    cmd_open_pr(pullrequest_id)
 
 
 @open.command()

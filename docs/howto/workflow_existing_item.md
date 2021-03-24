@@ -5,27 +5,30 @@ If you need more detail you can use [`doing open`](../reference/manual/open.md) 
 
 ## Starting work on an existing issue
 
-Once you have the issue ID you want to work on, you'll need to create a remote branch and a pull request to be able to start work. You can do that with the [`doing create pr`](../reference/manual/create_pr.md) command. `doing` follows the branch naming convention *`<issue_id>_<issue title>`*, where the issue title is transformed to [snake_case](https://en.wikipedia.org/wiki/Snake_case). You can safely run this command multiple times: if the branch already exists, it will use that one, and if the PR already exists for that branch, `doing` will let you know.
+Once you have the issue ID you want to work on, you'll need to create a remote branch and a pull request to be able to start work. You can do that with the [`doing pr create`](../reference/manual/pr_create.md) command. `doing` follows the branch naming convention *`<work_item_id>_<issue title>`*, where the issue title is transformed to [snake_case](https://en.wikipedia.org/wiki/Snake_case). You can safely run this command multiple times: if the branch already exists, it will use that one, and if the PR already exists for that branch, `doing` will let you know.
 
 <div class="termy termy-small">
 
 ```console
-$ doing create pr 146545 
+$ doing pr create 146545 
 > Created remote branch '146545_fixing_a_small_typo'
 > Created pull request #49281 'fixing a small typo'
-        > linked work-item #146545
-        To start work on the PR run:
-        git fetch origin
-        git checkout -b 146545_fixing_a_small_typo origin/146545_fixing_a_small_typo
+        > linked work item #146545
+        > set auto-complete to True'
+        > set to delete remote source branch after PR completion
+        > added reviewers: '<your email>'
+        $ Running command: git fetch origin
+        ...
+        # Running command: git checkout -b '146545_fixing_a_small_typo' 'origin/146545_fixing_a_small_typo'
 ```
 
 </div>
 
-You can also create a draft PR, assign reviewers, run the git checkout commands and more. See `doing create pr --help` for the options. Some examples:
+You can also create a draft PR, assign reviewers, run the git checkout commands and more. See `doing pr create --help` for the options. Some examples:
 
 ```shell
-doing create pr 146545 --reviewers "john.doe@email.com"
-doing create pr 146545 --checkout --draft
+doing pr create 146545 --reviewers "john.doe@email.com"
+doing pr create 146545 --checkout --draft
 ```
 
 ## Using aliases
@@ -35,7 +38,7 @@ To avoid having to type the emailadresses of your teammates every time (which ar
 === "using aliases"
 
     ```shell
-    doing create pr 146545 --reviewers "john jane"
+    doing pr create 146545 --reviewers "john jane"
     ```
 
 === ".doing-cli-config.yml"

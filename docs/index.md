@@ -13,14 +13,14 @@ In Azure DevOps an issue (work item) is not directly related to a repository (he
 ```console
 $ doing list
                  Work-items in current iteration project_name\team_name                  
-┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
-┃     ID ┃             Title      ┃ Created by ┃       Type ┃    Linked Branches ┃ Linked PRs ┃
-┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
-│  36893 │           explore data │ John       │ User Story │ 36893-explore-data │            │
-│  43769 │       feature pipeline │ Artur      │ User Story │                    │            │
-│  99035 │             window bug │ Artur      │       Task │   99035-window-bug │      39949 │
-│ 104436 │ data loading functions │ Jane       │       Task │                    │            │
-└────────┴────────────────────────┴────────────┴────────────┴────────────────────┴────────────┘
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━┓
+┃     ID ┃                  Title ┃   Assignee ┃       Type ┃   PRs ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━┩
+│  36893 │           explore data │ John       │ User Story │       │
+│  43769 │       feature pipeline │ Artur      │ User Story │       │
+│  99035 │             window bug │ Artur      │       Task │ 39949 │
+│ 104436 │ data loading functions │ Jane       │       Task │       │
+└────────┴────────────────────────┴────────────┴────────────┴───────┘
 ```
 
 </div>
@@ -31,13 +31,13 @@ $ doing list
 
 ```console
 $ doing workon "fixing a small typo"
-> Created issue #146545 'fixing a small typo' (User Story)
+> Created work item #146545 'fixing a small typo' (User Story)
         > added area-path '{your area path}'
         > added iteration-path '{your iteration path}'
         > added assignee '{your azure account}'
 > Created remote branch '146545_fixing_a_small_typo'
 > Created pull request #49281 'fixing a small typo'
-        > linked work-item #146545
+        > linked work item #146545
         > marked as draft pull request
         > set auto-complete to 'True'
         > set to delete remote source branch after PR completion

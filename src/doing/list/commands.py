@@ -31,7 +31,7 @@ from doing.utils import get_config
     required=False,
     default="",
     type=str,
-    help="Filter by labels (tag). Space separate multiple tags.",
+    help="Filter by labels (tag). Comma separate multiple tags.",
     show_envvar=True,
 )
 @click.option(
