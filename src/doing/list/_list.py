@@ -40,7 +40,7 @@ def work_item_query(assignee: str, author: str, label: str, state: str, area: st
         query += "AND [System.State] <> 'Removed' "
 
     # Ordering of results
-    query += "ORDER BY [System.CreatedDate] desc"
+    query += "ORDER BY [System.CreatedDate] asc"
     return query
 
 
