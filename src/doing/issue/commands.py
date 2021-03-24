@@ -35,7 +35,7 @@ def close(work_item_id):
         cmd += f"--org '{organization}'"
         result = run_command(cmd)
         assert result.get("fields").get("System.State") == state
-        console.print(f"[dark_orange3]>[/dark_orange3] work-item #{id} set to '{state}'")
+        console.print(f"[dark_orange3]>[/dark_orange3] work item #{id} set to '{state}'")
 
 
 @issue.command()
