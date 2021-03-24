@@ -55,17 +55,19 @@ def cmd_create_pr(
 
     # Info in other linked PRs to work item
     active_related_pr_ids = []
-    for relation in work_item.get("relations"):
-        if relation.get("attributes").get("name") in ["Pull Request"]:
-            # For example
-            # url = 'vstfs:///Git/PullRequestId/bbd257b1-b8a9-1fc2-b123-1ea2cc23c333%2f4d2e1234-c1d0-1234-1f23-c1234d05d471%2f12345' # noqa
-            # The bit after %2f is the pullrequestid (12345)
-            related_pr_id = relation.get("url").rpartition("%2f")[2]
-            related_pr_id_status = run_command(
-                f"az repos pr show --id {related_pr_id} --query 'status' --org '{organization}'"
-            )
-            if related_pr_id_status == "active":
-                active_related_pr_ids.append(related_pr_id)
+    relations = work_item.get("relations")
+    if relations:
+        for relation in relations:
+            if relation.get("attributes").get("name") in ["Pull Request"]:
+                # For example
+                # url = 'vstfs:///Git/PullRequestId/bbd257b1-b8a9-1fc2-b123-1ea2cc23c333%2f4d2e1234-c1d0-1234-1f23-c1234d05d471%2f12345' # noqa
+                # The bit after %2f is the pullrequestid (12345)
+                related_pr_id = relation.get("url").rpartition("%2f")[2]
+                related_pr_id_status = run_command(
+                    f"az repos pr show --id {related_pr_id} --query 'status' --org '{organization}'"
+                )
+                if related_pr_id_status == "active":
+                    active_related_pr_ids.append(related_pr_id)
 
     related_pr_ids = ",".join(active_related_pr_ids)
 
