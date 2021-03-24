@@ -50,8 +50,24 @@ def cmd_create_pr(
     user_email = get_az_devop_user_email()
 
     # Info on related work item
-    work_item = run_command(f"az boards work-item show --id {work_item_id} --query 'fields' --org '{organization}'")
-    work_item_title = work_item.get("System.Title")
+    work_item = run_command(f"az boards work-item show --id {work_item_id} --org '{organization}'")
+    work_item_title = work_item.get("fields").get("System.Title")
+
+    # Info in other linked PRs to work item
+    active_related_pr_ids = []
+    for relation in work_item.get("relations"):
+        if relation.get("attributes").get("name") in ["Pull Request"]:
+            # For example
+            # url = 'vstfs:///Git/PullRequestId/bbd257b1-b8a9-1fc2-b123-1ea2cc23c333%2f4d2e1234-c1d0-1234-1f23-c1234d05d471%2f12345' # noqa
+            # The bit after %2f is the pullrequestid (12345)
+            related_pr_id = relation.get("url").rpartition("%2f")[2]
+            related_pr_id_status = run_command(
+                f"az repos pr show --id {related_pr_id} --query 'status' --org '{organization}'"
+            )
+            if related_pr_id_status == "active":
+                active_related_pr_ids.append(related_pr_id)
+
+    related_pr_ids = ",".join(active_related_pr_ids)
 
     # Info on remote branches
     remote_branches = run_command(
@@ -109,11 +125,6 @@ def cmd_create_pr(
 
     # auto-complete.
     command += f"--auto-complete '{str(auto_complete).lower()}' "
-    if self_approve:
-        if len(reviewers) > 0:
-            reviewers = f"{reviewers} {user_email}"
-        else:
-            reviewers = user_email
 
     if reviewers != "":
         # Azure wants the format --reviewers 'one' 'two' 'three'
@@ -137,6 +148,8 @@ def cmd_create_pr(
     if self_approve:
         run_command(f"az repos pr set-vote --id {pr_id} --vote 'approve' --org '{organization}'")
         console.print(f"\t[dark_orange3]>[/dark_orange3] Approved PR {pr_id} for '{user_email}'")
+    if active_related_pr_ids:
+        console.print(f"\t[dark_orange3]>[/dark_orange3] Note: work item has other active linked PRs: {related_pr_ids}")
 
     if not checkout:
         explain_checkout(branch_name)
