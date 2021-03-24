@@ -36,6 +36,7 @@ Using user_aliases set in the [config file](../config_file.md):
     doing pr create 1234 --reviewers 'john jane'
     # > Created pull request #49281 'fixing a small typo'
     #     > linked work item #1234
+    # ...
     #     > added reviewers: 'John.Doe@company.com Jane.Doe@email.net'
     ```
 
@@ -56,6 +57,7 @@ Using default_reviewers set in the [config file](../config_file.md):
     doing pr create 1234
     # > Created pull request #49281 'fixing a small typo'
     #     > linked work item #1234
+    # ...
     #     > added reviewers: 'John.Doe@company.com Jane.Doe@email.net'
     ```
 

@@ -14,9 +14,12 @@ $ doing pr create 146545
 > Created remote branch '146545_fixing_a_small_typo'
 > Created pull request #49281 'fixing a small typo'
         > linked work item #146545
-        To start work on the PR run:
-        git fetch origin
-        git checkout -b 146545_fixing_a_small_typo origin/146545_fixing_a_small_typo
+        > set auto-complete to True'
+        > set to delete remote source branch after PR completion
+        > added reviewers: '<your email>'
+        $ Running command: git fetch origin
+        ...
+        # Running command: git checkout -b '146545_fixing_a_small_typo' 'origin/146545_fixing_a_small_typo'
 ```
 
 </div>
