@@ -30,8 +30,8 @@ def work_item_query(assignee: str, author: str, label: str, state: str, area: st
     if author:
         query += f"AND [System.CreatedBy] = '{author}' "
     if label:
-        for lab in label.split(" "):
-            query += f"AND [System.Tags] Contains '{lab}' "
+        for lab in label.split(","):
+            query += f"AND [System.Tags] Contains '{lab.strip()}' "
     if state == "open":
         query += "AND [System.State] IN ('Active', 'New', 'To Do', 'Doing', 'Approved', 'Committed', 'Proposed') "
     if state == "closed":
