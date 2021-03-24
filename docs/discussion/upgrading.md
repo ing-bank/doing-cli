@@ -1,9 +1,14 @@
 # Upgrading
 
+!!! Note "Doing Releases"
+
+    All release details can be found on the [doing releases page](https://github.com/ing-bank/doing-cli/releases).
+
 ## v1.0
 
 - `doing pr create` now has similar defaults as `doing workon` (#22) 
 - `doing create` and `doing close` are now replaced by `doing issue` and `doing pr` to better match github's CLI. (#27)
+- `doing issue create` now has `-b/--body` and `-l/--label` options (#37)
 
 
 ### Upgrading from `0.x` to `1.0`
@@ -21,6 +26,8 @@
 - Note the use of the `@me` alias:
     - `doing pr create` will now always add `@me` to the `--reviewers` (a default user alias pointing to the logged in users's azure account).
     - `doing workon` will now always add `@me` to the `--reviewers` (a default user alias pointing to the logged in users's azure account).
+- `doing issue create` has been changed:
+    - `-a/--assigned-to` is renamed to `-a/--assignee`, and supports `@me` alias.
 
 
 

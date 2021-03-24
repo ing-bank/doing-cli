@@ -10,9 +10,11 @@ doing issue create [flags]
 
 ```shell
 doing issue create "I found a bug"
-doing issue create "I found a bug" --mine
 doing issue create "I found a bug" -a "john.doe@company.com"
 doing issue create "I found a bug" -a @me
+doing issue create "I found a bug" -m
+doing issue create "I found a bug" --labels "tag1, tag2"
+doing issue create "I found a bug" --description "More details on the bug"
 doing issue create "I found a bug" --type "Bug"
 doing issue create "This is a task" --type "Task" --parent 12345 
 doing issue create "This is a task" --web

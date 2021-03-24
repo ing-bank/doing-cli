@@ -9,8 +9,10 @@ console = Console()
 def cmd_create_issue(
     title: str,
     mine: bool,
-    assigned_to: str,
+    assignee: str,
+    body: str,
     type: str,
+    label: str,
     parent: str,
     team: str,
     area: str,
@@ -21,19 +23,23 @@ def cmd_create_issue(
     """
     Create a new issue.
     """
-    if mine and assigned_to:
+    if mine and assignee:
         raise InputError("You cannot use --mine in combination with specifying --assigned-to.")
 
     if mine:
-        assigned_to = get_az_devop_user_email()
+        assignee = get_az_devop_user_email()
 
-    assigned_to = replace_user_aliases(assigned_to)
+    assignee = replace_user_aliases(assignee)
 
     cmd = "az boards work-item create "
     cmd += f"--title '{title}' "
     cmd += f"--type '{type}' "
-    if assigned_to:
-        cmd += f"--assigned-to '{assigned_to}' "
+    if assignee:
+        cmd += f"--assigned-to '{assignee}' "
+    if body:
+        cmd += f"--description '{body}' "
+    if label:
+        cmd += f"--fields 'System.Tags={label}' "
     cmd += f"--area '{area}' --iteration '{iteration}' --project '{project}' --organization '{organization}'"
 
     work_item = run_command(cmd)
@@ -42,8 +48,10 @@ def cmd_create_issue(
     console.print(f"[dark_orange3]>[/dark_orange3] Created work item {work_item_id} '[cyan]{title}[/cyan]' ({type})")
     console.print(f"\t[dark_orange3]>[/dark_orange3] added area-path '{area}'")
     console.print(f"\t[dark_orange3]>[/dark_orange3] added iteration-path '{iteration}'")
-    if assigned_to:
-        console.print(f"\t[dark_orange3]>[/dark_orange3] added assignee '{assigned_to}'")
+    if assignee:
+        console.print(f"\t[dark_orange3]>[/dark_orange3] added assignee '{assignee}'")
+    if label:
+        console.print(f"\t[dark_orange3]>[/dark_orange3] added tag(s) '{label}'")
 
     if parent:
         cmd = "az boards work-item relation add "

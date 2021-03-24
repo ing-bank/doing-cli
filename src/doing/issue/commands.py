@@ -45,16 +45,25 @@ def close(work_item_id):
     "-m",
     default=False,
     required=False,
-    help="Assign issue to yourself",
+    help="Assign issue to yourself. Shorthand for '-a @me'.",
     show_envvar=True,
 )
 @click.option(
-    "--assigned_to",
+    "--assignee",
     "-a",
     required=False,
     default="",
     type=str,
-    help="Emailadres or alias of person to assign the issue to. Defaults to empty (unassigned).",
+    help="Emailadres or alias of person to assign. Defaults to empty (unassigned). Use '@me' to self-assign.",
+    show_envvar=True,
+)
+@click.option(
+    "--body",
+    "-b",
+    required=False,
+    default="",
+    type=str,
+    help="Optional description of the work item.",
     show_envvar=True,
 )
 @click.option(
@@ -64,6 +73,15 @@ def close(work_item_id):
     default=lambda: get_config("default_workitem_type", "User Story"),
     type=click.Choice(["Bug", "Epic", "Feature", "User Story", "Issue", "Task", "Test Case"]),
     help=f"Type of work item. Defaults to \"{get_config('default_workitem_type','User Story')}\"",
+    show_envvar=True,
+)
+@click.option(
+    "--label",
+    "-l",
+    required=False,
+    default="",
+    type=str,
+    help="Attach tags (labels) to work item. Comma separate multiple tags.",
     show_envvar=True,
 )
 @click.option(
@@ -87,8 +105,10 @@ def close(work_item_id):
 def create(
     issue: str,
     mine: bool,
-    assigned_to: str,
+    assignee: str,
+    body: str,
     type: str,
+    label: str,
     parent: str,
     web: bool,
 ) -> None:
@@ -97,6 +117,6 @@ def create(
 
     ISSUE is the title to be used for the new work item.
     """
-    work_item_id = cmd_create_issue(issue, mine, assigned_to, type, parent, **get_common_options())
+    work_item_id = cmd_create_issue(issue, mine, assignee, body, type, label, parent, **get_common_options())
     if web:
         cmd_open_issue(work_item_id)
