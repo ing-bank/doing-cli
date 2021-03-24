@@ -216,9 +216,10 @@ def replace_user_aliases(text: str) -> str:
     aliases = get_config("user_aliases", {})
 
     # If the user is logged in, replace the @me alias
+    # Otherwise, just move on. Helps with unit testing on CI.
     try:
         aliases["@me"] = get_az_devop_user_email()
-    except AssertionError:
+    except Exception:
         pass
 
     if not aliases:
