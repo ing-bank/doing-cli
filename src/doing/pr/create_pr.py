@@ -82,7 +82,7 @@ def cmd_create_pr(
                 git_checkout(branch_name)
                 # TODO:
                 # Users might get a
-                # fatal: A branch named '<issue_id>_<issue_title>' already exists.
+                # fatal: A branch named '<work_item_id>_<issue_title>' already exists.
                 # if local branch already exists.
                 # We could test to see if it is setup to track the remote branch, and if not set that right
                 # Might help some less experienced git users.
@@ -125,7 +125,7 @@ def cmd_create_pr(
     # Report to user
     pr_id = pr.get("pullRequestId")
     console.print(f"[dark_orange3]>[/dark_orange3] Created pull request {pr_id} [cyan]'{work_item_title}'[cyan]")
-    console.print(f"\t[dark_orange3]>[/dark_orange3] linked work-item {work_item_id}")
+    console.print(f"\t[dark_orange3]>[/dark_orange3] linked work item {work_item_id}")
     if draft:
         console.print("\t[dark_orange3]>[/dark_orange3] marked as draft pull request")
     if auto_complete:

@@ -5,7 +5,7 @@ If you need more detail you can use [`doing open`](../reference/manual/open.md) 
 
 ## Starting work on an existing issue
 
-Once you have the issue ID you want to work on, you'll need to create a remote branch and a pull request to be able to start work. You can do that with the [`doing pr create`](../reference/manual/pr_create.md) command. `doing` follows the branch naming convention *`<issue_id>_<issue title>`*, where the issue title is transformed to [snake_case](https://en.wikipedia.org/wiki/Snake_case). You can safely run this command multiple times: if the branch already exists, it will use that one, and if the PR already exists for that branch, `doing` will let you know.
+Once you have the issue ID you want to work on, you'll need to create a remote branch and a pull request to be able to start work. You can do that with the [`doing pr create`](../reference/manual/pr_create.md) command. `doing` follows the branch naming convention *`<work_item_id>_<issue title>`*, where the issue title is transformed to [snake_case](https://en.wikipedia.org/wiki/Snake_case). You can safely run this command multiple times: if the branch already exists, it will use that one, and if the PR already exists for that branch, `doing` will let you know.
 
 <div class="termy termy-small">
 
@@ -13,7 +13,7 @@ Once you have the issue ID you want to work on, you'll need to create a remote b
 $ doing pr create 146545 
 > Created remote branch '146545_fixing_a_small_typo'
 > Created pull request #49281 'fixing a small typo'
-        > linked work-item #146545
+        > linked work item #146545
         To start work on the PR run:
         git fetch origin
         git checkout -b 146545_fixing_a_small_typo origin/146545_fixing_a_small_typo

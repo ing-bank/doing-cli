@@ -94,14 +94,14 @@ def pipe():
 
 
 @open.command()
-@click.argument("issue_id")
-def issue(issue_id):
+@click.argument("work_item_id")
+def issue(work_item_id):
     """
-    Open a specific ISSUE_ID.
+    Open a specific WORK_ITEM_ID.
 
-    ISSUE_ID is the ID number of a work item. '#' prefix is allowed.
+    '#' prefix is allowed.
     """
-    cmd_open_issue(issue_id)
+    cmd_open_issue(work_item_id)
 
 
 @open.command()

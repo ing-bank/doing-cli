@@ -18,7 +18,7 @@ doing pr create 1234 --delete-source-branch --self-approve --auto-complete
 ```
 
 !!! notes ""
-    `doing` will create a branch name using the format *{issue_id}*_*{issue_title}*, where the *{issue_title}* is in lowercase, [snake_case](https://en.wikipedia.org/wiki/Snake_case) with all special characters removed. Example: issue #13 'Fix @ bug !' becomes *13_fix bug*. If that branch already exists on the remote, `doing` will use that one.
+    `doing` will create a branch name using the format *{work_item_id}*_*{issue_title}*, where the *{issue_title}* is in lowercase, [snake_case](https://en.wikipedia.org/wiki/Snake_case) with all special characters removed. Example: issue #13 'Fix @ bug !' becomes *13_fix bug*. If that branch already exists on the remote, `doing` will use that one.
 
 ## Options
 
@@ -35,7 +35,7 @@ Using user_aliases set in the [config file](../config_file.md):
     ```shell
     doing pr create 1234 --reviewers 'john jane'
     # > Created pull request #49281 'fixing a small typo'
-    #     > linked work-item #1234
+    #     > linked work item #1234
     #     > added reviewers: 'John.Doe@company.com Jane.Doe@email.net'
     ```
 
@@ -55,7 +55,7 @@ Using default_reviewers set in the [config file](../config_file.md):
     ```shell
     doing pr create 1234
     # > Created pull request #49281 'fixing a small typo'
-    #     > linked work-item #1234
+    #     > linked work item #1234
     #     > added reviewers: 'John.Doe@company.com Jane.Doe@email.net'
     ```
 

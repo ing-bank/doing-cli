@@ -47,13 +47,13 @@ def workon(issue, type, parent, reviewers):
 
     # Create the issue. Note we changed some defaults:
     # - it's assigned to self (mine = True)
-    issue_id = cmd_create_issue(
+    work_item_id = cmd_create_issue(
         title=issue, mine=True, assigned_to="", type=type, parent=parent, **get_common_options()
     )
 
     # Open a PR. Note we use the same defaults as `doing create pr`
     cmd_create_pr(
-        work_item_id=issue_id,
+        work_item_id=work_item_id,
         draft=True,
         auto_complete=True,
         self_approve=False,

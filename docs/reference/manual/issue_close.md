@@ -1,6 +1,6 @@
 # doing issue close
 
-Close a specific ISSUE_ID.
+Close a specific WORK_ITEM_ID.
 
 ```shell
 doing issue close [flags]

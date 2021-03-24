@@ -35,7 +35,7 @@ $ doing workon "fixing a small typo"
         > added assignee '{your azure account}'
 > Created remote branch '146545_fixing_a_small_typo'
 > Created pull request #49281 'fixing a small typo'
-        > linked work-item #146545
+        > linked work item #146545
         > marked as draft pull request
         > set auto-complete to True'
         > set to delete remote source branch after PR completion
