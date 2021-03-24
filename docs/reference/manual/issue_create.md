@@ -1,27 +1,27 @@
-# doing create issue
+# doing issue create
 
 Create an issue.
 
 ```shell
-doing create issue [flags]
+doing issue create [flags]
 ```
 
 ## Example usage
 
 ```shell
-doing create issue "I found a bug"
-doing create issue "I found a bug" --mine
-doing create issue "I found a bug" -a "john.doe@company.com"
-doing create issue "I found a bug" -a @me
-doing create issue "I found a bug" --type "Bug"
-doing create issue "This is a task" --type "Task" --parent 12345 
-doing create issue "This is a task" --web
+doing issue create "I found a bug"
+doing issue create "I found a bug" --mine
+doing issue create "I found a bug" -a "john.doe@company.com"
+doing issue create "I found a bug" -a @me
+doing issue create "I found a bug" --type "Bug"
+doing issue create "This is a task" --type "Task" --parent 12345 
+doing issue create "This is a task" --web
 ```
 
 ## Options
 
 ```nohighlight
-{{ shell_out('doing create issue --help') }}
+{{ shell_out('doing issue create --help') }}
 ```
 
 ## In use
@@ -31,7 +31,7 @@ Setting default_reviewers and default_workitem_type in the config file:
 === "Bash"
 
     ```shell
-    doing create 'fixing a small typo'
+    doing issue create 'fixing a small typo'
     # > Created issue #146545 'fixing a small typo' (Task)
     #     > added area-path '{your area path}'
     #     > added iteration-path '{your iteration path}'
@@ -52,7 +52,7 @@ Overriding the existing config using environment variables:
 
     ```shell
     export DOING_CREATE_ISSUE_ASSIGNED_TO='jane@company.com'
-    doing create 'fixing a small typo'
+    doing issue create 'fixing a small typo'
     # > Created issue #146545 'fixing a small typo' (User Story)
     #     > added area-path '{your area path}'
     #     > added iteration-path '{your iteration path}'
@@ -72,7 +72,7 @@ Using user_aliases set in the [config file](../config_file.md):
 === "Shell"
 
     ```shell
-    doing create 'fixing a small typo' -a john
+    doing issue create 'fixing a small typo' -a john
     # > Created issue #146545 'fixing a small typo' (User Story)
     #     > added area-path '{your area path}'
     #     > added iteration-path '{your iteration path}'

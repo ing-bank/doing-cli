@@ -9,11 +9,11 @@ doing workon [flags]
 ## Example usage
 
 ```shell
-doing workon "a issue"
-doing workon "a issue" --type Bug
-doing workon "a issue" --type 'User Story'
-doing workon "a issue" --parent 12345
-doing workon "a issue" --reviewers "john.doe@company.com jane.doe@company.com"
+doing workon "an issue"
+doing workon "an issue" --type Bug
+doing workon "an issue" --type 'User Story'
+doing workon "an issue" --parent 12345
+doing workon "an issue" --reviewers "john.doe@company.com jane.doe@company.com"
 ```
 
 ## Options

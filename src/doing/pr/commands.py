@@ -1,85 +1,43 @@
 import click
+from rich.console import Console
+from doing.utils import get_config, run_command
+from doing.options import get_common_options
+from doing.pr.create_pr import cmd_create_pr
+from doing.pr.open_pr import cmd_open_pr
 
-from doing.create.issue import cmd_create_issue
-from doing.create.pr import cmd_create_pr
-from doing.options import get_common_options, get_config
-from doing.open.issue import open_issue
-from doing.open.pr import open_pr
+console = Console()
 
 
 @click.group()
-def create():
+def pr():
     """
-    Create issues or pull requests.
+    Work with pull requests.
     """
     pass
 
 
-@create.command()
-@click.argument("issue", required=True, type=str)
-@click.option(
-    "--mine/--not-mine",
-    "-m",
-    default=False,
-    required=False,
-    help="Assign issue to yourself",
-    show_envvar=True,
-)
-@click.option(
-    "--assigned_to",
-    "-a",
-    required=False,
-    default="",
-    type=str,
-    help="Emailadres or alias of person to assign the issue to. Defaults to empty (unassigned).",
-    show_envvar=True,
-)
-@click.option(
-    "--type",
-    "-t",
-    required=False,
-    default=lambda: get_config("default_workitem_type", "User Story"),
-    type=click.Choice(["Bug", "Epic", "Feature", "Issue", "Task", "Test Case", "User Story"]),
-    help=f"Type of work item. Defaults to \"{get_config('default_workitem_type','User Story')}\"",
-    show_envvar=True,
-)
-@click.option(
-    "--parent",
-    "-p",
-    required=False,
-    default="",
-    type=str,
-    help="To create a child work item, specify the ID of the parent work item.",
-    show_envvar=True,
-)
-@click.option(
-    "--web/--no-web",
-    "-w",
-    required=False,
-    default=False,
-    type=bool,
-    help="Open newly created issue in the web browser.",
-    show_envvar=True,
-)
-def issue(
-    issue: str,
-    mine: bool,
-    assigned_to: str,
-    type: str,
-    parent: str,
-    web: bool,
-) -> None:
+@pr.command()
+@click.argument("pr_id", nargs=-1, required=True)
+def close(pr_id):
     """
-    Create an issue.
+    Close a specific PR_ID.
 
-    ISSUE is the title to be used for the new work item.
+    PR_ID is the ID number of a pull request. '!' prefix is allowed.
+    You can specify multiple IDs by separating with a space.
     """
-    issue_id = cmd_create_issue(issue, mine, assigned_to, type, parent, **get_common_options())
-    if web:
-        open_issue(issue_id)
+    organization = get_config("organization")
+    state = "abandoned"
+
+    for id in pr_id:
+        id = str(id).lstrip("!")
+        cmd = f"az repos pr update --id {id} --status '{state}' "
+        cmd += f"--org '{organization}'"
+        result = run_command(cmd)
+        assert result.get("status") == state
+        console.print(f"[dark_orange3]>[/dark_orange3] pullrequest !{id} set to '{state}'")
 
 
-@create.command()
+@pr.command()
 @click.argument("work-item-id", required=True, type=str)
 @click.option(
     "--draft/--no-draft",
@@ -134,7 +92,7 @@ def issue(
     help="Open newly created issue in the web browser.",
     show_envvar=True,
 )
-def pr(
+def create(
     work_item_id: str,
     draft: bool,
     auto_complete: bool,
@@ -160,4 +118,4 @@ def pr(
         **get_common_options(),
     )
     if web:
-        open_pr(pr_id)
+        cmd_open_pr(pr_id)

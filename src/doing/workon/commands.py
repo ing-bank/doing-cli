@@ -1,7 +1,7 @@
 import click
 
-from doing.create.issue import cmd_create_issue
-from doing.create.pr import cmd_create_pr, check_uncommitted_work
+from doing.issue.create_issue import cmd_create_issue
+from doing.pr.create_pr import cmd_create_pr, check_uncommitted_work
 from doing.options import get_common_options
 from doing.utils import get_config
 

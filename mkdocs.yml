@@ -38,15 +38,15 @@ nav:
   - Commands:
     - .doing-cli-config.yml: reference/config_file.md
     - init: reference/manual/init.md
-    - create:
-      - issue: reference/manual/create_issue.md
-      - pr: reference/manual/create_pr.md
     - list: reference/manual/list.md
-    - open: reference/manual/open.md
+    - issue:
+      - create: reference/manual/issue_create.md
+      - close: reference/manual/issue_close.md
+    - pr:
+      - create: reference/manual/pr_create.md
+      - close: reference/manual/pr_close.md
     - workon: reference/manual/workon.md
-    - close:
-      - issue: reference/manual/close_issue.md
-      - pr: reference/manual/close_pr.md
+    - open: reference/manual/open.md
   - Discussion:
     - One Project Setup: discussion/oneproject_setup.md
     - contributing.md

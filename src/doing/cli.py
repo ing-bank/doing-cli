@@ -4,13 +4,13 @@ import os
 
 from rich.console import Console
 
+from doing.pr import commands as pr_group
+from doing.issue import commands as issue_group
 from doing.open import commands as open_group
-from doing.create import commands as create_group
 from doing.list import commands as list_command
 from doing.utils import get_config
 from doing.workon import commands as workon_command
 from doing.init import commands as init_command
-from doing.close import commands as close_command
 
 console = Console()
 
@@ -62,8 +62,8 @@ def cli():
 
 
 cli.add_command(init_command.init)
-cli.add_command(create_group.create)
 cli.add_command(list_command.list)
-cli.add_command(open_group.open)
+cli.add_command(issue_group.issue)
+cli.add_command(pr_group.pr)
 cli.add_command(workon_command.workon)
-cli.add_command(close_command.close)
+cli.add_command(open_group.open)

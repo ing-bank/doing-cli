@@ -3,7 +3,7 @@ from doing.utils import get_config
 from typing import Union
 
 
-def open_issue(issue_id: Union[str, int]) -> None:
+def cmd_open_issue(issue_id: Union[str, int]) -> None:
     """
     Open a specific ISSUE_ID.
 

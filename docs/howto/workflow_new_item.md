@@ -5,19 +5,19 @@ If you need more detail you can use [`doing open`](../reference/manual/open.md) 
 
 ## Planning multiple items
 
-If you don't plan to start work on an issue immediately, you can use [`doing create issue`](../reference/manual/create_issue.md) to create a new (unassigned) work item with:
+If you don't plan to start work on an issue immediately, you can use [`doing issue create`](../reference/manual/issue_create.md) to create a new (unassigned) work item with:
 
 ```shell
-doing create issue "something that needs to be done"
+doing issue create "something that needs to be done"
 ```
 
-You can specify more options (see `doing create issue --help`). Some examples:
+You can specify more options (see `doing issue create --help`). Some examples:
 
 ```shell
-doing create issue "something that needs to be done" --mine 
-doing create issue "something that needs to be done" --assigned_to "john.doe@company.com" 
-doing create issue "something that needs to be done" --a "john.doe@company.com" --type "Bug"
-doing create issue "something that needs to be done" --parent "1234" --type "Task"
+doing issue create "something that needs to be done" --mine 
+doing issue create "something that needs to be done" --assigned_to "john.doe@company.com" 
+doing issue create "something that needs to be done" --a "john.doe@company.com" --type "Bug"
+doing issue create "something that needs to be done" --parent "1234" --type "Task"
 ```
 
 
@@ -58,7 +58,7 @@ To avoid having to type the emailadresses of your teammates every time (which ar
 === "using aliases"
 
     ```shell
-    doing create issue "fix bug" -a john
+    doing issue create "fix bug" -a john
     # or
     doing workon "fix bug" --reviewers "john jane"
     ```

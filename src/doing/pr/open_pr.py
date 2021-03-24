@@ -4,7 +4,7 @@ from doing.utils import get_repo_name
 from typing import Union
 
 
-def open_pr(pullrequest_id: Union[str, int]) -> None:
+def cmd_open_pr(pullrequest_id: Union[str, int]) -> None:
     """
     Open a specific PULLREQUEST_ID. '!' prefix is allowed.
     """
