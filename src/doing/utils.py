@@ -223,6 +223,6 @@ def replace_user_aliases(text: str) -> str:
         pass
 
     if not aliases:
-        return text
-
-    return " ".join([aliases.get(word, word) for word in words])
+        return " ".join(words)
+    else:
+        return " ".join([aliases.get(word, word) for word in words])
