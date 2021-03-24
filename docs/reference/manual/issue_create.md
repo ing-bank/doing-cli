@@ -51,7 +51,7 @@ Overriding the existing config using environment variables:
 === "Bash"
 
     ```shell
-    export DOING_CREATE_ISSUE_ASSIGNED_TO='jane@company.com'
+    export DOING_ISSUE_CREATE_ASSIGNED_TO='jane@company.com'
     doing issue create 'fixing a small typo'
     # > Created issue #146545 'fixing a small typo' (User Story)
     #     > added area-path '{your area path}'

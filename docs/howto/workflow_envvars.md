@@ -41,7 +41,7 @@ You can also temporarily set a different default work item type using an [enviro
 === "doing issue create"
 
     ```shell
-    export DOING_CREATE_ISSUE_TYPE="Task"
+    export DOING_ISSUE_CREATE_TYPE="Task"
     doing issue create "A task"
     ```
 
@@ -77,11 +77,11 @@ doing issue create "Thing 10" -t "Task" --parent 1234
 You could use:
 
 ```shell
-export DOING_CREATE_ISSUE_PARENT=1234
-export DOING_CREATE_ISSUE_TYPE="Task"
+export DOING_ISSUE_CREATE_PARENT=1234
+export DOING_ISSUE_CREATE_TYPE="Task"
 doing issue create "Thing 1"
 doing issue create "Thing 2"
 ...
 doing issue create "Thing 10"
-unset DOING_CREATE_ISSUE_PARENT
+unset DOING_ISSUE_CREATE_PARENT
 ```
