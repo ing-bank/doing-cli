@@ -11,6 +11,14 @@ def test_parse_reference():
         "MyProject",
         "73554",
     )
+
+    url = "https://dev.azure.com/MyOrganization/MyProject/_workitems/edit/73554/"
+    assert parse_reference(url) == (
+        "MyOrganization",
+        "MyProject",
+        "73554",
+    )
+
     url = "https://dev.azure.com/MyOrganization/MyProject/_boards/board/t/"
     url += "MyTeam/Stories/?workitem=73554"
     assert parse_reference(url) == ("MyOrganization", "MyProject", "73554")

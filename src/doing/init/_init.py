@@ -75,11 +75,15 @@ def parse_reference(url):
     Returns:
         tuple: organization, project and workitem_id
     """
-    parsed_url = urlparse(url)
+    # remove trailing slash
+    url = url.rstrip("/")
 
+    # Parse the url
+    parsed_url = urlparse(url)
     organization = parsed_url.path.split("/")[1]
     project = parsed_url.path.split("/")[2]
 
+    # Support two different types of work item urls
     if parsed_url.query:
         item_id = parsed_url.query.lstrip("workitem=")
     else:
