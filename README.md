@@ -5,19 +5,19 @@
 ![PyPI - License](https://img.shields.io/pypi/l/doing-cli)
 ![GitHub contributors](https://img.shields.io/github/contributors/ing-bank/doing-cli)
 
-# doing-cli: Simplify your azure devops workflow
+# doing-cli: Azure Devops on the command line
 
-CLI app to help speed up development on Azure DevOps. Allows for a more natural repo/issue workflow like github/gitlab. 
+CLI app to help speed up development on Azure DevOps, built on top of [azure devops cli](). Allows for a more streamlined repo/issue workflow. Inspired by [cli.github.com](https://cli.github.com/). 
 
 ## Installation
 
-`doing` requires python, [azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) and the [devops extension](https://docs.microsoft.com/en-us/azure/devops/cli/?view=azure-devops). To install:
+`doing` requires python 3.6+, [azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) and the [devops extension](https://docs.microsoft.com/en-us/azure/devops/cli/?view=azure-devops). To install:
 
 ```shell
 pip3 install doing-cli
 ```
 
-See also the [installation guide](https://ing-bank.github.io/doing-cli/get_started/install/).
+For more details and setup see the [installation guide](https://ing-bank.github.io/doing-cli/get_started/install/).
 
 ## Documentation
 
