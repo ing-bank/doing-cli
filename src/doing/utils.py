@@ -167,7 +167,11 @@ def run_command(command: str, allow_verbose=True):
 
     if process.returncode != 0:
         console.print(f"[bright_black]{command}[/bright_black]")
-        console.print(f"[dark_orange3]{str(process.stderr)}[/dark_orange3]")
+        if process.stdout:
+            console.print(f"[dark_orange3]{str(process.stdout)}[/dark_orange3]")
+        if process.stderr:
+            console.print(f"[dark_orange3]{str(process.stderr)}[/dark_orange3]")
+
         # Help the user
         devops_error_tips(str(process.stderr))
         sys.exit(process.returncode)
