@@ -119,3 +119,18 @@ def create(
     )
     if web:
         cmd_open_pr(pr_id)
+
+
+@pr.command()
+@click.argument("pr_id", nargs=-1, required=True)
+def checkout(pr_id):
+    """
+    Check out a pull request in git.
+
+    PR_ID is the ID number of a pull request. '!' prefix is allowed.
+    """
+    console.print(
+        "\t[dark_orange3]$[/dark_orange3] Running command:",
+        f"[bright_black]az repos pr checkout --id {pr_id}[/bright_black]",
+    )
+    run_command(f"az repos pr checkout --id {pr_id}")
