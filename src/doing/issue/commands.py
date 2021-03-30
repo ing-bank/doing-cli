@@ -4,6 +4,7 @@ from doing.issue.create_issue import cmd_create_issue
 from doing.options import get_common_options, get_config
 from doing.issue.open_issue import cmd_open_issue
 from doing.utils import run_command
+from doing.list.commands import list
 
 from rich.console import Console
 
@@ -16,6 +17,9 @@ def issue():
     Work with issues.
     """
     pass
+
+
+issue.add_command(list)
 
 
 @issue.command()

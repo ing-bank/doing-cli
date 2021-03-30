@@ -60,6 +60,7 @@ nav:
     - issue:
       - create: reference/manual/issue_create.md
       - close: reference/manual/issue_close.md
+      - list: reference/manual/issue_list.md 
     - pr:
       - create: reference/manual/pr_create.md
       - close: reference/manual/pr_close.md
