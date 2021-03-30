@@ -1,3 +1,9 @@
+---
+hide:
+  - navigation # Hide navigation
+  - toc        # Hide table of contents
+---
+
 # Overview
 
 `doing` is a CLI tool for Azure DevOps that helps mimic the common repository/issue workflow from Github and Gitlab.

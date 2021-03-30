@@ -9,17 +9,35 @@ theme:
     name: material
     custom_dir: docs/assets/overrides
     palette:
+      # Light mode
+      - media: "(prefers-color-scheme: light)"
+        scheme: default
         primary: white
         accent: deep orange
-        scheme: preference
+        toggle:
+          icon: material/toggle-switch-off-outline
+          name: Switch to dark mode
+
+      # Dark mode
+      - media: "(prefers-color-scheme: dark)"
+        scheme: slate
+        primary: deep orange
+        accent: deep orange
+        toggle:
+          icon: material/toggle-switch
+          name: Switch to light mode
+
     font: false
     icon:
         logo: octicons/terminal-16
+        repo: fontawesome/brands/github
     favicon: assets/images/cli.png
     features:
         - navigation.tracking
+        - navigation.sections
         - header.autohide
         - navigation.tabs
+        - navigation.top
 
 nav:
   - index.md
@@ -53,11 +71,13 @@ nav:
     - discussion/upgrading.md
 
 plugins:
+  - search
   - macros:
         module_name: src/doing/utils
 
 markdown_extensions:
     - abbr
+    - meta
     - admonition
     - pymdownx.keys
     - pymdownx.highlight
