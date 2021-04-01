@@ -110,7 +110,9 @@ def cmd_create_pr(
         cmd = f"az repos ref create --name 'heads/{branch_name}' --repository '{repo_name}' "
         cmd += f"--object-id '{master_branch_object_id}' -p '{project}' --org '{organization}'"
         branch = run_command(cmd)
-        assert branch.get("success")
+        assert branch.get(
+            "success"
+        ), f"Could not create '{branch_name}'. Do you have contributor rights to the '{get_repo_name()}' repo?"  # noqa
         console.print(f"[dark_orange3]>[/dark_orange3] Created remote branch '[cyan]{branch_name}[/cyan]'")
 
     # Create the PR
