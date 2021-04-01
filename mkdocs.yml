@@ -65,6 +65,7 @@ nav:
       - create: reference/manual/pr_create.md
       - close: reference/manual/pr_close.md
       - checkout: reference/manual/pr_checkout.md
+      - list: reference/manual/pr_list.md
     - workon: reference/manual/workon.md
     - open: reference/manual/open.md
   - Discussion:

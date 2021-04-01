@@ -12,25 +12,6 @@ In Azure DevOps an issue (work item) is not directly related to a repository (he
 
 ## Highlights
 
-**listing issues linked to a repository**
-
-<div class="termy termy-small">
-
-```console
-$ doing list
-                 Work-items in current iteration project_name\team_name                  
-┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━┓
-┃     ID ┃                  Title ┃   Assignee ┃       Type ┃   PRs ┃
-┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━┩
-│  36893 │           explore data │ John       │ User Story │       │
-│  43769 │       feature pipeline │ Artur      │ User Story │       │
-│  99035 │             window bug │ Artur      │       Task │ 39949 │
-│ 104436 │ data loading functions │ Jane       │       Task │       │
-└────────┴────────────────────────┴────────────┴────────────┴───────┘
-```
-
-</div>
-
 **quickly starting work on a new issue**
 
 <div class="termy termy-small">
@@ -54,6 +35,24 @@ $ doing workon "fixing a small typo"
 
 </div>
 
+**listing issues linked to a repository**
+
+<div class="termy termy-small">
+
+```console
+$ doing list
+                 Work-items in current iteration project_name\team_name                  
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━┓
+┃     ID ┃                  Title ┃   Assignee ┃       Type ┃   PRs ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━┩
+│  36893 │           explore data │ John       │ User Story │       │
+│  43769 │       feature pipeline │ Artur      │ User Story │       │
+│  99035 │             window bug │ Artur      │       Task │ 39949 │
+│ 104436 │ data loading functions │ Jane       │       Task │       │
+└────────┴────────────────────────┴────────────┴────────────┴───────┘
+```
+
+</div>
 
 ## Documentation
 

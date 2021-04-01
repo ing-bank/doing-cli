@@ -32,7 +32,7 @@ def board():
     project = get_config("project")
     organization = get_config("organization")
 
-    console.print("Opening the Azure board. Make sure to filter on:")
+    console.print("[dark_orange3]>[/dark_orange3] Opening the Azure board. Make sure to filter on:")
 
     iteration_short = os.path.basename(iteration.replace("\\", "/"))
     area_short = os.path.basename(area.replace("\\", "/"))
