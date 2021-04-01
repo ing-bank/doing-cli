@@ -9,7 +9,7 @@ dev = ["mkdocs-material>=7.1", "mkdocs-macros-plugin", "pytest", "pytest-cov", "
 
 setup(
     name="doing-cli",
-    version="1.0.1",
+    version="1.1",
     packages=find_packages("src"),
     package_dir={"": "src"},
     long_description=LONG_DESCRIPTION,
