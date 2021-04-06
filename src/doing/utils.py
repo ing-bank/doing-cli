@@ -161,16 +161,17 @@ def run_command(command: str, allow_verbose=True):
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        #  universal_newlines=True,
+        text=True,
+        encoding="utf-8",
         shell=True,
     )
 
     if process.returncode != 0:
         console.print(f"[bright_black]{command}[/bright_black]")
         if process.stdout:
-            console.print(f"[dark_orange3]{str(process.stdout)}[/dark_orange3]")
+            console.print(f"[dark_orange3]{process.stdout}[/dark_orange3]")
         if process.stderr:
-            console.print(f"[dark_orange3]{str(process.stderr)}[/dark_orange3]")
+            console.print(f"[dark_orange3]{process.stderr}[/dark_orange3]")
 
         # Help the user
         devops_error_tips(str(process.stderr))
@@ -181,7 +182,7 @@ def run_command(command: str, allow_verbose=True):
             return json.loads(process.stdout)
         except Exception:
             console.print("[doing-cli] error: Could not process the following stdout as a JSON:")
-            console.print(f"[dark_orange3]{str(process.stdout)}[/dark_orange3]")
+            console.print(f"[dark_orange3]{process.stdout}[/dark_orange3]")
     else:
         return []
 
