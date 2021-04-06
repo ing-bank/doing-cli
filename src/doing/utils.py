@@ -177,7 +177,11 @@ def run_command(command: str, allow_verbose=True):
         sys.exit(process.returncode)
 
     if process.stdout:
-        return json.loads(process.stdout)
+        try:
+            return json.loads(process.stdout)
+        except Exception:
+            console.print("[doing-cli] error: Could not process the following stdout as a JSON:")
+            console.print(f"[dark_orange3]{str(process.stdout)}[/dark_orange3]")
     else:
         return []
 

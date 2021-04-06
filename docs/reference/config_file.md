@@ -18,11 +18,11 @@ Example `.doing-cli-config.yml`:
 
 ```yaml
 # .doing-cli-config.yml
-organization: https://dev.azure.com/organization_name
-project: project_name
-team: team-name
-area: organization_name\repo_name\area_name
-iteration: organization_name\team_name\iteration_name
+organization: 'https://dev.azure.com/organization_name'
+project: 'project_name'
+team: 'team-name'
+area: 'organization_name\repo_name\area_name'
+iteration: 'organization_name\team_name\iteration_name'
 ```
 
 ## Optional parameters
@@ -41,12 +41,12 @@ Example `.doing-cli-config.yml`:
 ```yaml
 # .doing-cli-config.yml
 # ... other required parameters ...
-default_workitem_type: Task
+default_workitem_type: 'Task'
 default_reviewers: 'john.doe@domain.com'
 verbose_shell: False
 user_aliases:
-    john: John.Doe@company.com
-    jane: Jane.Doe@email.net
+    john: 'John.Doe@company.com'
+    jane: 'Jane.Doe@email.net'
 ```
 
 ## Using environment variables
