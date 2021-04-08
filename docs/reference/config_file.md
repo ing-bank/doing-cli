@@ -61,6 +61,12 @@ Some examples:
 | `iteration`    | `DOING_CONFIG_ITERATION` |
 | `default_workitem_type`    | `DOING_CONFIG_DEFAULT_WORKITEM_TYPE` |
 
+```python
+# Example usage
+export DOING_CONFIG_VERBOSE_SHELL=True
+doing list
+```
+
 !!! note ""
     See also the [workflow using environment variables](../howto/workflow_envvars.md) for examples on how to use these in practice
 
