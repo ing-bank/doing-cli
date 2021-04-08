@@ -1,15 +1,40 @@
+import codecs
+import os.path
 from setuptools import setup, find_packages
+
+
+def read(rel_path):
+    """
+    Read a file.
+    """
+    here = os.path.abspath(os.path.dirname(__file__))
+    with codecs.open(os.path.join(here, rel_path), "r") as fp:
+        return fp.read()
+
+
+def get_version(rel_path):
+    """
+    Read version from a file.
+    """
+    for line in read(rel_path).splitlines():
+        if line.startswith("__version__"):
+            delim = '"' if '"' in line else "'"
+            return line.split(delim)[1]
+    else:
+        raise RuntimeError("Unable to find version string.")
+
 
 file = open("README.md", "r")
 LONG_DESCRIPTION = file.read()
 file.close()
+
 
 base_packages = ["Click>=7.1", "python-dotenv", "rich>=9.10.0", "pyyaml>=5.4.0"]
 dev = ["mkdocs-material>=7.1", "mkdocs-macros-plugin", "pytest", "pytest-cov", "pyflakes"]
 
 setup(
     name="doing-cli",
-    version="1.1.3",
+    version=get_version("src/doing/__init__.py"),
     packages=find_packages("src"),
     package_dir={"": "src"},
     long_description=LONG_DESCRIPTION,

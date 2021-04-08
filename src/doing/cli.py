@@ -11,6 +11,7 @@ from doing.list import commands as list_command
 from doing.utils import get_config
 from doing.workon import commands as workon_command
 from doing.init import commands as init_command
+from doing import __version__
 
 console = Console()
 
@@ -41,6 +42,7 @@ class OrderedGroup(click.Group):
     context_settings={"auto_envvar_prefix": "DOING"},
     cls=OrderedGroup,
 )
+@click.version_option(__version__, prog_name="doing-cli")
 def cli():
     """
     CLI for repository/issue workflow on Azure Devops.
