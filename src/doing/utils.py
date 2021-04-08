@@ -162,7 +162,7 @@ def run_command(command: str, allow_verbose=True):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
-        encoding="utf-8",
+        encoding=sys.stdout.encoding,
         shell=True,
     )
 
