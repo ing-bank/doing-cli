@@ -3,6 +3,7 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/doing-cli)
 ![PyPI](https://img.shields.io/pypi/v/doing-cli)
 ![PyPI - License](https://img.shields.io/pypi/l/doing-cli)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/doing-cli)
 ![GitHub contributors](https://img.shields.io/github/contributors/ing-bank/doing-cli)
 
 # doing-cli: Azure Devops on the command line
