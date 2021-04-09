@@ -79,7 +79,7 @@ def cmd_create_pr(
 
     # Find the default branch from which to create a new branch and target the pull request to
     cmd = f"az repos show --repository '{repo_name}' --org '{organization}' -p '{project}'"
-    default_branch = run_command(cmd)["defaultBranch"]
+    default_branch = run_command(cmd).get("defaultBranch","refs/heads/master")
 
     # Create a new branch, only if it does yet exist
     cmd = f"az repos ref list --repository '{repo_name}' --query \"[?name=='{default_branch}'].objectId\" "
