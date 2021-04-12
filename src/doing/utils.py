@@ -4,6 +4,7 @@ import json
 import yaml
 import re
 import string
+from platform import uname
 from rich.console import Console
 import subprocess
 from dotenv import find_dotenv
@@ -156,13 +157,21 @@ def run_command(command: str, allow_verbose=True):
     if allow_verbose and verbose_shell():
         console.print(f"[bright_black]{command}[/bright_black]")
 
+    # Issue with Windows Subsystem for linux
+    # where "echo $LC_ALL" says UTF-8
+    # but bytes in stdout are actually in windows-1252 encoding
+    if in_wsl():
+        encoding = "windows-1252"
+    else:
+        encoding = sys.stdout.encoding
+
     process = subprocess.run(
         [command],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        text=True,
-        encoding=sys.stdout.encoding,
+        universal_newlines=True,
+        encoding=encoding,
         shell=True,
     )
 
@@ -185,6 +194,17 @@ def run_command(command: str, allow_verbose=True):
             console.print(f"[dark_orange3]{process.stdout}[/dark_orange3]")
     else:
         return []
+
+
+def in_wsl() -> bool:
+    """
+    Detect if running inside Windows System For Linux (WSL).
+
+    WSL is thought to be the only common Linux kernel with Microsoft in the name, per Microsoft:
+
+    https://github.com/microsoft/WSL/issues/4071#issuecomment-496715404
+    """
+    return "Microsoft" in uname().release
 
 
 def verbose_shell():
