@@ -1,7 +1,7 @@
 import click
 from rich.console import Console
 from doing.pr.list_pr import cmd_list_pr
-from doing.utils import get_config, run_command, get_repo_name
+from doing.utils import get_config, run_command, get_repo_name, shell_output
 from doing.options import get_common_options
 from doing.pr.create_pr import cmd_create_pr
 from doing.pr.open_pr import cmd_open_pr
@@ -123,18 +123,17 @@ def create(
 
 
 @pr.command()
-@click.argument("pr_id", nargs=-1, required=True)
+@click.argument("pr_id", required=True)
 def checkout(pr_id):
     """
     Check out a pull request in git.
 
     PR_ID is the ID number of a pull request. '!' prefix is allowed.
     """
-    console.print(
-        "\t[dark_orange3]$[/dark_orange3] Running command:",
-        f"[bright_black]az repos pr checkout --id {pr_id}[/bright_black]",
-    )
-    run_command(f"az repos pr checkout --id {pr_id}")
+    pr_id = str(pr_id).lstrip("!").strip()
+
+    out = shell_output(f"az repos pr checkout --id {pr_id}")
+    console.print(out)
 
 
 @pr.command()

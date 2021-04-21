@@ -8,7 +8,7 @@ def cmd_open_pr(pullrequest_id: Union[str, int]) -> None:
     """
     Open a specific PULLREQUEST_ID. '!' prefix is allowed.
     """
-    pullrequest_id = str(pullrequest_id).lstrip("!")
+    pullrequest_id = str(pullrequest_id).lstrip("!").strip()
 
     project = get_config("project")
     organization = get_config("organization")
