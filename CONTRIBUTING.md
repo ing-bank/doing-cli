@@ -6,7 +6,7 @@ The tool uses modern python packages like [Click](https://click.palletsprojects.
 
 ## Documentation
 
-We use [mkdocs](https://www.mkdocs.org) with [mkdocs-material](https://squidfunk.github.io/mkdocs-material/) theme. The docs are structured using the [divio documentation system](https://documentation.divio.com/). To view the docs locally:
+We use [mkdocs](https://www.mkdocs.org) with [mkdocs-material](https://squidfunk.github.io/mkdocs-material/) theme. The docs are structured using the [Diátaxis documentation framework](https://diataxis.fr/). To view the docs locally:
 
 ```shell
 pip install mkdocs-material
