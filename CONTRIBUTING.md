@@ -86,6 +86,14 @@ az repos ref create --name "heads/<branch name>" --repository $repo_name --objec
 
 # Creating a PR
 az repos pr create --repository $repo_name --work-items '112011' --draft --title "test pr" --source-branch "<branch name>" --transition-work-items 'true'
+
+# Get a repository id, as well as default branch
+az repos show --repository '<repo_name>'
+
+# List policies active on a repo branch
+az repos policy list --repository "<id_hash>" --branch 'master' -o jsonc
+
+az repos policy merge-strategy create --repository "<id_hash>" --branch 'refs/heads/master' --blocking false --enabled true --allow-no-fast-forward true --allow-rebase true --allow-rebase-merge true --allow-squash true
 ```
 
 
