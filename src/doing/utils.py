@@ -260,7 +260,8 @@ def get_current_work_item_id():
     """
     Retrieves current work item id from the current branchname
     """
-    wi_id = shell_output("git branch --show-current | cut -d '_' -f 1 | sed 's/[^0-9]*//g'")
+    branch_name = shell_output("git branch --show-current")
+    wi_id = re.search(r"^([0-9]*)_", branch_name).group(1)
     if len(wi_id) == 0:
          console.print("Could not find work item id in current branch name: " + shell_output("git branch --show-current") + " (usually the branch name starts with the workitem id)")
          sys.exit(0)
