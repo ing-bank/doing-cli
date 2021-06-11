@@ -97,7 +97,9 @@ def pipe():
 @click.argument("work_item_id", default=-1)
 def issue(work_item_id):
     """
-    Open a specific WORK_ITEM_ID or when not provided open the workitem based on the branchname.
+    Open a specific WORK_ITEM_ID.
+
+    When not provided attempt to auto-detect the WORK_ITEM_ID using the git branch name.
 
     '#' prefix is allowed.
     """
