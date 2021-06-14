@@ -27,11 +27,12 @@ doing open branch master
 doing open pr 54321
 ```
 
-And for some it is optional:
+And for some it is optional (attempts to auto-detect argument):
 
 ```shell
 doing open issue
 ```
+
 ## Options
 
 ```nohighlight
