@@ -4,7 +4,7 @@ import click
 from urllib.parse import quote
 from rich.console import Console
 
-from doing.utils import get_repo_name, run_command
+from doing.utils import get_repo_name, run_command, get_current_work_item_id
 from doing.options import get_config
 from doing.pr.open_pr import cmd_open_pr
 from doing.issue.open_issue import cmd_open_issue
@@ -94,15 +94,18 @@ def pipe():
 
 
 @open.command()
-@click.argument("work_item_id")
+@click.argument("work_item_id", default=-1)
 def issue(work_item_id):
     """
     Open a specific WORK_ITEM_ID.
 
+    When not provided attempt to auto-detect the WORK_ITEM_ID using the git branch name.
+
     '#' prefix is allowed.
     """
+    if work_item_id == -1:
+        work_item_id = get_current_work_item_id()
     cmd_open_issue(work_item_id)
-
 
 @open.command()
 def issues():

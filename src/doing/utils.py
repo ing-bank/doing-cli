@@ -255,3 +255,15 @@ def replace_user_aliases(text: str) -> str:
         return " ".join(words)
     else:
         return " ".join([aliases.get(word, word) for word in words])
+
+def get_current_work_item_id():
+    """
+    Retrieves current work item id from the current branchname
+    """
+    branch_name = shell_output("git branch --show-current")
+    wi_id = re.search(r"^([0-9]*)_", branch_name).group(1)
+    if len(wi_id) == 0:
+         console.print("Could not find work item id in current branch name: " + shell_output("git branch --show-current") + " (usually the branch name starts with the workitem id)")
+         sys.exit(0)
+    return wi_id
+
