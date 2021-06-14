@@ -27,6 +27,11 @@ doing open branch master
 doing open pr 54321
 ```
 
+And for some it is optional:
+
+```shell
+doing open issue
+```
 ## Options
 
 ```nohighlight
