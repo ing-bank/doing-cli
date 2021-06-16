@@ -34,7 +34,52 @@ from doing.utils import get_config
     help=f"Space separated list of reviewer emails. Defaults to \"{get_config('default_reviewers','')}\"",
     show_envvar=True,
 )
-def workon(issue, type, parent, reviewers):
+@click.option(
+    "--draft/--no-draft",
+    required=False,
+    default=True,
+    help="Create draft/WIP pull request. Reviewers will not be notified until you publish. Default is --draft.",
+    show_envvar=True,
+)
+@click.option(
+    "--auto-complete/--no-auto-complete",
+    required=False,
+    default=True,
+    help="Set the PR to complete autom. when all policies have passed. Default is --auto-complete.",
+    show_envvar=True,
+)
+@click.option(
+    "--self-approve/--no-self-approve",
+    required=False,
+    default=False,
+    help="Add yourself as reviewer and add your approval. Default is --no-self-approve.",
+    show_envvar=True,
+)
+@click.option(
+    "--checkout/--no-checkout",
+    required=False,
+    default=True,
+    help="Run git commands to checkout remote branch locally. Default is --checkout.",
+    show_envvar=True,
+)
+@click.option(
+    "--delete-source-branch/--no-delete-source-branch",
+    required=False,
+    default=True,
+    help="Set to delete source branch when pull request completes. Default is --delete-source-branch.",
+    show_envvar=True,
+)
+def workon(
+    issue,
+    type,
+    parent,
+    reviewers,
+    draft: bool,
+    auto_complete: bool,
+    self_approve: bool,
+    checkout: bool,
+    delete_source_branch: bool,
+):
     """
     Create issue with PR and switch git branch.
 
@@ -51,14 +96,14 @@ def workon(issue, type, parent, reviewers):
         title=issue, mine=True, assignee="", label="", body="", type=type, parent=parent, **get_common_options()
     )
 
-    # Open a PR. Note we use the same defaults as `doing create pr`
+    # Open a PR.
     cmd_create_pr(
-        work_item_id=work_item_id,
-        draft=True,
-        auto_complete=True,
-        self_approve=False,
+        work_item_id=str(work_item_id),
+        draft=draft,  # Default true, note: `doing create pr` defaults to False
+        auto_complete=auto_complete,
+        self_approve=self_approve,
         reviewers=reviewers,
-        checkout=True,
-        delete_source_branch=True,
+        checkout=checkout,
+        delete_source_branch=delete_source_branch,
         **get_common_options(),
     )
