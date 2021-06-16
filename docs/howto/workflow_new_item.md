@@ -53,7 +53,7 @@ This automates a lot of clicking in the Azure Devops web portal and even runs gi
 
 ## Using aliases
 
-To avoid having to type the emailadresses of your teammates every time (which are case sensitive in Azure), you can setup aliases in your `.doing-cli-config.yml` (see also [config file](../reference/config_file.md) reference):
+To avoid having to type the emailadresses of your teammates every time (which are case sensitive in Azure), you can setup aliases in your `.doing-cli-config.yml` (see also [config file](../config/config_file.md) reference):
 
 === "using aliases"
 

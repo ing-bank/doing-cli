@@ -48,12 +48,10 @@ nav:
     - Workflow new issues: howto/workflow_new_item.md
     - Workflow existing issues: howto/workflow_existing_item.md
     - Workflow sprints: howto/workflow_sprints.md
-    - Workflows with envvars: howto/workflow_envvars.md
     - Python scripting: howto/python_scripting.md
     - Shell completion: howto/command_completion.md
     - Connection problems: howto/connection_problems.md
   - Commands:
-    - .doing-cli-config.yml: reference/config_file.md
     - init: reference/manual/init.md
     - list: reference/manual/list.md
     - issue:
@@ -67,6 +65,9 @@ nav:
       - list: reference/manual/pr_list.md
     - workon: reference/manual/workon.md
     - open: reference/manual/open.md
+  - Config:
+    - Config file: config/config_file.md
+    - Using env vars: config/env_config.md
   - Discussion:
     - One Project Setup: discussion/oneproject_setup.md
     - contributing.md

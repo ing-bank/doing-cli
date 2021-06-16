@@ -14,7 +14,7 @@ $ doing init https://dev.azure.com/organization_name/project_name/_workitems/edi
 
 </div>
 
-Alternatively, create a `.doing-cli-config.yml` file in the root of your repository (you can use `doing init` to do that quickly) and specify the parameters. The easiest way to find these parameters is by creating or opening a work item, and copying the parameters from there. For information on how to find and set these parameters see the reference [.doing-cli-config.yml config file](../reference/config_file.md)
+Alternatively, create a `.doing-cli-config.yml` file in the root of your repository (you can use `doing init` to do that quickly) and specify the parameters. The easiest way to find these parameters is by creating or opening a work item, and copying the parameters from there. For information on how to find and set these parameters see the reference [.doing-cli-config.yml config file](../config/config_file.md)
 
 ## Verifying the setup
 

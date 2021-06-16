@@ -69,7 +69,7 @@ Overriding the existing config using environment variables:
     ```
 
 
-Using user_aliases set in the [config file](../config_file.md):
+Using `user_aliases` set in the [config file](../../config/config_file.md):
 
 === "Shell"
 

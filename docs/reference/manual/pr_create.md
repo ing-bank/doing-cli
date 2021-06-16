@@ -31,7 +31,7 @@ doing pr create 1234 --delete-source-branch --self-approve --auto-complete
 
 ## In use
 
-Using user_aliases set in the [config file](../config_file.md):
+Using `user_aliases` set in the [config file](../../config/config_file.md):
 
 === "Shell"
 
@@ -52,7 +52,7 @@ Using user_aliases set in the [config file](../config_file.md):
         jane: Jane.Doe@email.net
     ```
 
-Using default_reviewers set in the [config file](../config_file.md):
+Using `default_reviewers` set in the [config file](../../config/config_file.md):
 
 === "Shell"
 
