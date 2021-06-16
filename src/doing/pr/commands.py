@@ -89,7 +89,6 @@ def close(pr_id):
     "-w",
     required=False,
     default=False,
-    type=bool,
     help="Open newly created issue in the web browser.",
     show_envvar=True,
 )

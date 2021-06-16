@@ -51,8 +51,8 @@ def cli():
     defaults = get_config("defaults", fallback="")
     if defaults:
         for setting, default in defaults.items():
-            if setting not in os.environ:
-                os.environ[setting] = default
+            if str(setting) not in os.environ:
+                os.environ[setting] = str(default)
             else:
                 if os.environ[setting] != default:
                     console.print(
