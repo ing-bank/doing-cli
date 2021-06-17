@@ -4,10 +4,11 @@ import json
 import yaml
 import re
 import string
+
+from pathlib import Path
 from platform import uname
 from rich.console import Console
 import subprocess
-from dotenv import find_dotenv
 from typing import Dict, Union
 from collections import OrderedDict
 
@@ -88,6 +89,25 @@ def get_repo_name():
     return repo_name
 
 
+def find_dotfile(filename: str) -> str:
+    """
+    Recursively search directories upwards for a specific file.
+
+    Args:
+        filename (str): name of the file.
+    """
+    wd = Path(os.getcwd())
+
+    i = 0
+    while i != 15 or wd == Path("/"):
+        filepath = wd / Path(filename)
+        if filepath.is_file():
+            return str(filepath)
+        i += 1
+
+    return ""
+
+
 def get_config(key: str = "", fallback: Union[str, Dict] = None, envvar_prefix: str = "DOING_CONFIG_"):
     """
     Finds and reads doing configuration file.
@@ -114,7 +134,7 @@ def get_config(key: str = "", fallback: Union[str, Dict] = None, envvar_prefix: 
             return env_var
 
     # Find the config file
-    conf_path = find_dotenv(".doing-cli-config.yml", usecwd=True)
+    conf_path = find_dotfile(".doing-cli-config.yml")
     if not conf_path:
         if fallback is not None:
             return fallback
@@ -256,14 +276,18 @@ def replace_user_aliases(text: str) -> str:
     else:
         return " ".join([aliases.get(word, word) for word in words])
 
+
 def get_current_work_item_id():
     """
-    Retrieves current work item id from the current branchname
+    Retrieves current work item id from the current branchname.
     """
     branch_name = shell_output("git branch --show-current")
     wi_id = re.search(r"^([0-9]*)_", branch_name).group(1)
     if len(wi_id) == 0:
-         console.print("Could not find work item id in current branch name: " + shell_output("git branch --show-current") + " (usually the branch name starts with the workitem id)")
-         sys.exit(0)
+        console.print(
+            "Could not find work item id in current branch name: "
+            + shell_output("git branch --show-current")
+            + " (usually the branch name starts with the workitem id)"
+        )
+        sys.exit(0)
     return wi_id
-
