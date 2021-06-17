@@ -1,4 +1,5 @@
 import os
+import re
 import subprocess
 import sys
 
@@ -62,7 +63,7 @@ def cmd_create_pr(
                 # For example
                 # url = 'vstfs:///Git/PullRequestId/bbd257b1-b8a9-1fc2-b123-1ea2cc23c333%2f4d2e1234-c1d0-1234-1f23-c1234d05d471%2f12345' # noqa
                 # The bit after %2f is the pullrequestid (12345)
-                related_pr_id = relation.get("url").rpartition("%2f")[2]
+                related_pr_id = re.findall('^.*%2[fF]([0-9]+)$', relation.get("url"))[0]
                 related_pr_id_status = run_command(
                     f"az repos pr show --id {related_pr_id} --query 'status' --org '{organization}'"
                 )
