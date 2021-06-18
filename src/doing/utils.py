@@ -96,14 +96,12 @@ def find_dotfile(filename: str) -> str:
     Args:
         filename (str): name of the file.
     """
-    wd = Path(os.getcwd())
+    git_repo_root_dir = shell_output("git rev-parse --show-toplevel")
+    wd = Path(git_repo_root_dir)
 
-    i = 0
-    while i != 15 or wd == Path("/"):
-        filepath = wd / Path(filename)
-        if filepath.is_file():
-            return str(filepath)
-        i += 1
+    filepath = wd / Path(filename)
+    if filepath.is_file():
+        return str(filepath)
 
     return ""
 
