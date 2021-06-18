@@ -25,14 +25,14 @@ In the root of your repository, you can check if your configuration works using:
 ```console
 $ doing list
                  Work-items in current iteration project_name\team_name                  
-┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
-┃     ID ┃             Title      ┃ Created by ┃       Type ┃    Linked Branches ┃ Linked PRs ┃
-┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
-│  36893 │           explore data │ John       │ User Story │ 36893-explore-data │            │
-│  43769 │       feature pipeline │ Artur      │ User Story │                    │            │
-│  99035 │            windows bug │ Artur      │       Task │  99035-windows-bug │      39949 │
-│ 104436 │ data loading functions │ Jane       │       Task │                    │            │
-└────────┴────────────────────────┴────────────┴────────────┴────────────────────┴────────────┘
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━┓
+┃     ID ┃                  Title ┃   Assignee ┃       Type ┃       Created ┃   PRs ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━┩
+│  36893 │           explore data │ John       │ User Story │ 2 months ago  │       │
+│  43769 │       feature pipeline │ Artur      │ User Story │ 5 days ago    │       │
+│  99035 │             window bug │ Artur      │       Task │ 3 hours ago   │ 39949 │
+│ 104436 │ data loading functions │ Jane       │       Task │ just now      │       │
+└────────┴────────────────────────┴────────────┴────────────┴───────────────┴───────┘
 ```
 
 </div>
