@@ -39,8 +39,13 @@ def cmd_create_issue(
         cmd += f"--assigned-to '{assignee}' "
     if body:
         cmd += f"--description '{body}' "
-    if label:
-        cmd += f"--fields 'System.Tags={label}' "
+    work_item_points = get_config("default_story_points", fallback="")
+    if(work_item_points):
+        cmd += f"--fields 'Microsoft.VSTS.Scheduling.StoryPoints={work_item_points}' "
+        if label:
+            cmd += f"' System.Tags={label}' "
+        elif label:
+            cmd += f"--fields ' System.Tags={label}' "
     cmd += f"--area '{area}' --iteration '{iteration}' --project '{project}' --organization '{organization}'"
 
     work_item = run_command(cmd)
