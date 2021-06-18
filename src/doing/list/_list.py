@@ -70,6 +70,11 @@ def cmd_list(
     query = work_item_query(assignee, author, label, state, area, iteration)
     work_items = run_command(f'az boards query --wiql "{query}" --org "{organization}" -p "{project}"')
 
+    if len(work_items) == 0:
+        msg = f"[dark_orange3]>[/dark_orange3] No issues in sprint '{iteration}' given filters used"
+        console.print(msg)
+        return
+
     workitem_prs = {}  # type: Dict
 
     # Now for each work item we could get linked PRs

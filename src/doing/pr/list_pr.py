@@ -10,7 +10,7 @@ from rich.console import Console
 console = Console()
 
 
-def cmd_list_pr(assignee, label, limit, state, project, organization):
+def cmd_list_pr(assignee, label, limit, state, project, organization) -> None:
     """
     Command for listing pull requests.
 
@@ -43,6 +43,11 @@ def cmd_list_pr(assignee, label, limit, state, project, organization):
     query += f'--query "{jmespath_query}" '
 
     prs = run_command(query)
+
+    if len(prs) == 0:
+        msg = "[dark_orange3]>[/dark_orange3] No pull requests given filters used"
+        console.print(msg)
+        return
 
     table = Table(title=f"{state} Pull requests")
     table.add_column("ID", justify="right", style="cyan", no_wrap=True)
