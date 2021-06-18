@@ -64,7 +64,7 @@ def cmd_create_pr(
                 # For example
                 # url = 'vstfs:///Git/PullRequestId/bbd257b1-b8a9-1fc2-b123-1ea2cc23c333%2f4d2e1234-c1d0-1234-1f23-c1234d05d471%2f12345' # noqa
                 # The bit after %2f is the pullrequestid (12345)
-                related_pr_id = re.findall('^.*%2[fF]([0-9]+)$', relation.get("url"))[0]
+                related_pr_id = re.findall("^.*%2[fF]([0-9]+)$", relation.get("url"))[0]
                 related_pr_id_status = run_command(
                     f"az repos pr show --id {related_pr_id} --query 'status' --org '{organization}'"
                 )
@@ -83,7 +83,7 @@ def cmd_create_pr(
     cmd = f"az repos show --repository '{repo_name}' --org '{organization}' -p '{project}'"
     default_branch = run_command(cmd).get("defaultBranch", "refs/heads/master")
 
-    # Create a new branch, only if it does yet exist
+    # Create a new remote branch, only if it does yet exist
     cmd = f"az repos ref list --repository '{repo_name}' --query \"[?name=='{default_branch}'].objectId\" "
     cmd += f"--org '{organization}' -p '{project}'"
     master_branch_object_id = run_command(cmd)[0]

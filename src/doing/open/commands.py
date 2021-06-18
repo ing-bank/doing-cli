@@ -153,6 +153,18 @@ def branch(branch_name):
 
 
 @open.command()
+def branches():
+    """
+    Open an overview of the repositories' branches.
+    """
+    project = get_config("project")
+    organization = get_config("organization")
+
+    url = f"{organization}/{project}/_git/{get_repo_name()}/branches"
+    click.launch(url)
+
+
+@open.command()
 def policies():
     """
     Open repository policy settings.
