@@ -1,3 +1,7 @@
+import timeago
+import datetime
+from datetime import timezone
+
 from doing.utils import run_command, get_repo_name, replace_user_aliases
 from rich.table import Table
 from rich.live import Live
@@ -21,7 +25,8 @@ def work_item_query(assignee: str, author: str, label: str, state: str, area: st
     author = replace_user_aliases(author)
 
     # Get all workitems
-    query = "SELECT [System.Id],[System.Title],[System.AssignedTo],[System.WorkItemType],[System.State]"
+    query = "SELECT [System.Id],[System.Title],[System.AssignedTo],"
+    query += "[System.WorkItemType],[System.State],[System.CreatedDate]"
     query += f"FROM WorkItems WHERE [System.AreaPath] = '{area}' "
     # Filter on iteration. Note we use UNDER so that user can choose to provide teams path for all sprints.
     query += f"AND [System.IterationPath] UNDER '{iteration}' "
@@ -104,6 +109,7 @@ def build_table(work_items: List, workitem_prs: Dict, iteration: str, last_build
     table.add_column("Title", justify="right", style="cyan", no_wrap=True)
     table.add_column("Assignee", justify="right", style="cyan", no_wrap=True)
     table.add_column("Type", justify="right", style="cyan", no_wrap=True)
+    table.add_column("Created", justify="right", style="cyan", no_wrap=True)
     table.add_column("PRs", justify="right", style="cyan", no_wrap=True)
 
     for item in work_items:
@@ -117,17 +123,14 @@ def build_table(work_items: List, workitem_prs: Dict, iteration: str, last_build
         item_createdby = fields.get("System.AssignedTo", {}).get("displayName", "")
         item_type = fields.get("System.WorkItemType")
 
-        # relations = run_command(f"az boards work-item relation show --id {item_id}",
-        #     "--query \"relations[?attributes.name=='Pull Request' || attributes.name=='Branch'].attributes\"")
-        # )
-        # relations = run_command(
-        #   f"az boards work-item show --id {item_id}",
-        #   f"--query \"relations[?attributes.name=='Pull Request'].url\"") # example id 99035
-        # )
-        # item_linked_prs = []
-        # for url in relations:
-        #    item_linked_prs.append(url.lower().rpartition("%2f")[2])
-        # item_linked_prs = ",".join(item_linked_prs)
+        # For example:
+        # '2020-11-17T13:33:32.463Z'
+        # details: https://docs.microsoft.com/en-us/azure/devops/boards/queries/wiql-syntax?view=azure-devops#date-time-pattern # noqa
+        item_datetime = fields.get("System.CreatedDate")
+        item_datetime = datetime.datetime.strptime(item_datetime, "%Y-%m-%dT%H:%M:%S.%fZ")
+        item_datetime = item_datetime.replace(tzinfo=timezone.utc)
+        now = datetime.datetime.now(timezone.utc)
+        item_datetime = timeago.format(item_datetime, now)
 
         if int(item_id) in workitem_prs.keys():
             item_linked_prs = ",".join(workitem_prs[int(item_id)])
@@ -137,6 +140,6 @@ def build_table(work_items: List, workitem_prs: Dict, iteration: str, last_build
             item_linked_prs = "[bright_black]loading..[bright_black]"
 
         # TODO: If current git branch equal to branch ID name, different color.
-        table.add_row(str(item_id), item_title, item_createdby, item_type, item_linked_prs)
+        table.add_row(str(item_id), item_title, item_createdby, item_type, item_datetime, item_linked_prs)
 
     return table
