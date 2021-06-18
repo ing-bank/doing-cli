@@ -17,6 +17,7 @@ doing open pipe
 doing open prs
 doing open repo
 doing open sprint
+doing open policies
 ```
 
 Some do:

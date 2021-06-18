@@ -36,6 +36,7 @@ The config can also contain some optional parameters that are not required to be
 | `user_aliases` | A list of user aliases that you can use when specifying reviewers or assignees. Note that the `@me` alias is always available.
 | `default_reviewers` | The default reviewers assigned when creating pull requests. Space separated list of user emails (case sensitive). Find your own with `az ad signed-in-user show --query 'mail'`.
 | `defaults` | Allows you to overwrite defaults of command options. See explanation below.
+| `merge_strategy` | Azure devops supports pull requests with rebase (see [blogpost](https://devblogs.microsoft.com/devops/pull-requests-with-rebase/#rebase)). Should be one of "basic merge", "squash merge", "rebase and fast-forward", "rebase with merge commit". If specified, it will update the policies on a repository level to only allow that merge strategy.
 
 Example `.doing-cli-config.yml`:
 
@@ -48,6 +49,8 @@ user_aliases:
     john: 'John.Doe@company.com'
     jane: 'Jane.Doe@email.net'
 default_reviewers: 'john.doe@domain.com'
+defaults:
+    DOING_LIST_STATE: all
 ```
 
 ### Setting `default_workitem_type`
@@ -116,3 +119,26 @@ This is a great way to set defaults for your entire team. If you would like to s
     1. Options set in the `.doing-cli-config.yml` file, f.e.: setting `DOING_LIST_STATE: all` under `defaults`
 
 
+### Setting `merge_strategy`
+
+Azure devops supports 4 different types of merge strategies ([blogpost](https://devblogs.microsoft.com/devops/pull-requests-with-rebase)). You can set a policy to allow a specific set of 1 or more strategies for each repository you work on, using the Azure Devops admin panel or [`az repos policy merge-strategy`](https://docs.microsoft.com/en-us/cli/azure/repos/policy/merge-strategy?view=azure-cli-latest#az_repos_policy_merge_strategy_create).
+
+Often a team agrees on a single merge strategy for all PRs. `doing` makes it easy to set the merge-strategy for everyone in the `.doing-cli-config.yml` file. For example:
+
+```yaml
+# .doing-cli-config.yml
+# ... other settings ...
+merge_strategy: "rebase and fast-forward"
+```
+
+These are the merge strategies allowed: 
+
+| Merge strategy      | Description |
+| ----------------------- | ------------------------------------ |
+| basic merge | Basic merge (no fast-forward) - Preserves nonlinear history exactly as it happened during development. |
+| squash merge | hi |
+| rebase and fast-forward | Creates a linear history by replaying the source branch commits onto the target without a merge commit. |
+| rebase with merge commit |Creates a semi-linear history by replaying the source branch commits onto the target and then creating a merge commit. |
+
+If specified, everytime before a PR is created, `doing` will check and if needed update the policies on a repository level to only allow that merge strategy to the default branch (often `master`).
+If not specified, `doing` will not check any merge policies and a PR will be created with whatever the default policies in your azure devops organization/project are. Often this is a "basic merge".

@@ -3,6 +3,7 @@ import subprocess
 import sys
 
 from doing.utils import (
+    get_config,
     replace_user_aliases,
     run_command,
     get_repo_name,
@@ -79,7 +80,7 @@ def cmd_create_pr(
 
     # Find the default branch from which to create a new branch and target the pull request to
     cmd = f"az repos show --repository '{repo_name}' --org '{organization}' -p '{project}'"
-    default_branch = run_command(cmd).get("defaultBranch","refs/heads/master")
+    default_branch = run_command(cmd).get("defaultBranch", "refs/heads/master")
 
     # Create a new branch, only if it does yet exist
     cmd = f"az repos ref list --repository '{repo_name}' --query \"[?name=='{default_branch}'].objectId\" "
@@ -118,6 +119,9 @@ def cmd_create_pr(
             "success"
         ), f"Could not create '{branch_name}'. Do you have contributor rights to the '{get_repo_name()}' repo?"  # noqa
         console.print(f"[dark_orange3]>[/dark_orange3] Created remote branch '[cyan]{branch_name}[/cyan]'")
+
+    # Check the PR merge strategy
+    check_merge_strategy_policy()
 
     # Create the PR
     command = f"az repos pr create --repository '{repo_name}' "
@@ -206,3 +210,85 @@ def check_uncommitted_work() -> None:
             "Commit them before running this command.",
         )
         sys.exit(1)
+
+
+def check_merge_strategy_policy() -> None:
+    """
+    Make sure merge strategy is set correctly.
+    """
+    merge_strategy = get_config("merge_strategy", fallback="")
+    if merge_strategy != "":
+        set_merge_strategy_policy(
+            merge_strategy=merge_strategy,
+            organization=get_config("organization"),
+            project=get_config("project"),
+        )
+
+
+def set_merge_strategy_policy(merge_strategy: str, organization: str, project: str) -> None:
+    """
+    Set merge strategy policy if needed.
+    """
+    if merge_strategy is None:
+        return
+    assert merge_strategy in ["basic merge", "squash merge", "rebase and fast-forward", "rebase with merge commit"]
+
+    merge_settings = ""
+    merge_settings += f"--allow-no-fast-forward {str(merge_strategy == 'basic merge').lower()} "
+    merge_settings += f"--allow-rebase {str(merge_strategy == 'rebase and fast-forward').lower()} "
+    merge_settings += f"--allow-rebase-merge {str(merge_strategy == 'rebase with merge commit').lower()} "
+    merge_settings += f"--allow-squash {str(merge_strategy == 'squash merge').lower()} "
+
+    repo_name = get_repo_name()
+    repo = run_command(f"az repos show --repository '{repo_name}'")
+
+    repo_id = repo.get("id")
+    assert len(repo_id) > 0
+
+    default_branch = repo.get("defaultBranch").split("/")[-1]
+
+    policies = run_command(f"az repos policy list --repository '{repo_id}' --branch '{default_branch}' -o json")
+    policies = [p for p in policies if p.get("type", {}).get("displayName") == "Require a merge strategy"]
+
+    enabled_policies = [p for p in policies if p.get("isEnabled") is True]
+
+    # Create a new policies
+    if len(enabled_policies) == 0:
+        cmd = "az repos policy merge-strategy create --blocking true --enabled true "
+        msg = "[dark_orange3]>[/dark_orange3] Set repository merge strategy "
+        msg += f"on default branch '{default_branch}' to [cyan]'{merge_strategy}'[cyan]"
+
+    # Update an existing policy, if needed
+    if len(enabled_policies) == 1:
+        policy_settings = enabled_policies[0].get("settings")
+        policy_id = enabled_policies[0].get("id")
+
+        # do we need to update the settings or are they correct already?
+        if (
+            policy_settings.get("allowNoFastForward") == (merge_strategy == "basic merge")
+            and policy_settings.get("allowRebase") == (merge_strategy == "rebase and fast-forward")
+            and policy_settings.get("allowRebaseMerge") == (merge_strategy == "rebase with merge commit")
+            and policy_settings.get("allowSquash") == (merge_strategy == "squash merge")
+        ):
+            # policy settings already OK. Don't do anything
+            return
+        cmd = f"az repos policy merge-strategy update --id '{policy_id}' --blocking true "
+        msg = "[dark_orange3]>[/dark_orange3] Updated repository merge strategy "
+        msg += f"on default branch '{default_branch}' to [cyan]'{merge_strategy}'[cyan]"
+
+    if len(enabled_policies) > 2:
+        raise AssertionError(
+            "There are multiple merge strategy policies already enabled, not sure what to do / if this can happen."
+        )
+
+    # Add correct policy settings
+    cmd += f"--branch {default_branch} --repository-id '{repo_id}' "
+    cmd += f"{merge_settings} --project '{project}' --org '{organization}' "
+
+    settings_url = f"{organization}/{project}/_settings/repositories?repo={repo_id}"
+    settings_url += f"&_a=policiesMid&refs=refs%2Fheads%2F{default_branch}"
+
+    # run command & report
+    run_command(cmd)
+    console.print(msg)
+    console.print(f"\tView/edit policies manually: {settings_url}")
