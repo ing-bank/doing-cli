@@ -107,6 +107,7 @@ def issue(work_item_id):
         work_item_id = get_current_work_item_id()
     cmd_open_issue(work_item_id)
 
+
 @open.command()
 def issues():
     """
@@ -143,3 +144,26 @@ def branch(branch_name):
     organization = get_config("organization")
 
     click.launch(f"{organization}/{project}/_git/{get_repo_name()}?version=GB{branch_name}")
+
+
+@open.command()
+def policies():
+    """
+    Open repository policy settings.
+
+    Will show the default branch policies by default.
+    """
+    project = get_config("project")
+    organization = get_config("organization")
+
+    repo_name = get_repo_name()
+    repo = run_command(f"az repos show --repository '{repo_name}'")
+
+    repo_id = repo.get("id")
+    assert len(repo_id) > 0
+    default_branch = repo.get("defaultBranch").split("/")[-1]
+    assert len(default_branch) > 0
+
+    url = f"{organization}/{project}/_settings/repositories?repo={repo_id}"
+    url += f"&_a=policiesMid&refs=refs%2Fheads%2F{default_branch}"
+    click.launch(url)
