@@ -32,6 +32,7 @@ And for some it is optional (attempts to auto-detect argument):
 
 ```shell
 doing open issue
+doing open pr
 ```
 
 ## Options

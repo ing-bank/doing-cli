@@ -4,7 +4,7 @@ import click
 from urllib.parse import quote
 from rich.console import Console
 
-from doing.utils import get_repo_name, run_command, get_current_work_item_id
+from doing.utils import get_repo_name, run_command, get_current_work_item_id, get_current_pr_id
 from doing.options import get_config
 from doing.pr.open_pr import cmd_open_pr
 from doing.issue.open_issue import cmd_open_issue
@@ -126,11 +126,17 @@ def issues():
 
 
 @open.command()
-@click.argument("pullrequest_id")
+@click.argument("pullrequest_id", default=-1)
 def pr(pullrequest_id):
     """
-    Open a specific PULLREQUEST_ID. '!' prefix is allowed.
+    Open a specific PULLREQUEST_ID.
+
+    When not provided attempt to auto-detect the PULLREQUEST_ID using the git branch name.
+
+    '!' prefix is allowed.
     """
+    if pullrequest_id == -1:
+        pullrequest_id = get_current_pr_id()
     cmd_open_pr(pullrequest_id)
 
 
