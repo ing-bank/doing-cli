@@ -39,7 +39,7 @@ def work_item_query(assignee: str, author: str, label: str, state: str, area: st
     if state == "all":
         query += "AND [System.State] <> 'Removed' "
     if type:
-        query += f"AND [Work Item Type] = '{type}' "
+        query += f"AND [System.WorkItemType] = '{type}' "
 
     # Ordering of results
     query += "ORDER BY [System.CreatedDate] asc"
