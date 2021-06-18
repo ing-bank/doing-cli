@@ -135,6 +135,11 @@ def get_config(key: str = "", fallback: Union[str, Dict] = None, envvar_prefix: 
 
     # Find the config file
     conf_path = find_dotfile(".doing-cli-config.yml")
+
+    # Allow for .yaml syntax as well
+    if not conf_path:
+        conf_path = find_dotfile(".doing-cli-config.yaml")
+
     if not conf_path:
         if fallback is not None:
             return fallback
