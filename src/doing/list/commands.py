@@ -75,4 +75,4 @@ def list(assignee, author, label, state, type, web):
         )
         click.launch(f"{organization}/{project}/_workitems/?_a=query&wiql={quote(query)}")
     else:
-        cmd_list(assignee, author, label, state, **get_common_options())
+        cmd_list(assignee, author, label, state, type=type, **get_common_options())
