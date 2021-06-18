@@ -56,6 +56,7 @@ def cmd_list(
     iteration: str,
     organization: str,
     project: str,
+    type: str,
 ) -> None:
     """
     Run `doing list` command.
@@ -64,7 +65,7 @@ def cmd_list(
     assignee = replace_user_aliases(assignee)
     author = replace_user_aliases(author)
 
-    query = work_item_query(assignee, author, label, state, area, iteration)
+    query = work_item_query(assignee, author, label, state, area, iteration, type)
     work_items = run_command(f'az boards query --wiql "{query}" --org "{organization}" -p "{project}"')
 
     workitem_prs = {}  # type: Dict
