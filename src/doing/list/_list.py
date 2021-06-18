@@ -9,7 +9,7 @@ from typing import List, Dict
 console = Console()
 
 
-def work_item_query(assignee: str, author: str, label: str, state: str, area: str, iteration: str):
+def work_item_query(assignee: str, author: str, label: str, state: str, area: str, iteration: str, type: str):
     """
     Build query in wiql.
 
@@ -38,6 +38,8 @@ def work_item_query(assignee: str, author: str, label: str, state: str, area: st
         query += "AND [System.State] IN ('Resolved','Closed','Done') "
     if state == "all":
         query += "AND [System.State] <> 'Removed' "
+    if type:
+        query += f"AND [Work Item Type] = '{type}' "
 
     # Ordering of results
     query += "ORDER BY [System.CreatedDate] asc"
