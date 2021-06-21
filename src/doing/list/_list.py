@@ -2,7 +2,7 @@ import timeago
 import datetime
 from datetime import timezone
 
-from doing.utils import run_command, get_repo_name, replace_user_aliases
+from doing.utils import run_command, get_repo_name, replace_user_aliases, validate_work_item_type
 from rich.table import Table
 from rich.live import Live
 from rich.progress import track
@@ -44,6 +44,7 @@ def work_item_query(assignee: str, author: str, label: str, state: str, area: st
     if state == "all":
         query += "AND [System.State] <> 'Removed' "
     if type:
+        validate_work_item_type(type)
         query += f"AND [System.WorkItemType] = '{type}' "
 
     # Ordering of results

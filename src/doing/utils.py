@@ -319,3 +319,39 @@ def get_current_pr_id() -> int:
         sys.exit(1)
     else:
         return result[0].get("pullRequestId")
+
+
+def validate_work_item_type(type: str) -> None:
+    """
+    Check if the work item is in the list of default work items.
+
+    The default work items can be checked [here](https://docs.microsoft.com/en-us/azure/devops/boards/work-items/about-work-items?view=azure-devops&tabs=cmmi-process)
+    """  # noqa
+    default_work_items = [
+        "Bug",
+        "Epic",
+        "Feature",
+        "User Story",
+        "Issue",
+        "Task",
+        "Test Case",
+        "Product Backlog Item",
+        "Requirement",
+        "Code Review Request",
+        "Code Review Response",
+        "Feedback Request",
+        "Feedback Response",
+        "Shared Step",
+        "Shared Parameter",
+        "Test Case",
+        "Test Plan",
+        "Test Suite",
+        "Change Request",
+        "Review",
+        "Risk",
+    ]
+
+    if type not in default_work_items:
+        console.print(
+            f"[dark_orange3]>[/dark_orange3] Warning: '[cyan]{type}[/cyan]' is not in the list of default work items"
+        )
