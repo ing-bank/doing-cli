@@ -4,6 +4,7 @@ site_description: 'Speed up work with Azure Devops'
 edit_uri: ''
 copyright: 'Copyright &copy; 2021'
 repo_url: https://github.com/ing-bank/doing-cli
+site_url: 'https://ing-bank.github.io/doing-cli/'
 
 theme:
     name: material

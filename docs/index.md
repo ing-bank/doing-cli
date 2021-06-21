@@ -42,14 +42,14 @@ $ doing workon "fixing a small typo"
 ```console
 $ doing list
                  Work-items in current iteration project_name\team_name                  
-┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━┓
-┃     ID ┃                  Title ┃   Assignee ┃       Type ┃   PRs ┃
-┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━┩
-│  36893 │           explore data │ John       │ User Story │       │
-│  43769 │       feature pipeline │ Artur      │ User Story │       │
-│  99035 │             window bug │ Artur      │       Task │ 39949 │
-│ 104436 │ data loading functions │ Jane       │       Task │       │
-└────────┴────────────────────────┴────────────┴────────────┴───────┘
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━┓
+┃     ID ┃                  Title ┃   Assignee ┃       Type ┃       Created ┃   PRs ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━┩
+│  36893 │           explore data │ John       │ User Story │ 2 months ago  │       │
+│  43769 │       feature pipeline │ Artur      │ User Story │ 5 days ago    │       │
+│  99035 │             window bug │ Artur      │       Task │ 3 hours ago   │ 39949 │
+│ 104436 │ data loading functions │ Jane       │       Task │ just now      │       │
+└────────┴────────────────────────┴────────────┴────────────┴───────────────┴───────┘
 ```
 
 </div>

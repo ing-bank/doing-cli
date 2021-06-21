@@ -18,6 +18,7 @@ doing open prs
 doing open repo
 doing open sprint
 doing open policies
+doing open branches
 ```
 
 Some do:
@@ -32,6 +33,7 @@ And for some it is optional (attempts to auto-detect argument):
 
 ```shell
 doing open issue
+doing open pr
 ```
 
 ## Options

@@ -135,6 +135,11 @@ def get_config(key: str = "", fallback: Union[str, Dict] = None, envvar_prefix: 
 
     # Find the config file
     conf_path = find_dotfile(".doing-cli-config.yml")
+
+    # Allow for .yaml syntax as well
+    if not conf_path:
+        conf_path = find_dotfile(".doing-cli-config.yaml")
+
     if not conf_path:
         if fallback is not None:
             return fallback
@@ -286,8 +291,31 @@ def get_current_work_item_id():
     if len(wi_id) == 0:
         console.print(
             "Could not find work item id in current branch name: "
-            + shell_output("git branch --show-current")
+            + get_git_current_branch()
             + " (usually the branch name starts with the workitem id)"
         )
-        sys.exit(0)
+        sys.exit(1)
     return wi_id
+
+
+def get_current_pr_id() -> int:
+    """
+    Find the current PR id based on the git branch name.
+    """
+    organization = get_config("organization")
+    project = get_config("project")
+
+    current_branch = get_git_current_branch()
+    repo_name = get_repo_name()
+
+    cmd = "az repos pr list --status 'active' "
+    cmd += f"--repository '{repo_name}' --source-branch '{current_branch}' "
+    cmd += f"--project '{project}' --organization '{organization}'"
+
+    result = run_command(cmd)
+
+    if len(result) == 0:
+        console.print("Could not find a PR associated with the current branch: " + get_git_current_branch())
+        sys.exit(1)
+    else:
+        return result[0].get("pullRequestId")
