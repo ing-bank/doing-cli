@@ -47,9 +47,9 @@ from doing.utils import get_config
     "--type",
     "-t",
     required=False,
-    default=lambda: get_config("default_workitem_type", "User Story"),
+    default=None,
     type=click.Choice(["Bug", "Epic", "Feature", "User Story", "Issue", "Task", "Test Case"]),
-    help=f"Type of work item. Defaults to \"{get_config('default_workitem_type','User Story')}\"",
+    help="Type of work item.",
     show_envvar=True,
 )
 @click.option(
