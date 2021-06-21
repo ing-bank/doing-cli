@@ -47,9 +47,9 @@ from doing.utils import get_config
     "--type",
     "-t",
     required=False,
-    default=None,
-    type=click.Choice(["Bug", "Epic", "Feature", "User Story", "Issue", "Task", "Test Case"]),
-    help="Type of work item.",
+    default="",
+    type=str,
+    help="Type of work item. E.g.: 'Bug', 'User Story', 'Task'",
     show_envvar=True,
 )
 @click.option(
