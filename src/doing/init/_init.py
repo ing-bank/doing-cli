@@ -44,11 +44,12 @@ def cmd_init(reference_issue: str = ""):
 
     cmd = f"az boards work-item show --id {item_id} "
     cmd += f"--org '{organization}' "
-    cmd += '--query \'fields.["System.AreaPath","System.IterationPath","System.IterationLevel2"]\' '
     workitem = run_command(cmd)
-    required_params["team"] = workitem[2]
-    required_params["area"] = workitem[0]
-    required_params["iteration"] = workitem[1]
+    workitem = workitem.get("fields")
+    assert workitem is not None
+    required_params["team"] = workitem.get("System.IterationLevel2")
+    required_params["area"] = workitem.get("System.AreaPath")
+    required_params["iteration"] = workitem.get("System.IterationPath")
 
     with open(".doing-cli-config.yml", "w") as file:
         file.write("# doing cli configuration file\n")
