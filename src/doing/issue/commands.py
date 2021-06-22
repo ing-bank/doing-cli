@@ -75,7 +75,7 @@ def close(work_item_id):
     "-t",
     required=False,
     default=lambda: get_config("default_workitem_type", "User Story"),
-    type=click.Choice(["Bug", "Epic", "Feature", "User Story", "Issue", "Task", "Test Case"]),
+    type=str,
     help=f"Type of work item. Defaults to \"{get_config('default_workitem_type','User Story')}\"",
     show_envvar=True,
 )

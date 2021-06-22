@@ -44,6 +44,15 @@ from doing.utils import get_config
     show_envvar=True,
 )
 @click.option(
+    "--type",
+    "-t",
+    required=False,
+    default="",
+    type=str,
+    help="Type of work item. E.g.: 'Bug', 'User Story', 'Task'",
+    show_envvar=True,
+)
+@click.option(
     "--web/--no-web",
     "-w",
     required=False,
@@ -52,7 +61,7 @@ from doing.utils import get_config
     help="Open overview of issues in the web browser.",
     show_envvar=True,
 )
-def list(assignee, author, label, state, web):
+def list(assignee, author, label, state, type, web):
     """
     List issues related to the project.
     """
@@ -62,8 +71,8 @@ def list(assignee, author, label, state, web):
         project = get_config("project")
         organization = get_config("organization")
         query = work_item_query(
-            assignee=assignee, author=author, label=label, state=state, area=area, iteration=iteration
+            assignee=assignee, author=author, label=label, state=state, area=area, iteration=iteration, type=type
         )
         click.launch(f"{organization}/{project}/_workitems/?_a=query&wiql={quote(query)}")
     else:
-        cmd_list(assignee, author, label, state, **get_common_options())
+        cmd_list(assignee, author, label, state, type=type, **get_common_options())

@@ -2,7 +2,7 @@ import timeago
 import datetime
 from datetime import timezone
 
-from doing.utils import run_command, get_repo_name, replace_user_aliases
+from doing.utils import run_command, get_repo_name, replace_user_aliases, validate_work_item_type
 from rich.table import Table
 from rich.live import Live
 from rich.progress import track
@@ -13,7 +13,7 @@ from typing import List, Dict
 console = Console()
 
 
-def work_item_query(assignee: str, author: str, label: str, state: str, area: str, iteration: str):
+def work_item_query(assignee: str, author: str, label: str, state: str, area: str, iteration: str, type: str):
     """
     Build query in wiql.
 
@@ -43,6 +43,9 @@ def work_item_query(assignee: str, author: str, label: str, state: str, area: st
         query += "AND [System.State] IN ('Resolved','Closed','Done') "
     if state == "all":
         query += "AND [System.State] <> 'Removed' "
+    if type:
+        validate_work_item_type(type)
+        query += f"AND [System.WorkItemType] = '{type}' "
 
     # Ordering of results
     query += "ORDER BY [System.CreatedDate] asc"
@@ -59,6 +62,7 @@ def cmd_list(
     iteration: str,
     organization: str,
     project: str,
+    type: str,
 ) -> None:
     """
     Run `doing list` command.
@@ -67,7 +71,7 @@ def cmd_list(
     assignee = replace_user_aliases(assignee)
     author = replace_user_aliases(author)
 
-    query = work_item_query(assignee, author, label, state, area, iteration)
+    query = work_item_query(assignee, author, label, state, area, iteration, type)
     work_items = run_command(f'az boards query --wiql "{query}" --org "{organization}" -p "{project}"')
 
     if len(work_items) == 0:

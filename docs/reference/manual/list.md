@@ -19,6 +19,7 @@ doing list --label "some_tag, another tag"
 doing list --state all
 doing list -a "John.Doe@company.com" -s all
 doing list --web
+doing list --type "User Story"
 ```
 
 !!! Note "Issue state open or closed?"
