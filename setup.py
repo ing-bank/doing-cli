@@ -29,7 +29,7 @@ LONG_DESCRIPTION = file.read()
 file.close()
 
 
-base_packages = ["Click>=8.0.1", "rich>=10.3.0", "pyyaml>=5.4.1", "timeago>=1.0.15"]
+base_packages = ["Click>=8.0.1", "rich>=10.3.0", "pyyaml>=5.4.1", "timeago>=1.0.15", "psutil>=5.8.0"]
 dev = ["mkdocs-material>=7.1", "mkdocs-macros-plugin", "pytest", "pytest-cov", "pyflakes"]
 
 setup(
