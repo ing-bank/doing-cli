@@ -31,8 +31,7 @@ The config can also contain some optional parameters that are not required to be
 
 | Optional Parameter      | Description |
 | ----------------------- | ------------------------------------ |
-| `default_workitem_type` | The default work item type used when creating work items. Should be one of "Bug", "Epic", "Feature", "Issue", "Task", "Test Case", "User Story". Defaults to "User Story" if not specified.
-| `verbose_shell` | Set to 'true' to print every shell command `doing` runs for you in the background. Meant for debugging and interested developers.
+| `verbose_shell` | Set to 'true' to print every shell command `doing` runs for you in the background. Meant for debugging and interested developers. Default is 'false'.
 | `user_aliases` | A list of user aliases that you can use when specifying reviewers or assignees. Note that the `@me` alias is always available.
 | `default_reviewers` | The default reviewers assigned when creating pull requests. Space separated list of user emails (case sensitive). Find your own with `az ad signed-in-user show --query 'mail'`.
 | `defaults` | Allows you to overwrite defaults of command options. See explanation below.
@@ -43,24 +42,13 @@ Example `.doing-cli-config.yml`:
 ```yaml
 # .doing-cli-config.yml
 # ... other required parameters ...
-default_workitem_type: 'Task'
-verbose_shell: False
+verbose_shell: true
 user_aliases:
     john: 'John.Doe@company.com'
     jane: 'Jane.Doe@email.net'
 default_reviewers: 'john.doe@domain.com'
 defaults:
     DOING_LIST_STATE: all
-```
-
-### Setting `default_workitem_type`
-
-Azure Devops has [different work item types](https://docs.microsoft.com/en-us/azure/devops/boards/work-items/about-work-items?view=azure-devops&tabs=agile-process#wit) to help track different types of work. By default [`doing issue create`](../reference/manual/issue_create.md) and [`doing workon`](../reference/manual/workon.md) will create a work item of type *User Story*. You can set a different default work item type in the `.doing-cli-config.yml` [config](../config/config_file.md) by specifying `default_workitem_type`. For example:
-
-
-```yaml
-# .doing-cli-config.yml
-default_workitem_type: 'Task'
 ```
 
 ### Setting `user_aliases`

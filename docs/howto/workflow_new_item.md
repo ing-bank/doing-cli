@@ -80,6 +80,20 @@ Another common workflow is to work on tasks that are part of a user story. In az
 doing workon "some work" --type 'Task' --parent 1234
 ```
 
+## Setting default work item types
+
+By default the work item is created with `--type` 'User Story'. There a lot of [different work item types](https://docs.microsoft.com/en-us/azure/devops/boards/work-items/about-work-items?view=azure-devops&tabs=agile-process#wit), the most common being "Bug", "Epic", "Feature", "Issue", "Task", "Test Case" and "User Story".
+
+Setting a different default can by done via the [config file](../config/config_file.md). It makes sense to do this immediately for [`doing workon`](../reference/manual/workon.md) as well.
+
+=== ".doing-cli-config.yml"
+
+    ```yaml
+    defaults:
+        DOING_CREATE_ISSUE_TYPE: 'Bug'
+        DOING_WORKON_TYPE: 'Bug'
+    ```
+
 ## Wrap up
 
 When you're done you can view the:

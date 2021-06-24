@@ -86,7 +86,7 @@ def cmd_list(
     # Instead, we'll retrieve all active PRs and see which items are linked (less API calls)
     repo_name = get_repo_name()
     query = f"az repos pr list --repository '{repo_name}' --org '{organization}' -p '{project}' "
-    query += "--status 'active' --query '[].pullRequestId'"
+    query += "--status active --query '[].pullRequestId'"
     active_pullrequest_ids = run_command(query)
 
     with Live(build_table(work_items, workitem_prs, iteration, False), refresh_per_second=4, console=console) as live:

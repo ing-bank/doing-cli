@@ -16,6 +16,8 @@ from doing.exceptions import ConfigurationError, devops_error_tips
 
 from rich.traceback import install
 
+from functools import lru_cache
+
 install()
 console = Console()
 
@@ -51,6 +53,7 @@ def shell_output(command) -> str:
     return std_out.strip()
 
 
+@lru_cache(maxsize=100)
 def get_az_devop_user_email():
     """
     Retrieves email from azure devops cli configuration.
@@ -60,6 +63,7 @@ def get_az_devop_user_email():
     return email
 
 
+@lru_cache(maxsize=100)
 def get_git_current_branch():
     """
     Get name of current branch in git.
@@ -69,6 +73,7 @@ def get_git_current_branch():
     return branch
 
 
+@lru_cache(maxsize=100)
 def get_git_user_email():
     """
     Gets emailadres from git config.
@@ -78,6 +83,7 @@ def get_git_user_email():
     return email
 
 
+@lru_cache(maxsize=100)
 def get_repo_name():
     """
     Determines name of remote origin repo.
@@ -103,6 +109,7 @@ def find_dotfile(filename: str) -> str:
         filepath = wd / Path(filename)
         if filepath.is_file():
             return str(filepath)
+        wd = wd.parent
         i += 1
 
     return ""
@@ -149,6 +156,22 @@ def get_config(key: str = "", fallback: Union[str, Dict] = None, envvar_prefix: 
     with open(conf_path) as file:
         conf = yaml.load(file, Loader=yaml.FullLoader)
 
+    # deprecations
+    if key == "default_workitem_type":
+        example_type = conf.get(key, "Bug")
+        msg = f"""
+        The config item 'default_workitem_type' has been deprecated.
+        Use 'defaults' instead (see docs). For example:
+
+            ```yaml
+            # .doing-cli-config.yml
+            defaults:
+                DOING_CREATE_ISSUE_TYPE: '{example_type}'
+                DOING_WORKON_TYPE: '{example_type}'
+            ```
+        """
+        raise ConfigurationError(msg)
+
     if not key:
         return conf
 
@@ -191,16 +214,18 @@ def run_command(command: str, allow_verbose=True):
         encoding = sys.stdout.encoding
 
     process = subprocess.run(
-        [command],
+        command,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         universal_newlines=True,
         encoding=encoding,
         shell=True,
+        timeout=15,
     )
 
     if process.returncode != 0:
+        console.print(f"There was an error. Ran the following command with encoding '{encoding}':")
         console.print(f"[bright_black]{command}[/bright_black]")
         if process.stdout:
             console.print(f"[dark_orange3]{process.stdout}[/dark_orange3]")
