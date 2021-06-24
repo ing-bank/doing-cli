@@ -59,7 +59,6 @@ Some examples:
 | -------------- | -------------------- |
 | `team`         | `DOING_CONFIG_TEAM` |
 | `iteration`    | `DOING_CONFIG_ITERATION` |
-| `default_workitem_type`    | `DOING_CONFIG_DEFAULT_WORKITEM_TYPE` |
 
 ```python
 # Example usage

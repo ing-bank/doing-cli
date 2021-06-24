@@ -28,7 +28,7 @@ doing issue create "This is a task" --web
 
 ## In use
 
-Setting default_reviewers and default_workitem_type in the config file:
+Setting default_reviewers and a different default work item type in the config file:
 
 === "Bash"
 
@@ -44,8 +44,10 @@ Setting default_reviewers and default_workitem_type in the config file:
 
     ```yaml
     # ... other (required) config items...
-    default_workitem_type: Task
     default_reviewers: 'john.doe@domain.com'
+    defaults:
+        DOING_CREATE_ISSUE_TYPE: 'Task'
+        DOING_WORKON_TYPE: 'Task'
     ```
 
 Overriding the existing config using environment variables:
