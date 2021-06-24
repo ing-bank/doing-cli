@@ -4,6 +4,7 @@ import json
 import yaml
 import re
 import string
+import psutil
 
 from pathlib import Path
 from platform import uname
@@ -205,13 +206,7 @@ def run_command(command: str, allow_verbose=True):
     if allow_verbose and verbose_shell():
         console.print(f"[bright_black]{command}[/bright_black]")
 
-    # Issue with Windows Subsystem for linux
-    # where "echo $LC_ALL" says UTF-8
-    # but bytes in stdout are actually in windows-1252 encoding
-    if in_wsl():
-        encoding = "windows-1252"
-    else:
-        encoding = sys.stdout.encoding
+    encoding = guess_shell_encoding()
 
     process = subprocess.run(
         command,
@@ -246,15 +241,25 @@ def run_command(command: str, allow_verbose=True):
         return []
 
 
-def in_wsl() -> bool:
+def guess_shell_encoding() -> str:
     """
-    Detect if running inside Windows System For Linux (WSL).
-
-    WSL is thought to be the only common Linux kernel with Microsoft in the name, per Microsoft:
-
-    https://github.com/microsoft/WSL/issues/4071#issuecomment-496715404
+    Try to determine the encoding used by host shell.
     """
-    return "Microsoft" in uname().release
+    # Issue with Windows Subsystem for linux
+    # where "echo $LC_ALL" says UTF-8
+    # but bytes in stdout are actually in windows-1252 encoding
+    # Detect if running inside Windows System For Linux (WSL).
+    # WSL is thought to be the only common Linux kernel with Microsoft in the name, per Microsoft:
+    # https://github.com/microsoft/WSL/issues/4071#issuecomment-496715404
+    if "Microsoft" in uname().release:
+        return "windows-1252"
+    # Same issue for windows powershell
+    # how to detect:
+    # https://stackoverflow.com/a/59459612/5525118
+    elif "powershell" in psutil.Process(os.getppid()).name():
+        return "cp1252"
+    else:
+        return sys.stdout.encoding
 
 
 def verbose_shell():
