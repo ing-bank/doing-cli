@@ -30,12 +30,4 @@ jobs:
         pyflakes src
     - name: Generate coverage report
       run: |
-        pytest --cov=src --cov-report=xml -vvv
-    # - name: Upload coverage to Codecov
-    #   if: "contains(env.USING_COVERAGE, matrix.python-version)"
-    #   uses: codecov/codecov-action@v1
-    #   with:
-    #     token: ${{ secrets.CODECOV_TOKEN }}
-    #     file: ./coverage.xml
-    #     flags: unittests
-    #     fail_ci_if_error: false
+        pytest

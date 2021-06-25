@@ -18,6 +18,6 @@ jobs:
       run: |
         pip3 install ".[all]"
         pyflakes src
-    - name: Generate coverage report
+    - name: Run unit tests
       run: |
-        pytest --cov=src --cov-report=xml
+        pytest
