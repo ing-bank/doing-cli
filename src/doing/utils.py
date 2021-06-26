@@ -96,20 +96,24 @@ def get_repo_name():
     return repo_name
 
 
-def find_dotfile(filename: str) -> str:
+def find_dotfile() -> str:
     """
     Recursively search directories upwards for a specific file.
-
-    Args:
-        filename (str): name of the file.
     """
     wd = Path(os.getcwd())
 
     i = 0
-    while i != 15 or wd == Path("/"):
-        filepath = wd / Path(filename)
+    # Go up max 10 directories
+    while not i >= 10 or wd != Path("/"):
+        filepath = wd / Path(".doing-cli-config.yml")
         if filepath.is_file():
             return str(filepath)
+
+        # allow for .yaml syntax as well
+        filepath2 = wd / Path(".doing-cli-config.yaml")
+        if filepath2.is_file():
+            return str(filepath2)
+
         wd = wd.parent
         i += 1
 
@@ -142,11 +146,7 @@ def get_config(key: str = "", fallback: Union[str, Dict] = None, envvar_prefix: 
             return env_var
 
     # Find the config file
-    conf_path = find_dotfile(".doing-cli-config.yml")
-
-    # Allow for .yaml syntax as well
-    if not conf_path:
-        conf_path = find_dotfile(".doing-cli-config.yaml")
+    conf_path = find_dotfile()
 
     if not conf_path:
         if fallback is not None:
