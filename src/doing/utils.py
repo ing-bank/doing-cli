@@ -6,11 +6,10 @@ import re
 import string
 import psutil
 
-from pathlib import Path
 from platform import uname
 from rich.console import Console
 import subprocess
-from typing import Dict, Union
+from typing import Dict, Union, Text, Iterator
 from collections import OrderedDict
 
 from doing.exceptions import ConfigurationError, devops_error_tips
@@ -96,26 +95,42 @@ def get_repo_name():
     return repo_name
 
 
+def _walk_to_root(path: Text) -> Iterator[Text]:
+    """
+    Yield directories starting from the given directory up to the root.
+
+    Credits:
+    https://github.com/theskumar/python-dotenv
+    """
+    if not os.path.exists(path):
+        raise IOError("Starting path not found")
+
+    if os.path.isfile(path):
+        path = os.path.dirname(path)
+
+    last_dir = None
+    current_dir = os.path.abspath(path)
+    while last_dir != current_dir:
+        yield current_dir
+        parent_dir = os.path.abspath(os.path.join(current_dir, os.path.pardir))
+        last_dir, current_dir = current_dir, parent_dir
+
+
 def find_dotfile() -> str:
     """
     Recursively search directories upwards for a specific file.
     """
-    wd = Path(os.getcwd())
+    filename = ".doing-cli-config.yml"
+    filename2 = ".doing-cli-config.yaml"
+    path = os.getcwd()
 
-    i = 0
-    # Go up max 10 directories
-    while not i >= 10 or wd != Path("/"):
-        filepath = wd / Path(".doing-cli-config.yml")
-        if filepath.is_file():
-            return str(filepath)
-
-        # allow for .yaml syntax as well
-        filepath2 = wd / Path(".doing-cli-config.yaml")
-        if filepath2.is_file():
-            return str(filepath2)
-
-        wd = wd.parent
-        i += 1
+    for dirname in _walk_to_root(path):
+        check_path = os.path.join(dirname, filename)
+        if os.path.isfile(check_path):
+            return check_path
+        check_path = os.path.join(dirname, filename2)
+        if os.path.isfile(check_path):
+            return check_path
 
     return ""
 
