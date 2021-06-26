@@ -1,4 +1,3 @@
-![pytest](https://github.com/ing-bank/doing-cli/workflows/Release/badge.svg)
 ![pytest](https://github.com/ing-bank/doing-cli/workflows/Development/badge.svg)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/doing-cli)
 ![PyPI](https://img.shields.io/pypi/v/doing-cli)
