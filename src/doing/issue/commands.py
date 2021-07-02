@@ -106,6 +106,15 @@ def close(work_item_id):
     help="Open newly created issue in the web browser.",
     show_envvar=True,
 )
+@click.option(
+    "--story_points",
+    "-s",
+    required=False,
+    default="1",
+    type=str,
+    help="The number of story points to assign. Defaults to 1.",
+    show_envvar=True,
+)
 def create(
     issue: str,
     mine: bool,
@@ -115,12 +124,13 @@ def create(
     label: str,
     parent: str,
     web: bool,
+    story_points: str,
 ) -> None:
     """
     Create an issue.
 
     ISSUE is the title to be used for the new work item.
     """
-    work_item_id = cmd_create_issue(issue, mine, assignee, body, type, label, parent, **get_common_options())
+    work_item_id = cmd_create_issue(issue, mine, assignee, body, type, label, parent, story_points, **get_common_options())
     if web:
         cmd_open_issue(work_item_id)

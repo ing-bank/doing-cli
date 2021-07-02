@@ -19,6 +19,7 @@ def cmd_create_issue(
     iteration: str,
     organization: str,
     project: str,
+    work_item_points: str,
 ) -> int:
     """
     Create a new issue.
@@ -39,7 +40,6 @@ def cmd_create_issue(
         cmd += f"--assigned-to '{assignee}' "
     if body:
         cmd += f"--description '{body}' "
-    work_item_points = get_config("default_story_points", fallback="")
     if(work_item_points):
         cmd += f"--fields 'Microsoft.VSTS.Scheduling.StoryPoints={work_item_points}' "
         if label:

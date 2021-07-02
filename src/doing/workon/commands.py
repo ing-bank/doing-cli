@@ -69,6 +69,15 @@ from doing.utils import get_config
     help="Set to delete source branch when pull request completes. Default is --delete-source-branch.",
     show_envvar=True,
 )
+@click.option(
+    "--story-points",
+    "-s",
+    required=False,
+    default="1",
+    type=str,
+    help="The number of story points to assign. Defaults to 1.",
+    show_envvar=True,
+)
 def workon(
     issue,
     type,
@@ -79,6 +88,7 @@ def workon(
     self_approve: bool,
     checkout: bool,
     delete_source_branch: bool,
+    story_points,
 ):
     """
     Create issue with PR and switch git branch.
@@ -93,7 +103,7 @@ def workon(
     # Create the issue. Note we changed some defaults:
     # - it's assigned to self (mine = True)
     work_item_id = cmd_create_issue(
-        title=issue, mine=True, assignee="", label="", body="", type=type, parent=parent, **get_common_options()
+        title=issue, mine=True, assignee="", label="", body="", type=type, parent=parent, work_item_points=story_points, **get_common_options()
     )
 
     # Open a PR.

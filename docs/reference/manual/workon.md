@@ -15,6 +15,7 @@ doing workon "an issue" --type 'User Story'
 doing workon "an issue" --parent 12345
 doing workon "an issue" --reviewers "john.doe@company.com jane.doe@company.com"
 doing workon "an issue" --no-auto-complete --no-draft --self-approve
+doing workon "an issue" --story-points 3
 ```
 
 ## Options
