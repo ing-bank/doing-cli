@@ -17,6 +17,7 @@ doing issue create "I found a bug" --labels "tag1, tag2"
 doing issue create "I found a bug" --description "More details on the bug"
 doing issue create "I found a bug" --type "Bug"
 doing issue create "This is a task" --type "Task" --parent 12345 
+doing issue create "This is a task" --story_points 10
 doing issue create "This is a task" --web
 ```
 
@@ -28,7 +29,7 @@ doing issue create "This is a task" --web
 
 ## In use
 
-Setting default_reviewers and a different default work item type in the config file:
+Setting custom defaults in the config file:
 
 === "Bash"
 
@@ -38,6 +39,7 @@ Setting default_reviewers and a different default work item type in the config f
     #     > added area-path '{your area path}'
     #     > added iteration-path '{your iteration path}'
     #     > added assignee 'john.doe@domain.com'
+    # .   > assigned 5 story points
     ```
 
 === ".doing-cli-config.yml"
@@ -48,6 +50,8 @@ Setting default_reviewers and a different default work item type in the config f
     defaults:
         DOING_CREATE_ISSUE_TYPE: 'Task'
         DOING_WORKON_TYPE: 'Task'
+        DOING_ISSUE_CREATE_STORY_POINTS: 5
+        DOING_WORKON_STORY_POINTS: 5
     ```
 
 Overriding the existing config using environment variables:

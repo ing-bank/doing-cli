@@ -110,9 +110,9 @@ def close(work_item_id):
     "--story_points",
     "-s",
     required=False,
-    default="1",
+    default="",
     type=str,
-    help="The number of story points to assign. Defaults to 1.",
+    help="The number of story points to assign. Not assigned if not specified.",
     show_envvar=True,
 )
 def create(
@@ -131,6 +131,16 @@ def create(
 
     ISSUE is the title to be used for the new work item.
     """
-    work_item_id = cmd_create_issue(issue, mine, assignee, body, type, label, parent, story_points, **get_common_options())
+    work_item_id = cmd_create_issue(
+        title=issue,
+        mine=mine,
+        assignee=assignee,
+        label=label,
+        body=body,
+        type=type,
+        parent=parent,
+        story_points=story_points,
+        **get_common_options(),
+    )
     if web:
         cmd_open_issue(work_item_id)

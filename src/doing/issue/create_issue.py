@@ -19,11 +19,15 @@ def cmd_create_issue(
     iteration: str,
     organization: str,
     project: str,
-    work_item_points: str,
+    story_points: str,
 ) -> int:
     """
     Create a new issue.
-    """
+
+    Reference:
+
+    - [`az boards work-item create]`(https://docs.microsoft.com/en-us/cli/azure/boards/work-item?view=azure-cli-latest#az-boards-work-item-create)
+    """  # noqa
     if mine and assignee:
         raise InputError("You cannot use --mine in combination with specifying --assigned-to.")
 
@@ -40,12 +44,14 @@ def cmd_create_issue(
         cmd += f"--assigned-to '{assignee}' "
     if body:
         cmd += f"--description '{body}' "
-    if(work_item_points):
-        cmd += f"--fields 'Microsoft.VSTS.Scheduling.StoryPoints={work_item_points}' "
-        if label:
-            cmd += f"' System.Tags={label}' "
-        elif label:
-            cmd += f"--fields ' System.Tags={label}' "
+
+    if story_points != "" and label != "":
+        cmd += f"--fields 'Microsoft.VSTS.Scheduling.StoryPoints={story_points}' 'System.Tags={label}' "
+    if story_points != "" and label == "":
+        cmd += f"--fields 'Microsoft.VSTS.Scheduling.StoryPoints={story_points}' "
+    if story_points == "" and label != "":
+        cmd += f"--fields 'System.Tags={label}' "
+
     cmd += f"--area '{area}' --iteration '{iteration}' --project '{project}' --organization '{organization}'"
 
     work_item = run_command(cmd)
@@ -57,7 +63,9 @@ def cmd_create_issue(
     if assignee:
         console.print(f"\t[dark_orange3]>[/dark_orange3] added assignee '{assignee}'")
     if label:
-        console.print(f"\t[dark_orange3]>[/dark_orange3] added tag(s) '{label}'")
+        console.print(f"\t[dark_orange3]>[/dark_orange3] added tags: '{label}'")
+    if story_points:
+        console.print(f"\t[dark_orange3]>[/dark_orange3] assigned {story_points} storypoints")
 
     if parent:
         cmd = "az boards work-item relation add "

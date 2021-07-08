@@ -73,9 +73,9 @@ from doing.utils import get_config
     "--story-points",
     "-s",
     required=False,
-    default="1",
+    default="",
     type=str,
-    help="The number of story points to assign. Defaults to 1.",
+    help="The number of story points to assign. Not assigned if not specified.",
     show_envvar=True,
 )
 def workon(
@@ -103,7 +103,15 @@ def workon(
     # Create the issue. Note we changed some defaults:
     # - it's assigned to self (mine = True)
     work_item_id = cmd_create_issue(
-        title=issue, mine=True, assignee="", label="", body="", type=type, parent=parent, work_item_points=story_points, **get_common_options()
+        title=issue,
+        mine=True,
+        assignee="",
+        label="",
+        body="",
+        type=type,
+        parent=parent,
+        story_points=story_points,
+        **get_common_options(),
     )
 
     # Open a PR.
