@@ -139,6 +139,7 @@ def build_table(work_items: List, workitem_prs: Dict, iteration: str, last_build
         try:
             item_datetime = datetime.datetime.strptime(item_datetime, "%Y-%m-%dT%H:%M:%S.%fZ")
         except ValueError:
+            # sometimes milliseconds is missing from the timestamp, try without
             item_datetime = datetime.datetime.strptime(item_datetime, "%Y-%m-%dT%H:%M:%SZ")
         item_datetime = item_datetime.replace(tzinfo=timezone.utc)
         now = datetime.datetime.now(timezone.utc)
