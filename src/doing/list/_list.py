@@ -136,7 +136,10 @@ def build_table(work_items: List, workitem_prs: Dict, iteration: str, last_build
         # '2020-11-17T13:33:32.463Z'
         # details: https://docs.microsoft.com/en-us/azure/devops/boards/queries/wiql-syntax?view=azure-devops#date-time-pattern # noqa
         item_datetime = fields.get("System.CreatedDate")
-        item_datetime = datetime.datetime.strptime(item_datetime, "%Y-%m-%dT%H:%M:%S.%fZ")
+        try:
+            item_datetime = datetime.datetime.strptime(item_datetime, "%Y-%m-%dT%H:%M:%S.%fZ")
+        except ValueError:
+            item_datetime = datetime.datetime.strptime(item_datetime, "%Y-%m-%dT%H:%M:%SZ")
         item_datetime = item_datetime.replace(tzinfo=timezone.utc)
         now = datetime.datetime.now(timezone.utc)
         item_datetime = timeago.format(item_datetime, now)
