@@ -124,7 +124,7 @@ These are the merge strategies allowed:
 | Merge strategy      | Description |
 | ----------------------- | ------------------------------------ |
 | basic merge | Basic merge (no fast-forward) - Preserves nonlinear history exactly as it happened during development. |
-| squash merge | hi |
+| squash merge | Individual commits that made up the pull request are combined into a single commit onto the target without a merge commit.|
 | rebase and fast-forward | Creates a linear history by replaying the source branch commits onto the target without a merge commit. |
 | rebase with merge commit |Creates a semi-linear history by replaying the source branch commits onto the target and then creating a merge commit. |
 
