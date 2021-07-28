@@ -43,7 +43,7 @@ def cmd_init(reference_issue: str = ""):
     required_params = {"organization": organization, "project": project}
 
     cmd = f"az boards work-item show --id {item_id} "
-    cmd += f"--org '{organization}' "
+    cmd += f'--org "{organization}" '
     workitem = run_command(cmd)
     workitem = workitem.get("fields")
     assert workitem is not None

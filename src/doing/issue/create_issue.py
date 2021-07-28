@@ -38,21 +38,21 @@ def cmd_create_issue(
     validate_work_item_type(type)
 
     cmd = "az boards work-item create "
-    cmd += f"--title '{title}' "
-    cmd += f"--type '{type}' "
+    cmd += f'--title "{title}" '
+    cmd += f'--type "{type}" '
     if assignee:
-        cmd += f"--assigned-to '{assignee}' "
+        cmd += f'--assigned-to "{assignee}" '
     if body:
-        cmd += f"--description '{body}' "
+        cmd += f'--description "{body}" '
 
     if story_points != "" and label != "":
-        cmd += f"--fields 'Microsoft.VSTS.Scheduling.StoryPoints={story_points}' 'System.Tags={label}' "
+        cmd += f'--fields "Microsoft.VSTS.Scheduling.StoryPoints={story_points}" "System.Tags={label}" '
     if story_points != "" and label == "":
-        cmd += f"--fields 'Microsoft.VSTS.Scheduling.StoryPoints={story_points}' "
+        cmd += f'--fields "Microsoft.VSTS.Scheduling.StoryPoints={story_points}" '
     if story_points == "" and label != "":
-        cmd += f"--fields 'System.Tags={label}' "
+        cmd += f'--fields "System.Tags={label}" '
 
-    cmd += f"--area '{area}' --iteration '{iteration}' --project '{project}' --organization '{organization}'"
+    cmd += f'--area "{area}" --iteration "{iteration}" --project "{project}" --organization "{organization}"'
 
     work_item = run_command(cmd)
     work_item_id = work_item.get("id")
@@ -70,9 +70,9 @@ def cmd_create_issue(
     if parent:
         cmd = "az boards work-item relation add "
         cmd += f"--id {work_item_id} "
-        cmd += "--relation-type 'parent' "
+        cmd += '--relation-type "parent" '
         cmd += f"--target-id {parent} "
-        cmd += f"--org '{organization}' "
+        cmd += f'--org "{organization}" '
         run_command(cmd)
         console.print(f"\t[dark_orange3]>[/dark_orange3] added work item #{parent} as a parent")
 

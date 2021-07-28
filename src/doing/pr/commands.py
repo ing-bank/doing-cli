@@ -31,8 +31,8 @@ def close(pr_id):
 
     for id in pr_id:
         id = str(id).lstrip("!")
-        cmd = f"az repos pr update --id {id} --status '{state}' "
-        cmd += f"--org '{organization}'"
+        cmd = f'az repos pr update --id {id} --status "{state}" '
+        cmd += f'--org "{organization}"'
         result = run_command(cmd)
         assert result.get("status") == state
         console.print(f"[dark_orange3]>[/dark_orange3] pullrequest !{id} set to '{state}'")

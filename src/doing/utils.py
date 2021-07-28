@@ -362,9 +362,9 @@ def get_current_pr_id() -> int:
     current_branch = get_git_current_branch()
     repo_name = get_repo_name()
 
-    cmd = "az repos pr list --status 'active' "
-    cmd += f"--repository '{repo_name}' --source-branch '{current_branch}' "
-    cmd += f"--project '{project}' --organization '{organization}'"
+    cmd = 'az repos pr list --status "active" '
+    cmd += f'--repository "{repo_name}" --source-branch "{current_branch}" '
+    cmd += f'--project "{project}" --organization "{organization}"'
 
     result = run_command(cmd)
 

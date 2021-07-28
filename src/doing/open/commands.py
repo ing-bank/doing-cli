@@ -84,7 +84,9 @@ def pipe():
     project = get_config("project")
     organization = get_config("organization")
 
-    repo_pipes = run_command(f"az pipelines list --repository {get_repo_name()} --org '{organization}' -p '{project}'")
+    repo_pipes = run_command(
+        f'az pipelines list --repository "{get_repo_name()}" --org "{organization}" -p "{project}"'
+    )
     if len(repo_pipes) == 0:
         console.print(f"{get_repo_name()} has no pipelines defined currently")
         return None
@@ -175,7 +177,7 @@ def policies():
     organization = get_config("organization")
 
     repo_name = get_repo_name()
-    repo = run_command(f"az repos show --repository '{repo_name}'")
+    repo = run_command(f'az repos show --repository "{repo_name}"')
 
     repo_id = repo.get("id")
     assert len(repo_id) > 0

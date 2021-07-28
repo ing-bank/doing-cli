@@ -52,7 +52,7 @@ def cmd_create_pr(
     user_email = get_az_devop_user_email()
 
     # Info on related work item
-    work_item = run_command(f"az boards work-item show --id {work_item_id} --org '{organization}'")
+    work_item = run_command(f'az boards work-item show --id {work_item_id} --org "{organization}"')
     work_item_title = work_item.get("fields").get("System.Title")
 
     # Info in other linked PRs to work item
@@ -66,7 +66,7 @@ def cmd_create_pr(
                 # The bit after %2f is the pullrequestid (12345)
                 related_pr_id = re.findall("^.*%2[fF]([0-9]+)$", relation.get("url"))[0]
                 related_pr_id_status = run_command(
-                    f"az repos pr show --id {related_pr_id} --query 'status' --org '{organization}'"
+                    f'az repos pr show --id {related_pr_id} --query "status" --org "{organization}"'
                 )
                 if related_pr_id_status == "active":
                     active_related_pr_ids.append(related_pr_id)
@@ -75,17 +75,17 @@ def cmd_create_pr(
 
     # Info on remote branches
     remote_branches = run_command(
-        f"az repos ref list --repository {repo_name} --query '[].name' --org '{organization}' -p '{project}'"
+        f'az repos ref list --repository "{repo_name}" --query "[].name" --org "{organization}" -p "{project}"'
     )
     remote_branches = [x.rpartition("/")[2] for x in remote_branches if x.startswith("refs/heads")]
 
     # Find the default branch from which to create a new branch and target the pull request to
-    cmd = f"az repos show --repository '{repo_name}' --org '{organization}' -p '{project}'"
+    cmd = f'az repos show --repository "{repo_name}" --org "{organization}" -p "{project}"'
     default_branch = run_command(cmd).get("defaultBranch", "refs/heads/master")
 
     # Create a new remote branch, only if it does yet exist
-    cmd = f"az repos ref list --repository '{repo_name}' --query \"[?name=='{default_branch}'].objectId\" "
-    cmd += f"--org '{organization}' -p '{project}'"
+    cmd = f'az repos ref list --repository "{repo_name}" --query "[?name==\'{default_branch}\'].objectId" '
+    cmd += f'--org "{organization}" -p "{project}"'
     master_branch_object_id = run_command(cmd)[0]
     branch_name = f"{work_item_id}_{to_snake_case(remove_special_chars(work_item_title))}"
     if branch_name in remote_branches:
@@ -93,7 +93,7 @@ def cmd_create_pr(
             f"[dark_orange3]>[/dark_orange3] Remote branch '[cyan]{branch_name}[/cyan]' already exists, using that one"
         )
         # Check if there is not already an existing PR for this branch
-        prs = run_command(f"az repos pr list -r {repo_name} -s {branch_name} --org '{organization}' -p '{project}'")
+        prs = run_command(f'az repos pr list -r "{repo_name}" -s {branch_name} --org "{organization}" -p "{project}"')
         if len(prs) >= 1:
             pr_id = prs[0].get("pullRequestId")
             console.print(
@@ -113,8 +113,8 @@ def cmd_create_pr(
 
             return pr_id
     else:
-        cmd = f"az repos ref create --name 'heads/{branch_name}' --repository '{repo_name}' "
-        cmd += f"--object-id '{master_branch_object_id}' -p '{project}' --org '{organization}'"
+        cmd = f'az repos ref create --name "heads/{branch_name}" --repository "{repo_name}" '
+        cmd += f'--object-id "{master_branch_object_id}" -p "{project}" --org "{organization}"'
         branch = run_command(cmd)
         assert branch.get(
             "success"
@@ -125,23 +125,23 @@ def cmd_create_pr(
     check_merge_strategy_policy()
 
     # Create the PR
-    command = f"az repos pr create --repository '{repo_name}' "
-    command += f"--draft '{str(draft).lower()}' "
-    command += f"--work-items '{work_item_id}' "
-    command += f"--source-branch '{branch_name}' "
-    command += f"--title '{work_item_title}' "
-    command += f"--project '{project}' --organization '{organization}' "
+    command = f'az repos pr create --repository "{repo_name}" '
+    command += f'--draft "{str(draft).lower()}" '
+    command += f'--work-items "{work_item_id}" '
+    command += f'--source-branch "{branch_name}" '
+    command += f'--title "{work_item_title}" '
+    command += f'--project "{project}" --organization "{organization}" '
 
     # Some sensible defaults
-    command += "--transition-work-items 'true' "
-    command += f"--delete-source-branch '{str(delete_source_branch).lower()}' "
+    command += '--transition-work-items "true" '
+    command += f'--delete-source-branch "{str(delete_source_branch).lower()}" '
 
     # auto-complete.
-    command += f"--auto-complete '{str(auto_complete).lower()}' "
+    command += f'--auto-complete "{str(auto_complete).lower()}" '
 
     if reviewers != "":
         # Azure wants the format --reviewers 'one' 'two' 'three'
-        az_reviewers = " ".join([f"'{x}'" for x in reviewers.split(" ")])
+        az_reviewers = " ".join([f'"{x}"' for x in reviewers.split(" ")])
         command += f"--reviewers {az_reviewers} "
 
     pr = run_command(command)
@@ -159,7 +159,7 @@ def cmd_create_pr(
     if len(reviewers) > 0:
         console.print(f"\t[dark_orange3]>[/dark_orange3] added reviewers: '{reviewers}'")
     if self_approve:
-        run_command(f"az repos pr set-vote --id {pr_id} --vote 'approve' --org '{organization}'")
+        run_command(f'az repos pr set-vote --id {pr_id} --vote "approve" --org "{organization}"')
         console.print(f"\t[dark_orange3]>[/dark_orange3] Approved PR {pr_id} for '{user_email}'")
     if active_related_pr_ids:
         console.print(f"\t[dark_orange3]>[/dark_orange3] Note: work item has other active linked PRs: {related_pr_ids}")
@@ -241,14 +241,14 @@ def set_merge_strategy_policy(merge_strategy: str, organization: str, project: s
     merge_settings += f"--allow-squash {str(merge_strategy == 'squash merge').lower()} "
 
     repo_name = get_repo_name()
-    repo = run_command(f"az repos show --repository '{repo_name}'")
+    repo = run_command(f'az repos show --repository "{repo_name}"')
 
     repo_id = repo.get("id")
     assert len(repo_id) > 0
 
     default_branch = repo.get("defaultBranch").split("/")[-1]
 
-    policies = run_command(f"az repos policy list --repository '{repo_id}' --branch '{default_branch}' -o json")
+    policies = run_command(f'az repos policy list --repository "{repo_id}" --branch "{default_branch}" -o json')
     policies = [p for p in policies if p.get("type", {}).get("displayName") == "Require a merge strategy"]
 
     enabled_policies = [p for p in policies if p.get("isEnabled") is True]
@@ -273,7 +273,7 @@ def set_merge_strategy_policy(merge_strategy: str, organization: str, project: s
         ):
             # policy settings already OK. Don't do anything
             return
-        cmd = f"az repos policy merge-strategy update --id '{policy_id}' --blocking true "
+        cmd = f'az repos policy merge-strategy update --id "{policy_id}" --blocking true '
         msg = "[dark_orange3]>[/dark_orange3] Updated repository merge strategy "
         msg += f"on default branch '{default_branch}' to [cyan]'{merge_strategy}'[cyan]"
 
@@ -283,8 +283,8 @@ def set_merge_strategy_policy(merge_strategy: str, organization: str, project: s
         )
 
     # Add correct policy settings
-    cmd += f"--branch {default_branch} --repository-id '{repo_id}' "
-    cmd += f"{merge_settings} --project '{project}' --org '{organization}' "
+    cmd += f'--branch {default_branch} --repository-id "{repo_id}" '
+    cmd += f'{merge_settings} --project "{project}" --org "{organization}" '
 
     settings_url = f"{organization}/{project}/_settings/repositories?repo={repo_id}"
     settings_url += f"&_a=policiesMid&refs=refs%2Fheads%2F{default_branch}"

@@ -20,11 +20,11 @@ def cmd_list_pr(assignee, label, limit, state, project, organization) -> None:
     assignee = replace_user_aliases(assignee)
 
     query = "az repos pr list "
-    query += f"--status '{state}' "
+    query += f'--status "{state}" '
     query += f"--top {limit} "
-    query += f"--org '{organization}' "
-    query += f"--project '{project}' "
-    query += f"--repository '{get_repo_name()}' "
+    query += f'--org "{organization}" '
+    query += f'--project "{project}" '
+    query += f'--repository "{get_repo_name()}" '
 
     # Generate a jmespath.org query
     # Example:
