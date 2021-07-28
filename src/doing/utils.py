@@ -261,6 +261,7 @@ def run_command(command: str, allow_verbose=True):
         return []
 
 
+@lru_cache(maxsize=100)
 def guess_shell_encoding() -> str:
     """
     Try to determine the encoding used by host shell.
@@ -276,7 +277,10 @@ def guess_shell_encoding() -> str:
     # Same issue for windows powershell
     # how to detect:
     # https://stackoverflow.com/a/59459612/5525118
-    elif "powershell" in psutil.Process(os.getppid()).name():
+    process_name = str(psutil.Process(os.getppid()).name()).lower()
+    if "powershell" in process_name:
+        return "cp1252"
+    elif "cmd.exe" in process_name:
         return "cp1252"
     else:
         return sys.stdout.encoding
