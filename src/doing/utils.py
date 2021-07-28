@@ -221,7 +221,9 @@ def run_command(command: str, allow_verbose=True):
     if allow_verbose and verbose_shell():
         console.print(f"[bright_black]{command}[/bright_black]")
 
-    encoding = guess_shell_encoding()
+    encoding = get_config("encoding", "")
+    if encoding == "":
+        encoding = guess_shell_encoding()
 
     try:
         process = subprocess.run(

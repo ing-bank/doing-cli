@@ -27,7 +27,7 @@ iteration: 'organization_name\team_name\iteration_name'
 
 ## Optional parameters
 
-The config can also contain some optional parameters that are not required to be set:
+The config can also contain some optional parameters that are not required to be set. Here's a summary:
 
 | Optional Parameter      | Description |
 | ----------------------- | ------------------------------------ |
@@ -36,19 +36,40 @@ The config can also contain some optional parameters that are not required to be
 | `default_reviewers` | The default reviewers assigned when creating pull requests. Space separated list of user emails (case sensitive). Find your own with `az ad signed-in-user show --query 'mail'`.
 | `defaults` | Allows you to overwrite defaults of command options. See explanation below.
 | `merge_strategy` | Azure devops supports pull requests with rebase (see [blogpost](https://devblogs.microsoft.com/devops/pull-requests-with-rebase/#rebase)). Should be one of "basic merge", "squash merge", "rebase and fast-forward", "rebase with merge commit". If specified, it will update the policies on a repository level to only allow that merge strategy.
+| `encoding` | The encoding used to parse the response of terminal commands. This is auto-detected by default but can be set explicitly in case you have encoding trouble.
 
-Example `.doing-cli-config.yml`:
+Example `.doing-cli-config.yml` with all optional parameters set:
 
 ```yaml
 # .doing-cli-config.yml
 # ... other required parameters ...
 verbose_shell: true
+encoding: 'UTF-8'
 user_aliases:
     john: 'John.Doe@company.com'
     jane: 'Jane.Doe@email.net'
 default_reviewers: 'john.doe@domain.com'
 defaults:
     DOING_LIST_STATE: all
+merge_strategy: "rebase and fast-forward"
+```
+
+## Setting `verbose_shell`
+
+Set to 'true' to print every shell command `doing` runs for you in the background. Meant for debugging and interested developers. Default is 'false'.
+
+```yaml
+# .doing-cli-config.yml
+verbose_shell: true
+```
+
+## Setting `encoding`
+
+The encoding used to parse the response of terminal commands. This is auto-detected by default but can be set explicitly in case you have encoding trouble.
+
+```yaml
+# .doing-cli-config.yml
+encoding: 'UTF-8'
 ```
 
 ### Setting `user_aliases`
