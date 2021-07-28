@@ -223,16 +223,20 @@ def run_command(command: str, allow_verbose=True):
 
     encoding = guess_shell_encoding()
 
-    process = subprocess.run(
-        command,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        universal_newlines=True,
-        encoding=encoding,
-        shell=True,
-        timeout=15,
-    )
+    try:
+        process = subprocess.run(
+            command,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+            encoding=encoding,
+            shell=True,
+            timeout=15,
+        )
+    except subprocess.TimeoutExpired as e:
+        console.print(e)
+        sys.exit(1)
 
     if process.returncode != 0:
         console.print(f"There was an error. Ran the following command with encoding '{encoding}':")
@@ -252,6 +256,7 @@ def run_command(command: str, allow_verbose=True):
         except Exception:
             console.print("[doing-cli] error: Could not process the following stdout as a JSON:")
             console.print(f"[dark_orange3]{process.stdout}[/dark_orange3]")
+            sys.exit(1)
     else:
         return []
 
