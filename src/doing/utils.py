@@ -234,7 +234,7 @@ def run_command(command: str, allow_verbose=True):
             shell=True,
             timeout=15,
         )
-    except Exception as e:
+    except subprocess.TimeoutExpired as e:
         console.print(e)
         sys.exit(1)
 
