@@ -93,7 +93,7 @@ def cmd_list(
 
         # For each PR, get linked work items. Note that "az repos pr list --include-links" does not work :(
         # Posted issue on bug here: https://github.com/Azure/azure-cli-extensions/issues/2946
-        for pr_id in track(active_pullrequest_ids, description="Processing pull requests"):
+        for pr_id in track(active_pullrequest_ids, description="Processing pull requests", transient=False):
             linked_workitems = run_command(
                 f'az repos pr work-item list --id {pr_id} --query "[].id" --org "{organization}"', allow_verbose=False
             )
@@ -115,9 +115,9 @@ def build_table(work_items: List, workitem_prs: Dict, iteration: str, last_build
     # Create our table
     table = Table(title=f"Work-items in current iteration {iteration}")
     table.add_column("ID", justify="right", style="cyan", no_wrap=True)
-    table.add_column("Title", justify="right", style="cyan", no_wrap=True)
-    table.add_column("Assignee", justify="right", style="cyan", no_wrap=True)
-    table.add_column("Type", justify="right", style="cyan", no_wrap=True)
+    table.add_column("Title", justify="left", style="cyan", no_wrap=False)
+    table.add_column("Assignee", justify="left", style="cyan", no_wrap=False)
+    table.add_column("Type", justify="left", style="cyan", no_wrap=True)
     table.add_column("Created", justify="right", style="cyan", no_wrap=True)
     table.add_column("PRs", justify="right", style="cyan", no_wrap=True)
 
