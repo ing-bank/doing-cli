@@ -343,7 +343,7 @@ def get_current_work_item_id():
     Retrieves current work item id from the current branchname.
     """
     branch_name = shell_output("git branch --show-current")
-    wi_id = re.search(r"^([0-9]*)_", branch_name)
+    wi_id = re.search(r"^([0-9]+)_", branch_name)
     if wi_id is None or len(wi_id.group(1)) == 0:
         console.print(
             "Could not find work item id in current branch name: "
