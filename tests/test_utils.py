@@ -1,7 +1,8 @@
 import os
 import pytest
 import yaml
-from doing.utils import get_az_devop_user_email, remove_special_chars, to_snake_case, get_config, replace_user_aliases
+from doing.utils import get_az_devop_user_email, remove_special_chars, to_snake_case, get_config, replace_user_aliases,\
+    get_current_work_item_id
 
 from contextlib import contextmanager
 
@@ -69,7 +70,7 @@ def test_get_config_key():
     assert get_config("team") == "my team"
 
 
-def test_get_config_fallbackl():
+def test_get_config_fallback():
     """
     Test overrides via env vars.
     """
@@ -96,7 +97,6 @@ def test_replace_user_aliases(tmp_path):
     config = {"user_aliases": {"john": "john.doe@email.net", "jane": "jane.doe@webmail.org"}}
 
     with working_directory(tmp_path):
-
         with open(".doing-cli-config.yml", "w") as file:
             yaml.dump(config, file)
 
@@ -130,8 +130,26 @@ def test_create_file(tmp_path):
     config = {"user_aliases": {"john": "john.doe@email.net", "jane": "jane.doe@webmail.org"}}
 
     with working_directory(tmp_path):
-
         with open(".doing-cli-config.yml", "w") as file:
             yaml.dump(config, file)
 
         assert get_config("user_aliases") == config["user_aliases"]
+
+
+def test_get_current_work_item_id_works_on_valid_branch(mocker):
+    """
+    Test the correct workitem ID is returned if present at the start of a branch name
+    """
+    mock_run = mocker.patch('doing.utils.shell_output', return_value="123456_Branch_with_leading_workitem_id")
+    assert get_current_work_item_id() == "123456"
+    mock_run.assert_called_with("git branch --show-current")
+
+
+def test_get_current_work_item_id_fails_on_branch_without_workitem(mocker):
+    """
+    Test exception handling on a branch name without a workitem ID
+    """
+    mocker.patch('doing.utils.shell_output', return_value="Branch_without_leading_id")
+    with pytest.raises(SystemExit) as wrapped_exception:
+        assert get_current_work_item_id() is None
+    assert wrapped_exception.type == SystemExit
