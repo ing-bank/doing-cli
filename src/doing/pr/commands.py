@@ -5,6 +5,7 @@ from doing.utils import get_config, run_command, get_repo_name, shell_output
 from doing.options import get_common_options
 from doing.pr.create_pr import cmd_create_pr
 from doing.pr.open_pr import cmd_open_pr
+from doing.open import commands as open_group
 
 console = Console()
 
@@ -15,6 +16,18 @@ def pr():
     Work with pull requests.
     """
     pass
+
+
+@pr.command()
+@click.argument("pullrequest_id", default=-1)
+def open(pullrequest_id):
+    """
+    Alias: `doing open pr`.
+    """
+    open_group.open(args=["pr", f"{pullrequest_id}"])
+
+
+open.__doc__ = str(open.__doc__) + str(open_group.pr.__doc__)
 
 
 @pr.command()
