@@ -32,7 +32,6 @@ def cmd_init(reference_issue: str = ""):
             file.write("# doing cli configuration file\n")
             file.write("# docs: https://github.com/ing-bank/doing-cli\n\n")
             yaml.dump(required_params, file)
-            yaml.dump(required_params, file)
             console.print("[dark_orange3]>[/dark_orange3] Created new .doing-cli-config.yml file")
             console.print("\t[dark_orange3]>[/dark_orange3] Please fill in required parameters.")
         return
