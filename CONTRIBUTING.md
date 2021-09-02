@@ -18,6 +18,7 @@ mkdocs serve
 - We use [pre-commit](https://pre-commit.com/). Setup using `pip install pre-commit` and then `pre-commit install`.
 - For development, use an editable install: `pip install -e .`
 - For publishing, use syntax: `git tag -a v0.1 -m "doing-cli v0.1" && git push origin v0.1`
+  - Don't forget to update the version on `src/doing/__init__.py`.
 
 ## Technical background
 
