@@ -22,3 +22,7 @@ For more details and setup see the [installation guide](https://ing-bank.github.
 ## Documentation
 
 See [ing-bank.github.io/doing-cli/](https://ing-bank.github.io/doing-cli/).
+
+## Maintainers
+
+- Joao Pinto Moura @operte
