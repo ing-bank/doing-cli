@@ -13,7 +13,9 @@ from typing import List, Dict
 console = Console()
 
 
-def work_item_query(assignee: str, author: str, label: str, state: str, area: str, iteration: str, type: str):
+def work_item_query(
+    assignee: str, author: str, label: str, state: str, area: str, iteration: str, type: str, story_points: str
+):
     """
     Build query in wiql.
 
@@ -46,6 +48,23 @@ def work_item_query(assignee: str, author: str, label: str, state: str, area: st
     if type:
         validate_work_item_type(type)
         query += f"AND [System.WorkItemType] = '{type}' "
+    if story_points:
+        if story_points == "unassigned":
+            query += "AND [Microsoft.VSTS.Scheduling.StoryPoints] = '' "
+        elif story_points.startswith("<="):
+            story_points = story_points.lstrip("<=")
+            query += f"AND [Microsoft.VSTS.Scheduling.StoryPoints] <= '{story_points}' "
+        elif story_points.startswith(">="):
+            story_points = story_points.lstrip(">=")
+            query += f"AND [Microsoft.VSTS.Scheduling.StoryPoints] >= '{story_points}' "
+        elif story_points.startswith(">"):
+            story_points = story_points.lstrip(">")
+            query += f"AND [Microsoft.VSTS.Scheduling.StoryPoints] > '{story_points}' "
+        elif story_points.startswith("<"):
+            story_points = story_points.lstrip("<")
+            query += f"AND [Microsoft.VSTS.Scheduling.StoryPoints] < '{story_points}' "
+        else:
+            query += f"AND [Microsoft.VSTS.Scheduling.StoryPoints] = '{story_points}' "
 
     # Ordering of results
     query += "ORDER BY [System.CreatedDate] asc"
@@ -63,6 +82,7 @@ def cmd_list(
     organization: str,
     project: str,
     type: str,
+    story_points: str = "",
     output_format: str = "table",
 ) -> None:
     """
@@ -72,7 +92,7 @@ def cmd_list(
     assignee = replace_user_aliases(assignee)
     author = replace_user_aliases(author)
 
-    query = work_item_query(assignee, author, label, state, area, iteration, type)
+    query = work_item_query(assignee, author, label, state, area, iteration, type, story_points)
     work_items = run_command(f'az boards query --wiql "{query}" --org "{organization}" -p "{project}"')
 
     if len(work_items) == 0:

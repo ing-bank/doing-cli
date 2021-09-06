@@ -62,6 +62,14 @@ from doing.utils import get_config
     show_envvar=True,
 )
 @click.option(
+    "--story_points",
+    required=False,
+    default="",
+    type=str,
+    help="Filter on number of story points. Use 'unassigned' to find empty. Use prefix '>' or '<' for greater and less than.",  # noqa
+    show_envvar=True,
+)
+@click.option(
     "--output_format",
     "-o",
     required=False,
@@ -70,7 +78,7 @@ from doing.utils import get_config
     help="Output format. 'table' has a rich display, 'array' will return a string list with ID's.",
     show_envvar=True,
 )
-def list(assignee, author, label, state, type, web, output_format):
+def list(assignee, author, label, state, type, web, story_points, output_format):
     """
     List issues related to the project.
     """
@@ -80,8 +88,24 @@ def list(assignee, author, label, state, type, web, output_format):
         project = get_config("project")
         organization = get_config("organization")
         query = work_item_query(
-            assignee=assignee, author=author, label=label, state=state, area=area, iteration=iteration, type=type
+            assignee=assignee,
+            author=author,
+            label=label,
+            state=state,
+            area=area,
+            iteration=iteration,
+            type=type,
+            story_points=story_points,
         )
         click.launch(f"{organization}/{project}/_workitems/?_a=query&wiql={quote(query)}")
     else:
-        cmd_list(assignee, author, label, state, type=type, output_format=output_format, **get_common_options())
+        cmd_list(
+            assignee,
+            author,
+            label,
+            state,
+            type=type,
+            story_points=story_points,
+            output_format=output_format,
+            **get_common_options(),
+        )

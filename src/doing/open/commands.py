@@ -120,7 +120,9 @@ def issues():
     project = get_config("project")
     organization = get_config("organization")
 
-    query = work_item_query(assignee="", author="", label="", state="open", area=area, iteration=iteration, type="")
+    query = work_item_query(
+        assignee="", author="", label="", state="open", area=area, iteration=iteration, type="", story_points=""
+    )
 
     # More on hyperlink query syntax:
     # https://docs.microsoft.com/en-us/azure/devops/boards/queries/define-query-hyperlink?view=azure-devops
