@@ -61,7 +61,16 @@ from doing.utils import get_config
     help="Open overview of issues in the web browser.",
     show_envvar=True,
 )
-def list(assignee, author, label, state, type, web):
+@click.option(
+    "--output_format",
+    "-o",
+    required=False,
+    default="table",
+    type=str,
+    help="Output format. 'table' has a rich display, 'array' will return a string list with ID's.",
+    show_envvar=True,
+)
+def list(assignee, author, label, state, type, web, output_format):
     """
     List issues related to the project.
     """
@@ -75,4 +84,4 @@ def list(assignee, author, label, state, type, web):
         )
         click.launch(f"{organization}/{project}/_workitems/?_a=query&wiql={quote(query)}")
     else:
-        cmd_list(assignee, author, label, state, type=type, **get_common_options())
+        cmd_list(assignee, author, label, state, type=type, output_format=output_format, **get_common_options())

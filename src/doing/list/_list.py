@@ -63,6 +63,7 @@ def cmd_list(
     organization: str,
     project: str,
     type: str,
+    output_format: str = "table",
 ) -> None:
     """
     Run `doing list` command.
@@ -77,6 +78,11 @@ def cmd_list(
     if len(work_items) == 0:
         msg = f"[dark_orange3]>[/dark_orange3] No issues in sprint '{iteration}' given filters used"
         console.print(msg)
+        return
+
+    if output_format == "array":
+        wi_array = [str(x.get("id")) for x in work_items]
+        console.print(" ".join(wi_array))
         return
 
     workitem_prs = {}  # type: Dict
