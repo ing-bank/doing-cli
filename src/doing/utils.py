@@ -248,7 +248,7 @@ def run_command(command: str, allow_verbose=True):
         if process.stderr:
             console.print(f"[dark_orange3]{process.stderr}[/dark_orange3]")
 
-        # Help the user
+        # Add user-friendly tips for resolving certain errors
         devops_error_tips(str(process.stderr))
         sys.exit(process.returncode)
 
