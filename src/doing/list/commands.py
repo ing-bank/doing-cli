@@ -66,7 +66,7 @@ from doing.utils import get_config
     required=False,
     default="",
     type=str,
-    help="Filter on number of story points. Use 'unassigned' to find empty. Use prefix '>' or '<' for greater and less than.",  # noqa
+    help="Filter on number of story points. Use 'unassigned' to find empty. You can use the following inequality symbols as prefixes: '>', '>=', '<' and '<='.",  # noqa
     show_envvar=True,
 )
 @click.option(
