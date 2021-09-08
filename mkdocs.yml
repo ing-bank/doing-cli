@@ -49,6 +49,7 @@ nav:
     - Workflow new issues: howto/workflow_new_item.md
     - Workflow existing issues: howto/workflow_existing_item.md
     - Workflow sprints: howto/workflow_sprints.md
+    - Workflow bulk edit issues: howto/workflow_bulk_edit_items.md
     - Python scripting: howto/python_scripting.md
     - Shell completion: howto/command_completion.md
     - Connection problems: howto/connection_problems.md
