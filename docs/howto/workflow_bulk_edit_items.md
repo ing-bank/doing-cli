@@ -4,7 +4,7 @@ Sometimes you want to edit multiple work items in one go. You can use [`doing li
 
 ## Bulk update story points
 
-For example, you might want to update all work items that do not have story points assigned yet. You can do that the [`az boards work-item update`](https://docs.microsoft.com/en-us/cli/azure/boards/work-item?view=azure-cli-latest#az_boards_work_item_update) command. Here's an example using a bash script, although you could also [use python scripting](python_scripting.md):
+For example, you might want to update all work items that do not have story points assigned yet. You can do that with the [`az boards work-item update`](https://docs.microsoft.com/en-us/cli/azure/boards/work-item?view=azure-cli-latest#az_boards_work_item_update) command. Here's an example using a bash script, although you could also [use python scripting](python_scripting.md):
 
 ```bash
 for id in $(doing list --story_points 'unassigned' -o 'array')
