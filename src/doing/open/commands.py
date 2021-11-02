@@ -1,14 +1,13 @@
 import os
-import click
-
 from urllib.parse import quote
-from rich.console import Console
 
-from doing.utils import get_repo_name, run_command, get_current_work_item_id, get_current_pr_id
-from doing.options import get_config
-from doing.pr.open_pr import cmd_open_pr
+import click
 from doing.issue.open_issue import cmd_open_issue
 from doing.list._list import work_item_query
+from doing.options import get_config
+from doing.pr.open_pr import cmd_open_pr
+from doing.utils import get_current_pr_id, get_current_work_item_id, get_repo_name, run_command
+from rich.console import Console
 
 console = Console()
 
@@ -52,7 +51,9 @@ def sprint():
     project = get_config("project")
     organization = get_config("organization")
 
-    iteration = os.path.basename(iteration.replace("\\", "/"))
+    # Iterations often have backslashes and spaces, which must be encoded to a URL
+    iteration = quote(os.path.basename(iteration.replace("\\", "/")))
+
     click.launch(f"{organization}/{project}/_sprints/taskboard/{team}/{iteration}")
 
 
