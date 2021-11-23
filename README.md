@@ -25,4 +25,4 @@ See [ing-bank.github.io/doing-cli/](https://ing-bank.github.io/doing-cli/).
 
 ## Maintainers
 
-- Joao Pinto Moura @operte
+- Joao Pinto Moura [@operte](https://github.com/operte)
