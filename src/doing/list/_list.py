@@ -71,7 +71,7 @@ def work_item_query(
             raise ValueError(
                 f'Invalid state: "{state}". State should be:\n'
                 '- one of the doing-cli default states: "open", "closed", "all"\n'
-                "- a custom state defined in .doing-cli-config.yml\n"
+                "- a custom state defined 'custom_states' in the .doing-cli.config.yml file\n"
                 "- a state available in this team, between apostrophes, e.g. \"'Active'\""
             )
 

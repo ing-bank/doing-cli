@@ -34,6 +34,7 @@ The config can also contain some optional parameters that are not required to be
 | `verbose_shell` | Set to 'true' to print every shell command `doing` runs for you in the background. Meant for debugging and interested developers. Default is 'false'.
 | `user_aliases` | A list of user aliases that you can use when specifying reviewers or assignees. Note that the `@me` alias is always available.
 | `default_reviewers` | The default reviewers assigned when creating pull requests. Space separated list of user emails (case sensitive). Find your own with `az ad signed-in-user show --query 'mail'`.
+| `custom_states` | A dictionary of work item states or lists of states to use when filtering work items with `doing list --state "state"`. |
 | `defaults` | Allows you to overwrite defaults of command options. See explanation below.
 | `merge_strategy` | Azure devops supports pull requests with rebase (see [blogpost](https://devblogs.microsoft.com/devops/pull-requests-with-rebase/#rebase)). Should be one of "basic merge", "squash merge", "rebase and fast-forward", "rebase with merge commit". If specified, it will update the policies on a repository level to only allow that merge strategy.
 | `encoding` | The encoding used to parse the response of terminal commands. This is auto-detected by default but can be set explicitly in case you have encoding trouble.
@@ -49,6 +50,9 @@ user_aliases:
     john: 'John.Doe@company.com'
     jane: 'Jane.Doe@email.net'
 default_reviewers: 'john.doe@domain.com'
+custom_states:
+    removed: Removed
+    resolved: [Resolved, Closed]
 defaults:
     DOING_LIST_STATE: all
 merge_strategy: "rebase and fast-forward"
@@ -99,6 +103,29 @@ default_reviewers: 'email1@domain.com email2@domain.com'
 ```
 
 You can also use the aliases specified in `user_aliases` to specify the `default_reviewers`.
+
+### Setting `custom_states`
+
+When listing work items you can filter them by state with `doing list --state "state"`. `doing-cli` includes some default options for this filter:
+
+- `open`: state not in `['Resolved','Closed','Done','Removed']`
+- `closed`: state in `['Resolved','Closed','Done']`
+- `all`: state different than `'Removed'`
+
+You can overwrite these or specify your own custom state filters. For example:
+
+```yaml
+# .doing-cli-config.yml
+custom_states:
+    removed: Removed
+    resolved: [Resolved, Closed]
+```
+
+Which can be used as:
+
+```bash
+doing list --state "removed"
+```
 
 ### Setting `defaults`
 
