@@ -41,10 +41,10 @@ from doing.utils import get_config
     default="open",
     type=str,
     help=(
-        'Filter by state. State should be: one of the doing-cli default states: "open", "closed", "all"; '
+        "Filter by state. State should be: one of the doing-cli default states: 'open', 'closed', 'all'; "
         "a custom state defined under 'custom_states' in the .doing-cli.config.yml file; "
-        "or a state available in this team, between apostrophes, e.g. \"'Active'\". "
-        'Defaults to "open"'
+        "or a state available in this team, between quotes, e.g. \"'Active'\". "
+        "Defaults to 'open'."
     ),
     show_envvar=True,
 )
@@ -71,7 +71,10 @@ from doing.utils import get_config
     required=False,
     default="",
     type=str,
-    help="Filter on number of story points. Use 'unassigned' to find empty. You can use the following inequality symbols as prefixes: '>', '>=', '<' and '<='.",  # noqa
+    help=(
+        "Filter on number of story points. Use 'unassigned' to find empty. "
+        "You can use the following inequality symbols as prefixes: '>', '>=', '<' and '<='."
+    ),
     show_envvar=True,
 )
 @click.option(

@@ -66,10 +66,10 @@ def work_item_query(
             query += f"AND [System.State] = {state} "
         else:
             raise ValueError(
-                f'Invalid state: "{state}". State should be:\n'
-                '- one of the doing-cli default states: "open", "closed", "all"\n'
+                f"Invalid state: '{state}'. State should be:\n"
+                "- one of the doing-cli default states: 'open', 'closed', 'all'\n"
                 "- a custom state defined under 'custom_states' in the .doing-cli.config.yml file\n"
-                "- a state available in this team, between apostrophes, e.g. \"'Active'\""
+                "- a state available in this team, between quotes, e.g. \"'Active'\""
             )
 
     if work_item_type:
