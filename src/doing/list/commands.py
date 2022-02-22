@@ -42,7 +42,7 @@ from doing.utils import get_config
     type=str,
     help=(
         'Filter by state. State should be: one of the doing-cli default states: "open", "closed", "all"; '
-        "a custom state defined 'custom_states' in the .doing-cli.config.yml file; "
+        "a custom state defined under 'custom_states' in the .doing-cli.config.yml file; "
         "or a state available in this team, between apostrophes, e.g. \"'Active'\". "
         'Defaults to "open"'
     ),

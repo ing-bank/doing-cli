@@ -51,14 +51,11 @@ def work_item_query(
 
     if state:
         custom_states = get_config("custom_states", {})
-        if custom_states:
-            for custom_state, state_list in custom_states.items():
-                if state == custom_state:
-                    if type(state_list) is not list:
-                        state_list = [state_list]
-                    state_list_string = ",".join([f"'{x}'" for x in state_list])
-                    query += f"AND [System.State] IN ({state_list_string}) "
-                    break
+        if state in custom_states.keys():
+            if type(custom_states[state]) is not list:
+                custom_states[state] = [custom_states[state]]
+            state_list = ",".join([f"'{x}'" for x in custom_states[state]])
+            query += f"AND [System.State] IN ({state_list}) "
         elif state == "open":
             query += "AND [System.State] NOT IN ('Resolved','Closed','Done','Removed') "
         elif state == "closed":
@@ -71,7 +68,7 @@ def work_item_query(
             raise ValueError(
                 f'Invalid state: "{state}". State should be:\n'
                 '- one of the doing-cli default states: "open", "closed", "all"\n'
-                "- a custom state defined 'custom_states' in the .doing-cli.config.yml file\n"
+                "- a custom state defined under 'custom_states' in the .doing-cli.config.yml file\n"
                 "- a state available in this team, between apostrophes, e.g. \"'Active'\""
             )
 
