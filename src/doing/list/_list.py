@@ -53,8 +53,13 @@ def work_item_query(
         elif state.startswith("'") and state.endswith("'"):
             query += f"AND [System.State] = {state} "
         else:
-            # TODO raise error
-            pass
+            raise ValueError(
+                f'Invalid state: "{state}"\n'
+                "State should be:\n"
+                '- one of the doing-cli default states: "open", "closed", "all"\n'
+                "- a custom state defined in .doing-cli-config.yml\n"
+                "- a state available in this team between apostrophes, e.g. \"'Active'\""
+            )
 
     if type:
         validate_work_item_type(type)
