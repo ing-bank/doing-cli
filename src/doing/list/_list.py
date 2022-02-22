@@ -1,14 +1,13 @@
-import timeago
 import datetime
 from datetime import timezone
+from typing import Dict, List
 
-from doing.utils import run_command, get_repo_name, replace_user_aliases, validate_work_item_type
-from rich.table import Table
+import timeago
+from doing.utils import get_repo_name, replace_user_aliases, run_command, validate_work_item_type
+from rich.console import Console
 from rich.live import Live
 from rich.progress import track
-from rich.console import Console
-
-from typing import List, Dict
+from rich.table import Table
 
 console = Console()
 
@@ -32,19 +31,31 @@ def work_item_query(
     query += f"FROM WorkItems WHERE [System.AreaPath] = '{area}' "
     # Filter on iteration. Note we use UNDER so that user can choose to provide teams path for all sprints.
     query += f"AND [System.IterationPath] UNDER '{iteration}' "
+
     if assignee:
         query += f"AND [System.AssignedTo] = '{assignee}' "
+
     if author:
         query += f"AND [System.CreatedBy] = '{author}' "
+
     if label:
         for lab in label.split(","):
             query += f"AND [System.Tags] Contains '{lab.strip()}' "
-    if state == "open":
-        query += "AND [System.State] NOT IN ('Resolved','Closed','Done','Removed') "
-    if state == "closed":
-        query += "AND [System.State] IN ('Resolved','Closed','Done') "
-    if state == "all":
-        query += "AND [System.State] <> 'Removed' "
+
+    if state:
+        # TODO allow other custom states from config
+        if state == "open":
+            query += "AND [System.State] NOT IN ('Resolved','Closed','Done','Removed') "
+        elif state == "closed":
+            query += "AND [System.State] IN ('Resolved','Closed','Done') "
+        elif state == "all":
+            query += "AND [System.State] <> 'Removed' "
+        elif state.startswith("'") and state.endswith("'"):
+            query += f"AND [System.State] = {state} "
+        else:
+            # TODO raise error
+            pass
+
     if type:
         validate_work_item_type(type)
         query += f"AND [System.WorkItemType] = '{type}' "
@@ -68,6 +79,7 @@ def work_item_query(
 
     # Ordering of results
     query += "ORDER BY [System.CreatedDate] asc"
+
     return query
 
 

@@ -1,8 +1,8 @@
-import click
 from urllib.parse import quote
 
-from doing.options import get_common_options
+import click
 from doing.list._list import cmd_list, work_item_query
+from doing.options import get_common_options
 from doing.utils import get_config
 
 
@@ -39,7 +39,8 @@ from doing.utils import get_config
     "-s",
     required=False,
     default="open",
-    type=click.Choice(["open", "closed", "all"]),
+    type=str,
+    # TODO improve docs.
     help="Filter by state. Defaults to 'open'",
     show_envvar=True,
 )
