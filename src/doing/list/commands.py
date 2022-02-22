@@ -40,8 +40,12 @@ from doing.utils import get_config
     required=False,
     default="open",
     type=str,
-    # TODO improve docs.
-    help="Filter by state. Defaults to 'open'",
+    help=(
+        'Filter by state. State should be: one of the doing-cli default states: "open", "closed", "all"; '
+        "a custom state defined in .doing-cli-config.yml; "
+        "or a state available in this team, between apostrophes, e.g. \"'Active'\". "
+        'Defaults to "open"'
+    ),
     show_envvar=True,
 )
 @click.option(

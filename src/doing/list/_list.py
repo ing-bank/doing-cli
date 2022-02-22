@@ -44,6 +44,8 @@ def work_item_query(
 
     if state:
         # TODO allow other custom states from config
+        # load list of states from config
+        # if there are states defined there, use them, otherwise use defaults:
         if state == "open":
             query += "AND [System.State] NOT IN ('Resolved','Closed','Done','Removed') "
         elif state == "closed":
@@ -54,11 +56,10 @@ def work_item_query(
             query += f"AND [System.State] = {state} "
         else:
             raise ValueError(
-                f'Invalid state: "{state}"\n'
-                "State should be:\n"
+                f'Invalid state: "{state}". State should be:\n'
                 '- one of the doing-cli default states: "open", "closed", "all"\n'
                 "- a custom state defined in .doing-cli-config.yml\n"
-                "- a state available in this team between apostrophes, e.g. \"'Active'\""
+                "- a state available in this team, between apostrophes, e.g. \"'Active'\""
             )
 
     if type:
