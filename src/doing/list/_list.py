@@ -1,14 +1,13 @@
-import timeago
 import datetime
 from datetime import timezone
+from typing import Dict, List
 
-from doing.utils import run_command, get_repo_name, replace_user_aliases, validate_work_item_type
-from rich.table import Table
+import timeago
+from doing.utils import get_repo_name, replace_user_aliases, run_command, validate_work_item_type
+from rich.console import Console
 from rich.live import Live
 from rich.progress import track
-from rich.console import Console
-
-from typing import List, Dict
+from rich.table import Table
 
 console = Console()
 
@@ -28,7 +27,7 @@ def work_item_query(
 
     # Get all workitems
     query = "SELECT [System.Id],[System.Title],[System.AssignedTo],"
-    query += "[System.WorkItemType],[System.State],[System.CreatedDate]"
+    query += "[System.WorkItemType],[System.State],[System.CreatedDate], [System.State]"
     query += f"FROM WorkItems WHERE [System.AreaPath] = '{area}' "
     # Filter on iteration. Note we use UNDER so that user can choose to provide teams path for all sprints.
     query += f"AND [System.IterationPath] UNDER '{iteration}' "
@@ -82,6 +81,7 @@ def cmd_list(
     organization: str,
     project: str,
     type: str,
+    show_state: bool,
     story_points: str = "",
     output_format: str = "table",
 ) -> None:
@@ -115,7 +115,17 @@ def cmd_list(
     query += '--status active --query "[].pullRequestId"'
     active_pullrequest_ids = run_command(query)
 
-    with Live(build_table(work_items, workitem_prs, iteration, False), refresh_per_second=4, console=console) as live:
+    with Live(
+        build_table(
+            work_items=work_items,
+            workitem_prs=workitem_prs,
+            iteration=iteration,
+            last_build=False,
+            show_state=show_state,
+        ),
+        refresh_per_second=4,
+        console=console,
+    ) as live:
 
         # For each PR, get linked work items. Note that "az repos pr list --include-links" does not work :(
         # Posted issue on bug here: https://github.com/Azure/azure-cli-extensions/issues/2946
@@ -129,12 +139,30 @@ def cmd_list(
                 else:
                     workitem_prs[work_item] = [str(pr_id)]
 
-            live.update(build_table(work_items, workitem_prs, iteration, False))
+            live.update(
+                build_table(
+                    work_items=work_items,
+                    workitem_prs=workitem_prs,
+                    iteration=iteration,
+                    last_build=False,
+                    show_state=show_state,
+                )
+            )
 
-        live.update(build_table(work_items, workitem_prs, iteration, last_build=True))
+        live.update(
+            build_table(
+                work_items=work_items,
+                workitem_prs=workitem_prs,
+                iteration=iteration,
+                last_build=False,
+                show_state=show_state,
+            )
+        )
 
 
-def build_table(work_items: List, workitem_prs: Dict, iteration: str, last_build: bool = False) -> Table:
+def build_table(
+    work_items: List, workitem_prs: Dict, iteration: str, show_state: bool, last_build: bool = False
+) -> Table:
     """
     Build rich table with open issues.
     """
@@ -144,6 +172,8 @@ def build_table(work_items: List, workitem_prs: Dict, iteration: str, last_build
     table.add_column("Title", justify="left", style="cyan", no_wrap=False)
     table.add_column("Assignee", justify="left", style="cyan", no_wrap=False)
     table.add_column("Type", justify="left", style="cyan", no_wrap=True)
+    if show_state:
+        table.add_column("State", justify="right", style="cyan", no_wrap=True)
     table.add_column("Created", justify="right", style="cyan", no_wrap=True)
     table.add_column("PRs", justify="right", style="cyan", no_wrap=True)
 
@@ -157,6 +187,7 @@ def build_table(work_items: List, workitem_prs: Dict, iteration: str, last_build
         item_title = fields.get("System.Title")
         item_createdby = fields.get("System.AssignedTo", {}).get("displayName", "")
         item_type = fields.get("System.WorkItemType")
+        item_state = fields.get("System.State")
 
         # For example:
         # '2020-11-17T13:33:32.463Z'
@@ -179,6 +210,11 @@ def build_table(work_items: List, workitem_prs: Dict, iteration: str, last_build
             item_linked_prs = "[bright_black]loading..[bright_black]"
 
         # TODO: If current git branch equal to branch ID name, different color.
-        table.add_row(str(item_id), item_title, item_createdby, item_type, item_datetime, item_linked_prs)
+        if show_state:
+            table.add_row(
+                str(item_id), item_title, item_createdby, item_type, item_state, item_datetime, item_linked_prs
+            )
+        else:
+            table.add_row(str(item_id), item_title, item_createdby, item_type, item_datetime, item_linked_prs)
 
     return table
