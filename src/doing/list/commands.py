@@ -99,7 +99,7 @@ def list(assignee, author, label, state, type, web, story_points, output_format)
             state=state,
             area=area,
             iteration=iteration,
-            type=type,
+            work_item_type=type,
             story_points=story_points,
         )
         click.launch(f"{organization}/{project}/_workitems/?_a=query&wiql={quote(query)}")
@@ -109,7 +109,7 @@ def list(assignee, author, label, state, type, web, story_points, output_format)
             author,
             label,
             state,
-            type=type,
+            work_item_type=type,
             story_points=story_points,
             output_format=output_format,
             **get_common_options(),

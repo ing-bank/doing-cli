@@ -3,7 +3,7 @@ from datetime import timezone
 from typing import Dict, List
 
 import timeago
-from doing.utils import get_repo_name, replace_user_aliases, run_command, validate_work_item_type
+from doing.utils import get_config, get_repo_name, replace_user_aliases, run_command, validate_work_item_type
 from rich.console import Console
 from rich.live import Live
 from rich.progress import track
@@ -13,7 +13,14 @@ console = Console()
 
 
 def work_item_query(
-    assignee: str, author: str, label: str, state: str, area: str, iteration: str, type: str, story_points: str
+    assignee: str,
+    author: str,
+    label: str,
+    state: str,
+    area: str,
+    iteration: str,
+    work_item_type: str,
+    story_points: str,
 ):
     """
     Build query in wiql.
@@ -43,10 +50,16 @@ def work_item_query(
             query += f"AND [System.Tags] Contains '{lab.strip()}' "
 
     if state:
-        # TODO allow other custom states from config
-        # load list of states from config
-        # if there are states defined there, use them, otherwise use defaults:
-        if state == "open":
+        custom_states = get_config("custom_states", {})
+        if custom_states:
+            for custom_state, state_list in custom_states.items():
+                if state == custom_state:
+                    if type(state_list) is not list:
+                        state_list = [state_list]
+                    state_list_string = ",".join([f"'{x}'" for x in state_list])
+                    query += f"AND [System.State] IN ({state_list_string}) "
+                    break
+        elif state == "open":
             query += "AND [System.State] NOT IN ('Resolved','Closed','Done','Removed') "
         elif state == "closed":
             query += "AND [System.State] IN ('Resolved','Closed','Done') "
@@ -62,9 +75,9 @@ def work_item_query(
                 "- a state available in this team, between apostrophes, e.g. \"'Active'\""
             )
 
-    if type:
-        validate_work_item_type(type)
-        query += f"AND [System.WorkItemType] = '{type}' "
+    if work_item_type:
+        validate_work_item_type(work_item_type)
+        query += f"AND [System.WorkItemType] = '{work_item_type}' "
     if story_points:
         if story_points == "unassigned":
             query += "AND [Microsoft.VSTS.Scheduling.StoryPoints] = '' "
@@ -99,7 +112,7 @@ def cmd_list(
     iteration: str,
     organization: str,
     project: str,
-    type: str,
+    work_item_type: str,
     story_points: str = "",
     output_format: str = "table",
 ) -> None:
@@ -110,7 +123,7 @@ def cmd_list(
     assignee = replace_user_aliases(assignee)
     author = replace_user_aliases(author)
 
-    query = work_item_query(assignee, author, label, state, area, iteration, type, story_points)
+    query = work_item_query(assignee, author, label, state, area, iteration, work_item_type, story_points)
     work_items = run_command(f'az boards query --wiql "{query}" --org "{organization}" -p "{project}"')
 
     if len(work_items) == 0:
