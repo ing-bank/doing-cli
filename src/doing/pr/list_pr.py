@@ -1,11 +1,11 @@
-import timeago
 import datetime
 from datetime import timezone
 
-from doing.utils import get_repo_name, replace_user_aliases, run_command
-
-from rich.table import Table
+import timeago
 from rich.console import Console
+from rich.table import Table
+
+from doing.utils import get_repo_name, replace_user_aliases, run_command
 
 console = Console()
 

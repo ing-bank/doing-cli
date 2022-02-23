@@ -1,7 +1,7 @@
-from doing.exceptions import InputError
-from doing.utils import replace_user_aliases, run_command, get_az_devop_user_email, validate_work_item_type
-
 from rich.console import Console
+
+from doing.exceptions import InputError
+from doing.utils import get_az_devop_user_email, replace_user_aliases, run_command, validate_work_item_type
 
 console = Console()
 

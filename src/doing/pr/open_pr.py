@@ -1,7 +1,8 @@
-import click
-from doing.utils import get_config
-from doing.utils import get_repo_name
 from typing import Union
+
+import click
+
+from doing.utils import get_config, get_repo_name
 
 
 def cmd_open_pr(pullrequest_id: Union[str, int]) -> None:
