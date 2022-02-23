@@ -15,20 +15,14 @@ repos:
         entry: isort
         language: system
         types: [python]
-        args: [--profile=black, --check-only, --line-length, *line_length]
-  - repo: local
-    hooks:
-      - id: mypy
-        name: mypy
-        entry: mypy
-        language: system
-        types: [python]
         args:
           [
-            --ignore-missing-imports,
-            --namespace-packages,
-            --show-error-codes,
-            --pretty,
+            --profile=black,
+            --check-only,
+            --line-length,
+            *line_length,
+            --project,
+            KNOWN_FIRST_PARTY=doing,
           ]
   - repo: local
     hooks:
