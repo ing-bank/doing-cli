@@ -34,7 +34,7 @@ def work_item_query(
 
     # Get all workitems
     query = "SELECT [System.Id],[System.Title],[System.AssignedTo],"
-    query += "[System.WorkItemType],[System.State],[System.CreatedDate], [System.State]"
+    query += "[System.WorkItemType],[System.State],[System.CreatedDate], [System.State] "
     query += f"FROM WorkItems WHERE [System.AreaPath] = '{area}' "
     # Filter on iteration. Note we use UNDER so that user can choose to provide teams path for all sprints.
     query += f"AND [System.IterationPath] UNDER '{iteration}' "
@@ -75,6 +75,7 @@ def work_item_query(
     if work_item_type:
         validate_work_item_type(work_item_type)
         query += f"AND [System.WorkItemType] = '{work_item_type}' "
+
     if story_points:
         if story_points == "unassigned":
             query += "AND [Microsoft.VSTS.Scheduling.StoryPoints] = '' "
