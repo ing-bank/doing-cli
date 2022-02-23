@@ -1,14 +1,14 @@
-import timeago
 import datetime
 from datetime import timezone
+from typing import Dict, List
 
-from doing.utils import run_command, get_repo_name, replace_user_aliases, validate_work_item_type
-from rich.table import Table
+import timeago
+from rich.console import Console
 from rich.live import Live
 from rich.progress import track
-from rich.console import Console
+from rich.table import Table
 
-from typing import List, Dict
+from doing.utils import get_repo_name, replace_user_aliases, run_command, validate_work_item_type
 
 console = Console()
 

@@ -1,6 +1,8 @@
-import click
-from doing.utils import get_config
 from typing import Union
+
+import click
+
+from doing.utils import get_config
 
 
 def cmd_open_issue(work_item_id: Union[str, int]) -> None:

@@ -1,10 +1,17 @@
 import os
+from contextlib import contextmanager
+
 import pytest
 import yaml
-from doing.utils import get_az_devop_user_email, remove_special_chars, to_snake_case, get_config, replace_user_aliases,\
-    get_current_work_item_id
 
-from contextlib import contextmanager
+from doing.utils import (
+    get_az_devop_user_email,
+    get_config,
+    get_current_work_item_id,
+    remove_special_chars,
+    replace_user_aliases,
+    to_snake_case,
+)
 
 
 @contextmanager
@@ -138,18 +145,18 @@ def test_create_file(tmp_path):
 
 def test_get_current_work_item_id_works_on_valid_branch(mocker):
     """
-    Test the correct workitem ID is returned if present at the start of a branch name
+    Test the correct workitem ID is returned if present at the start of a branch name.
     """
-    mock_run = mocker.patch('doing.utils.shell_output', return_value="123456_Branch_with_leading_workitem_id")
+    mock_run = mocker.patch("doing.utils.shell_output", return_value="123456_Branch_with_leading_workitem_id")
     assert get_current_work_item_id() == "123456"
     mock_run.assert_called_with("git branch --show-current")
 
 
 def test_get_current_work_item_id_fails_on_branch_without_workitem(mocker):
     """
-    Test exception handling on a branch name without a workitem ID
+    Test exception handling on a branch name without a workitem ID.
     """
-    mocker.patch('doing.utils.shell_output', return_value="Branch_without_leading_id")
+    mocker.patch("doing.utils.shell_output", return_value="Branch_without_leading_id")
     with pytest.raises(SystemExit) as wrapped_exception:
         assert get_current_work_item_id() is None
     assert wrapped_exception.type == SystemExit

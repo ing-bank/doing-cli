@@ -3,18 +3,18 @@ import re
 import subprocess
 import sys
 
+from rich.console import Console
+
 from doing.utils import (
+    get_az_devop_user_email,
     get_config,
+    get_git_current_branch,
+    get_repo_name,
+    remove_special_chars,
     replace_user_aliases,
     run_command,
-    get_repo_name,
     to_snake_case,
-    remove_special_chars,
-    get_az_devop_user_email,
-    get_git_current_branch,
 )
-
-from rich.console import Console
 
 console = Console()
 
