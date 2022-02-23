@@ -1,22 +1,20 @@
-import os
-import sys
 import json
-import yaml
+import os
 import re
 import string
-import psutil
-
-from platform import uname
-from rich.console import Console
 import subprocess
-from typing import Dict, Union, Text, Iterator
+import sys
 from collections import OrderedDict
+from functools import lru_cache
+from platform import uname
+from typing import Dict, Iterator, Text, Union
 
-from doing.exceptions import ConfigurationError, devops_error_tips
-
+import psutil
+import yaml
+from rich.console import Console
 from rich.traceback import install
 
-from functools import lru_cache
+from doing.exceptions import ConfigurationError, devops_error_tips
 
 install()
 console = Console()

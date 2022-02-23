@@ -1,8 +1,9 @@
-import click
 from urllib.parse import quote
 
-from doing.options import get_common_options
+import click
+
 from doing.list._list import cmd_list, work_item_query
+from doing.options import get_common_options
 from doing.utils import get_config
 
 

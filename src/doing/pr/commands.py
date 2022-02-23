@@ -1,11 +1,12 @@
 import click
 from rich.console import Console
-from doing.pr.list_pr import cmd_list_pr
-from doing.utils import get_config, run_command, get_repo_name, shell_output
+
+from doing.open import commands as open_group
 from doing.options import get_common_options
 from doing.pr.create_pr import cmd_create_pr
+from doing.pr.list_pr import cmd_list_pr
 from doing.pr.open_pr import cmd_open_pr
-from doing.open import commands as open_group
+from doing.utils import get_config, get_repo_name, run_command, shell_output
 
 console = Console()
 
