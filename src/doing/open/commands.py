@@ -1,7 +1,8 @@
-import click
 import os
-from rich.console import Console
 from urllib.parse import quote
+
+import click
+from rich.console import Console
 
 from doing.issue.open_issue import cmd_open_issue
 from doing.list._list import work_item_query

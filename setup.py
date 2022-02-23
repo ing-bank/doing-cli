@@ -1,21 +1,18 @@
 import codecs
 import os.path
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
 
 
 def read(rel_path):
-    """
-    Read a file.
-    """
+    """Read a file."""
     here = os.path.abspath(os.path.dirname(__file__))
     with codecs.open(os.path.join(here, rel_path), "r") as fp:
         return fp.read()
 
 
 def get_version(rel_path):
-    """
-    Read version from a file.
-    """
+    """Read version from a file."""
     for line in read(rel_path).splitlines():
         if line.startswith("__version__"):
             delim = '"' if '"' in line else "'"
@@ -30,7 +27,18 @@ file.close()
 
 
 base_packages = ["Click>=8.0.1", "rich>=10.3.0", "pyyaml>=5.4.1", "timeago>=1.0.15", "psutil>=5.8.0"]
-dev = ["mkdocs-material>=7.1", "mkdocs-macros-plugin", "pytest", "pytest-cov", "pytest-mock", "pyflakes"]
+dev = [
+    "mkdocs-material>=7.1",
+    "mkdocs-macros-plugin",
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+    "pre-commit",
+    "black",
+    "flake8",
+    "mypy",
+    "isort",
+]
 
 setup(
     name="doing-cli",

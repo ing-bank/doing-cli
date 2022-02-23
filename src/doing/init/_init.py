@@ -1,8 +1,10 @@
-from doing.utils import run_command
-from rich.console import Console
 import os
-import yaml
 from urllib.parse import urlparse
+
+import yaml
+from rich.console import Console
+
+from doing.utils import run_command
 
 console = Console()
 

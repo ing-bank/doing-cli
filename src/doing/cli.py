@@ -1,17 +1,17 @@
-import click
 import collections
 import os
 
+import click
 from rich.console import Console
 
-from doing.pr import commands as pr_group
+from doing import __version__
+from doing.init import commands as init_command
 from doing.issue import commands as issue_group
-from doing.open import commands as open_group
 from doing.list import commands as list_command
+from doing.open import commands as open_group
+from doing.pr import commands as pr_group
 from doing.utils import get_config
 from doing.workon import commands as workon_command
-from doing.init import commands as init_command
-from doing import __version__
 
 console = Console()
 

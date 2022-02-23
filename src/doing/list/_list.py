@@ -3,11 +3,12 @@ from datetime import timezone
 from typing import Dict, List
 
 import timeago
-from doing.utils import get_repo_name, replace_user_aliases, run_command, validate_work_item_type
 from rich.console import Console
 from rich.live import Live
 from rich.progress import track
 from rich.table import Table
+
+from doing.utils import get_repo_name, replace_user_aliases, run_command, validate_work_item_type
 
 console = Console()
 
@@ -15,8 +16,7 @@ console = Console()
 def work_item_query(
     assignee: str, author: str, label: str, state: str, area: str, iteration: str, type: str, story_points: str
 ):
-    """
-    Build query in wiql.
+    """Build query in wiql.
 
     # More on 'work item query language' syntax:
     # https://docs.microsoft.com/en-us/azure/devops/boards/queries/wiql-syntax?view=azure-devops
@@ -85,9 +85,7 @@ def cmd_list(
     story_points: str = "",
     output_format: str = "table",
 ) -> None:
-    """
-    Run `doing list` command.
-    """
+    """Run `doing list` command."""
     # Get config settings
     assignee = replace_user_aliases(assignee)
     author = replace_user_aliases(author)
@@ -163,9 +161,7 @@ def cmd_list(
 def build_table(
     work_items: List, workitem_prs: Dict, iteration: str, show_state: bool, last_build: bool = False
 ) -> Table:
-    """
-    Build rich table with open issues.
-    """
+    """Build rich table with open issues."""
     # Create our table
     table = Table(title=f"Work-items in current iteration {iteration}")
     table.add_column("ID", justify="right", style="cyan", no_wrap=True)

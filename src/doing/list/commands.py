@@ -1,6 +1,7 @@
 from urllib.parse import quote
 
 import click
+
 from doing.list._list import cmd_list, work_item_query
 from doing.options import get_common_options
 from doing.utils import get_config
@@ -87,9 +88,7 @@ from doing.utils import get_config
     show_envvar=True,
 )
 def list(assignee, author, label, state, type, web, story_points, output_format, show_state):
-    """
-    List issues related to the project.
-    """
+    """List issues related to the project."""
     if web:
         iteration = get_config("iteration")
         area = get_config("area")
