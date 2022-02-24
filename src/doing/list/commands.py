@@ -79,10 +79,16 @@ from doing.utils import get_config
     help="Output format. 'table' has a rich display, 'array' will return a string list with ID's.",
     show_envvar=True,
 )
-def list(assignee, author, label, state, type, web, story_points, output_format):
-    """
-    List issues related to the project.
-    """
+@click.option(
+    "--show_state/--no-show_state",
+    required=False,
+    default=True,
+    type=bool,
+    help="Show column with work item state.",
+    show_envvar=True,
+)
+def list(assignee, author, label, state, type, web, story_points, output_format, show_state):
+    """List issues related to the project."""
     if web:
         iteration = get_config("iteration")
         area = get_config("area")
@@ -101,12 +107,13 @@ def list(assignee, author, label, state, type, web, story_points, output_format)
         click.launch(f"{organization}/{project}/_workitems/?_a=query&wiql={quote(query)}")
     else:
         cmd_list(
-            assignee,
-            author,
-            label,
-            state,
+            assignee=assignee,
+            author=author,
+            label=label,
+            state=state,
             type=type,
             story_points=story_points,
             output_format=output_format,
+            show_state=show_state,
             **get_common_options(),
         )

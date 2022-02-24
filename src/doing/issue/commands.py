@@ -12,9 +12,7 @@ console = Console()
 
 @click.group()
 def issue():
-    """
-    Work with issues.
-    """
+    """Work with issues."""
     pass
 
 
@@ -24,8 +22,7 @@ issue.add_command(list)
 @issue.command()
 @click.argument("work_item_id", nargs=-1, required=True)
 def close(work_item_id):
-    """
-    Close a specific WORK_ITEM_ID.
+    """Close a specific WORK_ITEM_ID.
 
     A '#' prefix is allowed. You can specify multiple IDs by separating with a space.
     """
@@ -125,8 +122,7 @@ def create(
     web: bool,
     story_points: str,
 ) -> None:
-    """
-    Create an issue.
+    """Create an issue.
 
     ISSUE is the title to be used for the new work item.
     """
