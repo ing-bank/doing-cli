@@ -1,7 +1,10 @@
+import pytest
+
 from doing.list._list import build_table
 
 
-def mock_work_items():
+@pytest.fixture
+def work_items():
     """Create a mock list of work items."""
     work_items = [
         {
@@ -42,16 +45,15 @@ def mock_work_items():
     return work_items
 
 
-def mock_workitem_prs():
+@pytest.fixture
+def workitem_prs():
     """Create a mock list of work items and their associated PRs."""
     workitem_prs = {1: ["3"], 2: ["4"]}
     return workitem_prs
 
 
-def test_build_table_show_state():
+def test_build_table_show_state(work_items, workitem_prs):
     """Test the show_state option of the build_table function."""
-    work_items = mock_work_items()
-    workitem_prs = mock_workitem_prs()
     iteration = "Test Iteration"
 
     # Generate table without state column
