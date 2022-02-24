@@ -40,8 +40,13 @@ from doing.utils import get_config
     "-s",
     required=False,
     default="open",
-    type=click.Choice(["open", "closed", "all"]),
-    help="Filter by state. Defaults to 'open'",
+    type=str,
+    help=(
+        "Filter by state. State should be: one of the doing-cli default states: 'open', 'closed', 'all'; "
+        "a custom state defined under 'custom_states' in the .doing-cli.config.yml file; "
+        "or a state available in this team, between quotes, e.g. \"'Active'\". "
+        "Defaults to 'open'."
+    ),
     show_envvar=True,
 )
 @click.option(
@@ -67,7 +72,10 @@ from doing.utils import get_config
     required=False,
     default="",
     type=str,
-    help="Filter on number of story points. Use 'unassigned' to find empty. You can use the following inequality symbols as prefixes: '>', '>=', '<' and '<='.",  # noqa
+    help=(
+        "Filter on number of story points. Use 'unassigned' to find empty. "
+        "You can use the following inequality symbols as prefixes: '>', '>=', '<' and '<='."
+    ),
     show_envvar=True,
 )
 @click.option(
@@ -101,7 +109,7 @@ def list(assignee, author, label, state, type, web, story_points, output_format,
             state=state,
             area=area,
             iteration=iteration,
-            type=type,
+            work_item_type=type,
             story_points=story_points,
         )
         click.launch(f"{organization}/{project}/_workitems/?_a=query&wiql={quote(query)}")
@@ -111,7 +119,7 @@ def list(assignee, author, label, state, type, web, story_points, output_format,
             author=author,
             label=label,
             state=state,
-            type=type,
+            work_item_type=type,
             story_points=story_points,
             output_format=output_format,
             show_state=show_state,

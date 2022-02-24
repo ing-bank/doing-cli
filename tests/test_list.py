@@ -1,6 +1,6 @@
 import pytest
 
-from doing.list._list import build_table
+from doing.list._list import build_table, work_item_query
 
 
 @pytest.fixture
@@ -76,3 +76,43 @@ def test_build_table_show_state(work_items, workitem_prs):
     for item in work_items:
         work_item_states.append(item.get("fields").get("System.State"))
     assert state_col._cells == work_item_states
+
+
+def test_work_item_query_state(mocker):
+    """Test the state argument of the work_item_query function."""
+    settings = {
+        "area": "test\\area",
+        "iteration": "test\\iteration",
+        "assignee": "",
+        "author": "",
+        "label": "",
+        "work_item_type": "",
+        "story_points": "",
+    }
+
+    # No state is passed
+    query = work_item_query(state=None, **settings)
+    assert "AND [System.State]" not in query
+
+    # 'open' state is passed
+    query = work_item_query(state="open", **settings)
+    assert "AND [System.State] NOT IN ('Resolved','Closed','Done','Removed') " in query
+
+    # arbitrary state is passed
+    query = work_item_query(state="'Active'", **settings)
+    assert "AND [System.State] = 'Active' " in query
+
+    # invalid state is passed
+    with pytest.raises(ValueError):
+        work_item_query(state="exception", **settings)
+
+    # mock a 'custom_states' setting
+    mocker.patch("doing.list._list.get_config", return_value={"test1": "Active", "test2": ["Active", "Resolved"]})
+
+    # custom state with 1 state is passed
+    query = work_item_query(state="test1", **settings)
+    assert "AND [System.State] IN ('Active') " in query
+
+    # custom state with 2 states is passed
+    query = work_item_query(state="test2", **settings)
+    assert "AND [System.State] IN ('Active','Resolved') " in query

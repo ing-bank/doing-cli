@@ -8,13 +8,20 @@ from rich.live import Live
 from rich.progress import track
 from rich.table import Table
 
-from doing.utils import get_repo_name, replace_user_aliases, run_command, validate_work_item_type
+from doing.utils import get_config, get_repo_name, replace_user_aliases, run_command, validate_work_item_type
 
 console = Console()
 
 
 def work_item_query(
-    assignee: str, author: str, label: str, state: str, area: str, iteration: str, type: str, story_points: str
+    assignee: str,
+    author: str,
+    label: str,
+    state: str,
+    area: str,
+    iteration: str,
+    work_item_type: str,
+    story_points: str,
 ):
     """Build query in wiql.
 
@@ -27,26 +34,48 @@ def work_item_query(
 
     # Get all workitems
     query = "SELECT [System.Id],[System.Title],[System.AssignedTo],"
-    query += "[System.WorkItemType],[System.State],[System.CreatedDate], [System.State]"
+    query += "[System.WorkItemType],[System.State],[System.CreatedDate], [System.State] "
     query += f"FROM WorkItems WHERE [System.AreaPath] = '{area}' "
     # Filter on iteration. Note we use UNDER so that user can choose to provide teams path for all sprints.
     query += f"AND [System.IterationPath] UNDER '{iteration}' "
+
     if assignee:
         query += f"AND [System.AssignedTo] = '{assignee}' "
+
     if author:
         query += f"AND [System.CreatedBy] = '{author}' "
+
     if label:
         for lab in label.split(","):
             query += f"AND [System.Tags] Contains '{lab.strip()}' "
-    if state == "open":
-        query += "AND [System.State] NOT IN ('Resolved','Closed','Done','Removed') "
-    if state == "closed":
-        query += "AND [System.State] IN ('Resolved','Closed','Done') "
-    if state == "all":
-        query += "AND [System.State] <> 'Removed' "
-    if type:
-        validate_work_item_type(type)
-        query += f"AND [System.WorkItemType] = '{type}' "
+
+    if state:
+        custom_states = get_config("custom_states", {})
+        if state in custom_states.keys():
+            if type(custom_states[state]) is not list:
+                custom_states[state] = [custom_states[state]]
+            state_list = ",".join([f"'{x}'" for x in custom_states[state]])
+            query += f"AND [System.State] IN ({state_list}) "
+        elif state == "open":
+            query += "AND [System.State] NOT IN ('Resolved','Closed','Done','Removed') "
+        elif state == "closed":
+            query += "AND [System.State] IN ('Resolved','Closed','Done') "
+        elif state == "all":
+            query += "AND [System.State] <> 'Removed' "
+        elif state.startswith("'") and state.endswith("'"):
+            query += f"AND [System.State] = {state} "
+        else:
+            raise ValueError(
+                f"Invalid state: '{state}'. State should be:\n"
+                "- one of the doing-cli default states: 'open', 'closed', 'all'\n"
+                "- a custom state defined under 'custom_states' in the .doing-cli.config.yml file\n"
+                "- a state available in this team, between quotes, e.g. \"'Active'\""
+            )
+
+    if work_item_type:
+        validate_work_item_type(work_item_type)
+        query += f"AND [System.WorkItemType] = '{work_item_type}' "
+
     if story_points:
         if story_points == "unassigned":
             query += "AND [Microsoft.VSTS.Scheduling.StoryPoints] = '' "
@@ -67,6 +96,7 @@ def work_item_query(
 
     # Ordering of results
     query += "ORDER BY [System.CreatedDate] asc"
+
     return query
 
 
@@ -80,7 +110,7 @@ def cmd_list(
     iteration: str,
     organization: str,
     project: str,
-    type: str,
+    work_item_type: str,
     show_state: bool,
     story_points: str = "",
     output_format: str = "table",
@@ -90,7 +120,7 @@ def cmd_list(
     assignee = replace_user_aliases(assignee)
     author = replace_user_aliases(author)
 
-    query = work_item_query(assignee, author, label, state, area, iteration, type, story_points)
+    query = work_item_query(assignee, author, label, state, area, iteration, work_item_type, story_points)
     work_items = run_command(f'az boards query --wiql "{query}" --org "{organization}" -p "{project}"')
 
     if len(work_items) == 0:
