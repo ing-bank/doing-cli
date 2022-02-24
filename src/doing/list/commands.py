@@ -90,7 +90,7 @@ from doing.utils import get_config
 @click.option(
     "--show_state/--no-show_state",
     required=False,
-    default=False,
+    default=True,
     type=bool,
     help="Show column with work item state.",
     show_envvar=True,

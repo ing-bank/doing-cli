@@ -236,11 +236,9 @@ def build_table(
             item_linked_prs = "[bright_black]loading..[bright_black]"
 
         # TODO: If current git branch equal to branch ID name, different color.
+        row = [str(item_id), item_title, item_createdby, item_type, item_datetime, item_linked_prs]
         if show_state:
-            table.add_row(
-                str(item_id), item_title, item_createdby, item_type, item_state, item_datetime, item_linked_prs
-            )
-        else:
-            table.add_row(str(item_id), item_title, item_createdby, item_type, item_datetime, item_linked_prs)
+            row.insert(4, item_state)
+        table.add_row(*row)
 
     return table
