@@ -106,6 +106,15 @@ def close(pr_id):
     help="Open newly created issue in the web browser.",
     show_envvar=True,
 )
+@click.option(
+    "--default-branch",
+    "-d",
+    required=False,
+    default="",
+    type=str,
+    help="The name of the branch to branch from and to, only needed if different that the configured default branch",
+    show_envvar=True,
+)
 def create(
     work_item_id: str,
     draft: bool,
@@ -114,6 +123,7 @@ def create(
     reviewers: str,
     checkout: bool,
     delete_source_branch: bool,
+    default_branch,
     web: bool,
 ) -> None:
     """
@@ -129,6 +139,7 @@ def create(
         reviewers,
         checkout,
         delete_source_branch,
+        default_branch,
         **get_common_options(),
     )
     if web:
