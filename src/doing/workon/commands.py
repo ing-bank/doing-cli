@@ -80,11 +80,11 @@ from doing.utils import get_config
 )
 @click.option(
     "--default-branch",
-    "-d",
+    "-b",
     required=False,
     default="",
     type=str,
-    help="The name of the branch to branch from and to, only needed if different that the configured default branch",
+    help="The name of the branch to branch from and to. It overrides the repository's default branch.",
     show_envvar=True,
 )
 def workon(

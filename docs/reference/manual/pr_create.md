@@ -22,7 +22,7 @@ doing pr create 1234 --default-branch develop
     `doing` will create a branch name using the format *{work_item_id}*_*{issue_title}*, where the *{issue_title}* is in lowercase, [snake_case](https://en.wikipedia.org/wiki/Snake_case) with all special characters removed. Example: issue #13 'Fix @ bug !' becomes *13_fix bug*. If that branch already exists on the remote, `doing` will use that one.
 
 !!! notes ""
-    If a new branch is created while doing `pr create`, it will be branched from the default branch in Azure Devops, which usually will be `master`, but might be a different branch. The pull request will target this same branch.
+    If a new branch is created while doing `pr create`, it will be branched from the default branch in Azure Devops, which usually will be `master`, but might be a different branch. Where to branch from can be overridden by using the option default-branch. This can be The pull request will target this same branch.
 
 ## Options
 
