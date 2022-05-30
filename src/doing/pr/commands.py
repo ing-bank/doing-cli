@@ -108,7 +108,7 @@ def close(pr_id):
 )
 @click.option(
     "--default-branch",
-    "-d",
+    "-b",
     required=False,
     default="",
     type=str,
