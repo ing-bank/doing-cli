@@ -78,6 +78,15 @@ from doing.utils import get_config
     help="The number of story points to assign. Not assigned if not specified.",
     show_envvar=True,
 )
+@click.option(
+    "--default-branch",
+    "-b",
+    required=False,
+    default="",
+    type=str,
+    help="The name of the branch to branch from and to. It overrides the repository's default branch.",
+    show_envvar=True,
+)
 def workon(
     issue,
     type,
@@ -89,6 +98,7 @@ def workon(
     checkout: bool,
     delete_source_branch: bool,
     story_points,
+    default_branch,
 ):
     """
     Create issue with PR and switch git branch.
@@ -123,5 +133,6 @@ def workon(
         reviewers=reviewers,
         checkout=checkout,
         delete_source_branch=delete_source_branch,
+        default_branch=default_branch,
         **get_common_options(),
     )

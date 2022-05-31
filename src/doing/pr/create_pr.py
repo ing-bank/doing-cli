@@ -27,6 +27,7 @@ def cmd_create_pr(
     reviewers: str,
     checkout: bool,
     delete_source_branch: bool,
+    default_branch: str,
     team: str,
     area: str,
     iteration: str,
@@ -80,8 +81,11 @@ def cmd_create_pr(
     remote_branches = [x.rpartition("/")[2] for x in remote_branches if x.startswith("refs/heads")]
 
     # Find the default branch from which to create a new branch and target the pull request to
-    cmd = f'az repos show --repository "{repo_name}" --org "{organization}" -p "{project}"'
-    default_branch = run_command(cmd).get("defaultBranch", "refs/heads/master")
+    if not default_branch:
+        cmd = f'az repos show --repository "{repo_name}" --org "{organization}" -p "{project}"'
+        default_branch = run_command(cmd).get("defaultBranch", "refs/heads/master")
+    else:
+        default_branch = "refs/heads/" + default_branch
 
     # Create a new remote branch, only if it does yet exist
     cmd = f'az repos ref list --repository "{repo_name}" --query "[?name==\'{default_branch}\'].objectId" '
@@ -129,6 +133,7 @@ def cmd_create_pr(
     command += f'--draft "{str(draft).lower()}" '
     command += f'--work-items "{work_item_id}" '
     command += f'--source-branch "{branch_name}" '
+    command += f'--target-branch "{default_branch}" '
     command += f'--title "{work_item_title}" '
     command += f'--project "{project}" --organization "{organization}" '
 
