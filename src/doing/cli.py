@@ -43,7 +43,7 @@ class OrderedGroup(click.Group):
     cls=OrderedGroup,
 )
 @click.version_option(__version__, prog_name="doing-cli")
-def cli():
+def cli() -> None:
     """
     CLI for repository/issue workflow on Azure Devops.
     """

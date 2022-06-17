@@ -1,8 +1,10 @@
 import os
 from contextlib import contextmanager
+from pathlib import Path
 
 import pytest
 import yaml
+from pytest_mock.plugin import MockerFixture
 
 from doing.utils import (
     get_az_devop_user_email,
@@ -39,7 +41,7 @@ def working_directory(path):
         os.chdir(prev_cwd)
 
 
-def test_to_snake_case():
+def test_to_snake_case() -> None:
     """
     Test to_snake_case works.
     """
@@ -50,7 +52,7 @@ def test_to_snake_case():
     assert to_snake_case("! weird @ chars #") == "!_weird_@_chars_#"
 
 
-def test_remove_special_chars():
+def test_remove_special_chars() -> None:
     """
     Test remove_special_chars.
     """
@@ -61,7 +63,7 @@ def test_remove_special_chars():
     assert remove_special_chars("my-project") == "myproject"
 
 
-def test_creating_branchnames():
+def test_creating_branchnames() -> None:
     """
     Combines testing remove_special_chars and to_snake_case.
     """
@@ -69,7 +71,7 @@ def test_creating_branchnames():
     assert to_snake_case(remove_special_chars("! # issue %")) == "issue"
 
 
-def test_get_config_key():
+def test_get_config_key() -> None:
     """
     Test overrides via env vars.
     """
@@ -77,7 +79,7 @@ def test_get_config_key():
     assert get_config("team") == "my team"
 
 
-def test_get_config_fallback():
+def test_get_config_fallback() -> None:
     """
     Test overrides via env vars.
     """
@@ -87,7 +89,7 @@ def test_get_config_fallback():
     assert get_config("team1", "foobar") == "foobar"
 
 
-def test_replace_user_aliases(tmp_path):
+def test_replace_user_aliases(tmp_path: Path) -> None:
     """
     Test replacing user aliases.
     """
@@ -121,7 +123,7 @@ def test_replace_user_aliases(tmp_path):
 
 
 @pytest.mark.skip(reason="Only works when logged into az, not on CI builds")
-def test_me_alias():
+def test_me_alias() -> None:
     """
     Only runs in env where you can get user alias.
     """
@@ -130,7 +132,7 @@ def test_me_alias():
     assert replace_user_aliases(text) == get_az_devop_user_email()
 
 
-def test_create_file(tmp_path):
+def test_create_file(tmp_path: Path) -> None:
     """
     Test reading a config file.
     """
@@ -143,16 +145,21 @@ def test_create_file(tmp_path):
         assert get_config("user_aliases") == config["user_aliases"]
 
 
-def test_get_current_work_item_id_works_on_valid_branch(mocker):
+def test_get_current_work_item_id_works_on_valid_branch(mocker: MockerFixture):
     """
     Test the correct workitem ID is returned if present at the start of a branch name.
     """
-    mock_run = mocker.patch("doing.utils.shell_output", return_value="123456_Branch_with_leading_workitem_id")
+    mock_run = mocker.patch(
+        "doing.utils.shell_output",
+        return_value="123456_Branch_with_leading_workitem_id",
+    )
     assert get_current_work_item_id() == "123456"
     mock_run.assert_called_with("git branch --show-current")
 
 
-def test_get_current_work_item_id_fails_on_branch_without_workitem(mocker):
+def test_get_current_work_item_id_fails_on_branch_without_workitem(
+    mocker: MockerFixture,
+) -> None:
     """
     Test exception handling on a branch name without a workitem ID.
     """

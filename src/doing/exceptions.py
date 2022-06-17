@@ -8,7 +8,7 @@ class ConfigurationError(Exception):
     Raise ConfigurationError.
     """
 
-    def __init__(self, message):
+    def __init__(self, message: str) -> None:
         """
         Set message.
         """
@@ -20,7 +20,7 @@ class InputError(Exception):
     Raise InputError.
     """
 
-    def __init__(self, message):
+    def __init__(self, message: str) -> None:
         """
         Set message.
         """

@@ -14,7 +14,7 @@ console = Console()
 
 
 @click.group()
-def open():
+def open() -> None:
     """
     Quickly open certain links.
     """
@@ -22,7 +22,7 @@ def open():
 
 
 @open.command()
-def board():
+def board() -> None:
     """
     Open board view.
     """
@@ -43,7 +43,7 @@ def board():
 
 
 @open.command()
-def sprint():
+def sprint() -> None:
     """
     Open current sprint view.
     """
@@ -59,7 +59,7 @@ def sprint():
 
 
 @open.command()
-def repo():
+def repo() -> None:
     """
     Open repository view.
     """
@@ -69,7 +69,7 @@ def repo():
 
 
 @open.command()
-def prs():
+def prs() -> None:
     """
     Open active PRs for repository view.
     """
@@ -79,7 +79,7 @@ def prs():
 
 
 @open.command()
-def pipe():
+def pipe() -> None:
     """
     Open latest pipeline runs for repository view.
     """
@@ -99,7 +99,7 @@ def pipe():
 
 @open.command()
 @click.argument("work_item_id", default=-1)
-def issue(work_item_id):
+def issue(work_item_id) -> None:
     """
     Open a specific WORK_ITEM_ID.
 
@@ -113,7 +113,7 @@ def issue(work_item_id):
 
 
 @open.command()
-def issues():
+def issues() -> None:
     """
     Open all active issues view. Alternatively, use `doing list --web`.
     """
@@ -140,7 +140,7 @@ def issues():
 
 @open.command()
 @click.argument("pullrequest_id", default=-1)
-def pr(pullrequest_id):
+def pr(pullrequest_id) -> None:
     """
     Open a specific PULLREQUEST_ID.
 
@@ -155,7 +155,7 @@ def pr(pullrequest_id):
 
 @open.command()
 @click.argument("branch_name")
-def branch(branch_name):
+def branch(branch_name) -> None:
     """
     Open a specific BRANCH_NAME.
     """
@@ -166,7 +166,7 @@ def branch(branch_name):
 
 
 @open.command()
-def branches():
+def branches() -> None:
     """
     Open an overview of the repositories' branches.
     """
@@ -178,7 +178,7 @@ def branches():
 
 
 @open.command()
-def policies():
+def policies() -> None:
     """
     Open repository policy settings.
 
