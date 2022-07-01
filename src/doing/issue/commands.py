@@ -11,7 +11,7 @@ console = Console()
 
 
 @click.group()
-def issue():
+def issue() -> None:
     """Work with issues."""
     pass
 
@@ -21,7 +21,7 @@ issue.add_command(list)
 
 @issue.command()
 @click.argument("work_item_id", nargs=-1, required=True)
-def close(work_item_id):
+def close(work_item_id) -> None:
     """Close a specific WORK_ITEM_ID.
 
     A '#' prefix is allowed. You can specify multiple IDs by separating with a space.

@@ -12,7 +12,7 @@ console = Console()
 
 
 @click.group()
-def pr():
+def pr() -> None:
     """
     Work with pull requests.
     """
