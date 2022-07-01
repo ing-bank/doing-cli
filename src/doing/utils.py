@@ -7,7 +7,7 @@ import sys
 from collections import OrderedDict
 from functools import lru_cache
 from platform import uname
-from typing import Dict, Iterator, Text, Union
+from typing import Any, Dict, Iterator, Text
 
 import psutil
 import yaml
@@ -37,7 +37,7 @@ def remove_special_chars(text: str) -> str:
     return re.sub(r"[" + chars + "]", "", text)
 
 
-def shell_output(command) -> str:
+def shell_output(command: str) -> str:
     """
     Lightweight function to quickly run a shell command.
 
@@ -52,7 +52,7 @@ def shell_output(command) -> str:
 
 
 @lru_cache(maxsize=100)
-def get_az_devop_user_email():
+def get_az_devop_user_email() -> str:
     """
     Retrieves email from azure devops cli configuration.
     """
@@ -62,7 +62,7 @@ def get_az_devop_user_email():
 
 
 @lru_cache(maxsize=100)
-def get_git_current_branch():
+def get_git_current_branch() -> str:
     """
     Get name of current branch in git.
     """
@@ -72,7 +72,7 @@ def get_git_current_branch():
 
 
 @lru_cache(maxsize=100)
-def get_git_user_email():
+def get_git_user_email() -> str:
     """
     Gets emailadres from git config.
     """
@@ -82,7 +82,7 @@ def get_git_user_email():
 
 
 @lru_cache(maxsize=100)
-def get_repo_name():
+def get_repo_name() -> str:
     """
     Determines name of remote origin repo.
     """
@@ -133,7 +133,7 @@ def find_dotfile() -> str:
     return ""
 
 
-def get_config(key: str = "", fallback: Union[str, Dict] = None, envvar_prefix: str = "DOING_CONFIG_"):
+def get_config(key: str = "", fallback: Any = None, envvar_prefix: str = "DOING_CONFIG_") -> Any:
     """
     Finds and reads doing configuration file.
 
@@ -168,7 +168,7 @@ def get_config(key: str = "", fallback: Union[str, Dict] = None, envvar_prefix: 
 
     # Load the config file
     with open(conf_path) as file:
-        conf = yaml.load(file, Loader=yaml.FullLoader)
+        conf: Dict[str, Any] = yaml.load(file, Loader=yaml.FullLoader)
 
     # deprecations
     if key == "default_workitem_type":
@@ -200,14 +200,14 @@ def get_config(key: str = "", fallback: Union[str, Dict] = None, envvar_prefix: 
         raise ConfigurationError(msg)
 
 
-def pprint(obj: Dict) -> None:
+def pprint(obj: Dict[Any, Any]) -> None:
     """
     Pretty print dictionaries.
     """
     print(json.dumps(obj, indent=2))
 
 
-def run_command(command: str, allow_verbose=True):
+def run_command(command: str, allow_verbose: bool = True) -> Any:
     """
     Run a shell command.
 
@@ -286,16 +286,16 @@ def guess_shell_encoding() -> str:
         return sys.stdout.encoding
 
 
-def verbose_shell():
+def verbose_shell() -> bool:
     """
     If shell commands should be printed.
 
     Users can define 'verbose_shell: True' in the .doing-cli-config.yml file.
     """
-    return get_config("verbose_shell", fallback=False)
+    return get_config("verbose_shell", fallback=False)  # type: ignore[no-any-return]
 
 
-def define_env(env):
+def define_env(env: Any) -> None:
     """
     Macros for mkdocs_macros_plugin.
 
@@ -306,8 +306,8 @@ def define_env(env):
     More info: https://mkdocs-macros-plugin.readthedocs.io/
     """
 
-    @env.macro
-    def shell_out(command: str):
+    @env.macro  # type: ignore[misc]
+    def shell_out(command: str) -> str:
         return shell_output(command)
 
 
@@ -336,7 +336,7 @@ def replace_user_aliases(text: str) -> str:
         return " ".join([aliases.get(word, word) for word in words])
 
 
-def get_current_work_item_id():
+def get_current_work_item_id() -> str:
     """
     Retrieves current work item id from the current branchname.
     """
@@ -372,7 +372,7 @@ def get_current_pr_id() -> int:
         console.print("Could not find a PR associated with the current branch: " + get_git_current_branch())
         sys.exit(1)
     else:
-        return result[0].get("pullRequestId")
+        return result[0].get("pullRequestId")  # type: ignore[no-any-return]
 
 
 def validate_work_item_type(type: str) -> None:
