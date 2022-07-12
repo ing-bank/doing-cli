@@ -92,7 +92,7 @@ from doing.utils import get_config
     required=False,
     default="",
     type=str,
-    help="The prefix to be prepended to the branch name. Defaults to \"\"",
+    help='The prefix to be prepended to the branch name. Defaults to ""',
     show_envvar=True,
 )
 def workon(
@@ -107,7 +107,7 @@ def workon(
     delete_source_branch: bool,
     story_points,
     default_branch,
-    branch_prefix: str
+    branch_prefix: str,
 ):
     """
     Create issue with PR and switch git branch.

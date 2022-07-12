@@ -120,7 +120,7 @@ def close(pr_id):
     required=False,
     default="",
     type=str,
-    help="The prefix to be prepended to the branch name. Defaults to \"\"",
+    help='The prefix to be prepended to the branch name. Defaults to ""',
     show_envvar=True,
 )
 def create(
