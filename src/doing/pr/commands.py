@@ -115,6 +115,14 @@ def close(pr_id):
     help="The name of the branch to branch from and to. It overrides the repository's default branch.",
     show_envvar=True,
 )
+@click.option(
+    "--branch-prefix",
+    required=False,
+    default="",
+    type=str,
+    help="The prefix to be prepended to the branch name. Defaults to \"\"",
+    show_envvar=True,
+)
 def create(
     work_item_id: str,
     draft: bool,
@@ -124,6 +132,7 @@ def create(
     checkout: bool,
     delete_source_branch: bool,
     default_branch,
+    branch_prefix: str,
     web: bool,
 ) -> None:
     """
@@ -140,6 +149,7 @@ def create(
         checkout,
         delete_source_branch,
         default_branch,
+        branch_prefix,
         **get_common_options(),
     )
     if web:
