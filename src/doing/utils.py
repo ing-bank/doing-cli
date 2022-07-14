@@ -7,7 +7,7 @@ import sys
 from collections import OrderedDict
 from functools import lru_cache
 from platform import uname
-from typing import Any, Dict, Iterator, Text
+from typing import Any, Dict, Iterator
 
 import psutil
 import yaml
@@ -93,7 +93,7 @@ def get_repo_name() -> str:
     return repo_name
 
 
-def _walk_to_root(path: Text) -> Iterator[Text]:
+def _walk_to_root(path: str) -> Iterator[str]:
     """
     Yield directories starting from the given directory up to the root.
 
@@ -292,7 +292,7 @@ def verbose_shell() -> bool:
 
     Users can define 'verbose_shell: True' in the .doing-cli-config.yml file.
     """
-    return get_config("verbose_shell", fallback=False)  # type: ignore[no-any-return]
+    return bool(get_config("verbose_shell", fallback=False))
 
 
 def define_env(env: Any) -> None:
@@ -372,7 +372,7 @@ def get_current_pr_id() -> int:
         console.print("Could not find a PR associated with the current branch: " + get_git_current_branch())
         sys.exit(1)
     else:
-        return result[0].get("pullRequestId")  # type: ignore[no-any-return]
+        return int(result[0].get("pullRequestId"))
 
 
 def validate_work_item_type(type: str) -> None:
