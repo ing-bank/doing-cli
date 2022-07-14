@@ -16,6 +16,7 @@ doing pr create 1234 --draft -r "@me jane.doe@company.com"
 doing pr create 1234 --draft --checkout
 doing pr create 1234 --delete-source-branch --self-approve --auto-complete
 doing pr create 1234 --default-branch develop
+doing pr create 1234 --branch-prefix "fix/"
 ```
 
 !!! notes ""

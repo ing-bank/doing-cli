@@ -28,6 +28,7 @@ def cmd_create_pr(
     checkout: bool,
     delete_source_branch: bool,
     default_branch: str,
+    branch_prefix: str,
     team: str,
     area: str,
     iteration: str,
@@ -91,7 +92,7 @@ def cmd_create_pr(
     cmd = f'az repos ref list --repository "{repo_name}" --query "[?name==\'{default_branch}\'].objectId" '
     cmd += f'--org "{organization}" -p "{project}"'
     master_branch_object_id = run_command(cmd)[0]
-    branch_name = f"{work_item_id}_{to_snake_case(remove_special_chars(work_item_title))}"
+    branch_name = f"{branch_prefix}{work_item_id}_{to_snake_case(remove_special_chars(work_item_title))}"
     if branch_name in remote_branches:
         console.print(
             f"[dark_orange3]>[/dark_orange3] Remote branch '[cyan]{branch_name}[/cyan]' already exists, using that one"
