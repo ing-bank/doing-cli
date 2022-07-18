@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 import datetime
 from datetime import timezone
-from typing import Dict, List
 
 import timeago
 from rich.console import Console
@@ -133,7 +134,7 @@ def cmd_list(
         console.print(" ".join(wi_array))
         return
 
-    workitem_prs = {}  # type: Dict
+    workitem_prs: dict = {}
 
     # Now for each work item we could get linked PRs
     # However, APIs requests are slow, and most work items don't have a PR.
@@ -189,7 +190,7 @@ def cmd_list(
 
 
 def build_table(
-    work_items: List, workitem_prs: Dict, iteration: str, show_state: bool, last_build: bool = False
+    work_items: list, workitem_prs: dict, iteration: str, show_state: bool, last_build: bool = False
 ) -> Table:
     """Build rich table with open issues."""
     # Create our table

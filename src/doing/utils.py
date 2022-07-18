@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 import os
 import re
@@ -5,9 +7,10 @@ import string
 import subprocess
 import sys
 from collections import OrderedDict
+from collections.abc import Iterator
 from functools import lru_cache
 from platform import uname
-from typing import Any, Dict, Iterator
+from typing import Any
 
 import psutil
 import yaml
@@ -168,7 +171,7 @@ def get_config(key: str = "", fallback: Any = None, envvar_prefix: str = "DOING_
 
     # Load the config file
     with open(conf_path) as file:
-        conf: Dict[str, Any] = yaml.load(file, Loader=yaml.FullLoader)
+        conf: dict[str, Any] = yaml.load(file, Loader=yaml.FullLoader)
 
     # deprecations
     if key == "default_workitem_type":
@@ -200,7 +203,7 @@ def get_config(key: str = "", fallback: Any = None, envvar_prefix: str = "DOING_
         raise ConfigurationError(msg)
 
 
-def pprint(obj: Dict[Any, Any]) -> None:
+def pprint(obj: dict[Any, Any]) -> None:
     """
     Pretty print dictionaries.
     """

@@ -1,11 +1,11 @@
-from typing import Union
+from __future__ import annotations
 
 import click
 
 from doing.utils import get_config, get_repo_name
 
 
-def cmd_open_pr(pullrequest_id: Union[str, int]) -> None:
+def cmd_open_pr(pullrequest_id: str | int) -> None:
     """
     Open a specific PULLREQUEST_ID. '!' prefix is allowed.
     """
