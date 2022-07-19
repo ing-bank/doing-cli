@@ -100,7 +100,7 @@ def cmd_create_pr(
         # Check if there is not already an existing PR for this branch
         prs = run_command(f'az repos pr list -r "{repo_name}" -s {branch_name} --org "{organization}" -p "{project}"')
         if len(prs) >= 1:
-            pr_id = prs[0].get("pullRequestId")
+            pr_id = int(prs[0].get("pullRequestId"))
             console.print(
                 f"[dark_orange3]>[/dark_orange3] Pull request {pr_id} already exists",
                 f"for branch '[cyan]{branch_name}[/cyan]', aborting.",
