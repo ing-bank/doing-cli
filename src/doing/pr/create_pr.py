@@ -127,7 +127,7 @@ def cmd_create_pr(
         console.print(f"[dark_orange3]>[/dark_orange3] Created remote branch '[cyan]{branch_name}[/cyan]'")
 
     # Check the PR merge strategy
-    check_merge_strategy_policy()
+    check_merge_strategy_policy(default_branch)
 
     # Create the PR
     command = f'az repos pr create --repository "{repo_name}" '
@@ -219,20 +219,21 @@ def check_uncommitted_work() -> None:
         sys.exit(1)
 
 
-def check_merge_strategy_policy() -> None:
+def check_merge_strategy_policy(default_branch) -> None:
     """
     Make sure merge strategy is set correctly.
     """
     merge_strategy = get_config("merge_strategy", fallback="")
     if merge_strategy != "":
         set_merge_strategy_policy(
+            branch=default_branch,
             merge_strategy=merge_strategy,
             organization=get_config("organization"),
             project=get_config("project"),
         )
 
 
-def set_merge_strategy_policy(merge_strategy: str, organization: str, project: str) -> None:
+def set_merge_strategy_policy(branch: str, merge_strategy: str, organization: str, project: str) -> None:
     """
     Set merge strategy policy if needed.
     """
@@ -252,7 +253,7 @@ def set_merge_strategy_policy(merge_strategy: str, organization: str, project: s
     repo_id = repo.get("id")
     assert len(repo_id) > 0
 
-    default_branch = repo.get("defaultBranch").split("/")[-1]
+    default_branch = branch;
 
     policies = run_command(f'az repos policy list --repository "{repo_id}" --branch "{default_branch}" -o json')
     policies = [p for p in policies if p.get("type", {}).get("displayName") == "Require a merge strategy"]
