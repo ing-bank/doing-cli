@@ -4,8 +4,8 @@ from rich.console import Console
 from doing.issue.create_issue import cmd_create_issue
 from doing.issue.open_issue import cmd_open_issue
 from doing.list.commands import list
-from doing.options import get_common_options, get_config
-from doing.utils import run_command
+from doing.options import get_common_options
+from doing.utils import get_config, run_command
 
 console = Console()
 

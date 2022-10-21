@@ -6,9 +6,8 @@ from rich.console import Console
 
 from doing.issue.open_issue import cmd_open_issue
 from doing.list._list import work_item_query
-from doing.options import get_config
 from doing.pr.open_pr import cmd_open_pr
-from doing.utils import get_current_pr_id, get_current_work_item_id, get_repo_name, run_command
+from doing.utils import get_config, get_current_pr_id, get_current_work_item_id, get_repo_name, run_command
 
 console = Console()
 

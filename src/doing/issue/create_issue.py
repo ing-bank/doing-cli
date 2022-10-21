@@ -55,7 +55,7 @@ def cmd_create_issue(
     cmd += f'--area "{area}" --iteration "{iteration}" --project "{project}" --organization "{organization}"'
 
     work_item = run_command(cmd)
-    work_item_id = work_item.get("id")
+    work_item_id = int(work_item.get("id"))
 
     console.print(f"[dark_orange3]>[/dark_orange3] Created work item {work_item_id} '[cyan]{title}[/cyan]' ({type})")
     console.print(f"\t[dark_orange3]>[/dark_orange3] added area-path '{area}'")
