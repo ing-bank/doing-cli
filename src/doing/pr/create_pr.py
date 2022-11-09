@@ -54,7 +54,9 @@ def cmd_create_pr(
     user_email = get_az_devop_user_email()
 
     # Info on related work item
-    work_item = run_command(f'az boards work-item show --id {work_item_id} --org "{organization}"')
+    work_item = run_command(
+        f'az boards work-item show --id {work_item_id} --org "{organization}"'
+    )
     work_item_title = work_item.get("fields").get("System.Title")
 
     # Info in other linked PRs to work item
@@ -79,7 +81,9 @@ def cmd_create_pr(
     remote_branches = run_command(
         f'az repos ref list --repository "{repo_name}" --query "[].name" --org "{organization}" -p "{project}"'
     )
-    remote_branches = [x.rpartition("/")[2] for x in remote_branches if x.startswith("refs/heads")]
+    remote_branches = [
+        x.rpartition("/")[2] for x in remote_branches if x.startswith("refs/heads")
+    ]
 
     # Find the default branch from which to create a new branch and target the pull request to
     if not default_branch:
@@ -98,7 +102,9 @@ def cmd_create_pr(
             f"[dark_orange3]>[/dark_orange3] Remote branch '[cyan]{branch_name}[/cyan]' already exists, using that one"
         )
         # Check if there is not already an existing PR for this branch
-        prs = run_command(f'az repos pr list -r "{repo_name}" -s {branch_name} --org "{organization}" -p "{project}"')
+        prs = run_command(
+            f'az repos pr list -r "{repo_name}" -s {branch_name} --org "{organization}" -p "{project}"'
+        )
         if len(prs) >= 1:
             pr_id = prs[0].get("pullRequestId")
             console.print(
@@ -124,7 +130,9 @@ def cmd_create_pr(
         assert branch.get(
             "success"
         ), f"Could not create '{branch_name}'. Do you have contributor rights to the '{get_repo_name()}' repo?"  # noqa
-        console.print(f"[dark_orange3]>[/dark_orange3] Created remote branch '[cyan]{branch_name}[/cyan]'")
+        console.print(
+            f"[dark_orange3]>[/dark_orange3] Created remote branch '[cyan]{branch_name}[/cyan]'"
+        )
 
     # Check the PR merge strategy
     check_merge_strategy_policy(default_branch)
@@ -154,21 +162,33 @@ def cmd_create_pr(
 
     # Report to user
     pr_id = pr.get("pullRequestId")
-    console.print(f"[dark_orange3]>[/dark_orange3] Created pull request {pr_id} [cyan]'{work_item_title}'[cyan]")
+    console.print(
+        f"[dark_orange3]>[/dark_orange3] Created pull request {pr_id} [cyan]'{work_item_title}'[cyan]"
+    )
     console.print(f"\t[dark_orange3]>[/dark_orange3] linked work item {work_item_id}")
     if draft:
         console.print("\t[dark_orange3]>[/dark_orange3] marked as draft pull request")
     if auto_complete:
         console.print("\t[dark_orange3]>[/dark_orange3] set auto-complete to True'")
     if delete_source_branch:
-        console.print("\t[dark_orange3]>[/dark_orange3] set to delete remote source branch after PR completion")
+        console.print(
+            "\t[dark_orange3]>[/dark_orange3] set to delete remote source branch after PR completion"
+        )
     if len(reviewers) > 0:
-        console.print(f"\t[dark_orange3]>[/dark_orange3] added reviewers: '{reviewers}'")
+        console.print(
+            f"\t[dark_orange3]>[/dark_orange3] added reviewers: '{reviewers}'"
+        )
     if self_approve:
-        run_command(f'az repos pr set-vote --id {pr_id} --vote "approve" --org "{organization}"')
-        console.print(f"\t[dark_orange3]>[/dark_orange3] Approved PR {pr_id} for '{user_email}'")
+        run_command(
+            f'az repos pr set-vote --id {pr_id} --vote "approve" --org "{organization}"'
+        )
+        console.print(
+            f"\t[dark_orange3]>[/dark_orange3] Approved PR {pr_id} for '{user_email}'"
+        )
     if active_related_pr_ids:
-        console.print(f"\t[dark_orange3]>[/dark_orange3] Note: work item has other active linked PRs: {related_pr_ids}")
+        console.print(
+            f"\t[dark_orange3]>[/dark_orange3] Note: work item has other active linked PRs: {related_pr_ids}"
+        )
 
     if not checkout:
         explain_checkout(branch_name)
@@ -184,7 +204,9 @@ def explain_checkout(branch_name: str) -> None:
     """
     console.print("\tTo start work on the PR run:")
     console.print("\t[bright_black]git fetch origin[/bright_black]")
-    console.print(f"\t[bright_black]git checkout -b '{branch_name}' 'origin/{branch_name}'[/bright_black]")
+    console.print(
+        f"\t[bright_black]git checkout -b '{branch_name}' 'origin/{branch_name}'[/bright_black]"
+    )
 
 
 def git_checkout(branch_name: str, verbose: bool = True) -> None:
@@ -192,7 +214,9 @@ def git_checkout(branch_name: str, verbose: bool = True) -> None:
     Checkout a remote branch locally.
     """
     if verbose:
-        console.print("\t[dark_orange3]$[/dark_orange3] Running command: [bright_black]git fetch origin[/bright_black]")
+        console.print(
+            "\t[dark_orange3]$[/dark_orange3] Running command: [bright_black]git fetch origin[/bright_black]"
+        )
     os.system("git fetch origin")
 
     if verbose:
@@ -208,7 +232,10 @@ def check_uncommitted_work() -> None:
     See if there are unstaged changes in git repo that would prevent switching branches.
     """
     result = subprocess.Popen(
-        ["git", "diff", "--exit-code"], shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        ["git", "diff", "--exit-code"],
+        shell=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
     )
     result.communicate()[0]
     if result.returncode != 0:
@@ -233,17 +260,28 @@ def check_merge_strategy_policy(default_branch) -> None:
         )
 
 
-def set_merge_strategy_policy(branch: str, merge_strategy: str, organization: str, project: str) -> None:
+def set_merge_strategy_policy(
+    branch: str, merge_strategy: str, organization: str, project: str
+) -> None:
     """
     Set merge strategy policy if needed.
     """
     if merge_strategy is None:
         return
-    assert merge_strategy in ["basic merge", "squash merge", "rebase and fast-forward", "rebase with merge commit"]
+    assert merge_strategy in [
+        "basic merge",
+        "squash merge",
+        "rebase and fast-forward",
+        "rebase with merge commit",
+    ]
 
     merge_settings = ""
-    merge_settings += f"--allow-no-fast-forward {str(merge_strategy == 'basic merge').lower()} "
-    merge_settings += f"--allow-rebase {str(merge_strategy == 'rebase and fast-forward').lower()} "
+    merge_settings += (
+        f"--allow-no-fast-forward {str(merge_strategy == 'basic merge').lower()} "
+    )
+    merge_settings += (
+        f"--allow-rebase {str(merge_strategy == 'rebase and fast-forward').lower()} "
+    )
     merge_settings += f"--allow-rebase-merge {str(merge_strategy == 'rebase with merge commit').lower()} "
     merge_settings += f"--allow-squash {str(merge_strategy == 'squash merge').lower()} "
 
@@ -253,10 +291,16 @@ def set_merge_strategy_policy(branch: str, merge_strategy: str, organization: st
     repo_id = repo.get("id")
     assert len(repo_id) > 0
 
-    default_branch = branch;
+    default_branch = branch
 
-    policies = run_command(f'az repos policy list --repository "{repo_id}" --branch "{default_branch}" -o json')
-    policies = [p for p in policies if p.get("type", {}).get("displayName") == "Require a merge strategy"]
+    policies = run_command(
+        f'az repos policy list --repository "{repo_id}" --branch "{default_branch}" -o json'
+    )
+    policies = [
+        p
+        for p in policies
+        if p.get("type", {}).get("displayName") == "Require a merge strategy"
+    ]
 
     enabled_policies = [p for p in policies if p.get("isEnabled") is True]
 
@@ -273,14 +317,19 @@ def set_merge_strategy_policy(branch: str, merge_strategy: str, organization: st
 
         # do we need to update the settings or are they correct already?
         if (
-            policy_settings.get("allowNoFastForward") == (merge_strategy == "basic merge")
-            and policy_settings.get("allowRebase") == (merge_strategy == "rebase and fast-forward")
-            and policy_settings.get("allowRebaseMerge") == (merge_strategy == "rebase with merge commit")
+            policy_settings.get("allowNoFastForward")
+            == (merge_strategy == "basic merge")
+            and policy_settings.get("allowRebase")
+            == (merge_strategy == "rebase and fast-forward")
+            and policy_settings.get("allowRebaseMerge")
+            == (merge_strategy == "rebase with merge commit")
             and policy_settings.get("allowSquash") == (merge_strategy == "squash merge")
         ):
             # policy settings already OK. Don't do anything
             return
-        cmd = f'az repos policy merge-strategy update --id "{policy_id}" --blocking true '
+        cmd = (
+            f'az repos policy merge-strategy update --id "{policy_id}" --blocking true '
+        )
         msg = "[dark_orange3]>[/dark_orange3] Updated repository merge strategy "
         msg += f"on default branch '{default_branch}' to [cyan]'{merge_strategy}'[cyan]"
 
