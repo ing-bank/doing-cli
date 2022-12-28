@@ -17,11 +17,11 @@ mkdocs serve
 
 - We use [pre-commit](https://pre-commit.com/). Setup using `pip install pre-commit` and then `pre-commit install`.
 - For development, use an editable install: `pip install -e .`
-- For publishing, 
+- For publishing,
   - Update the version on `src/doing/__init__.py` & commit
   - Tag and push a release using: `git tag -a v0.1 -m "doing-cli v0.1" && git push origin v0.1`
   - Draft a new release at https://github.com/ing-bank/doing-cli/releases
-  - The [publish pypi github action](https://github.com/ing-bank/doing-cli/blob/main/.github/workflows/publish_pypi.yml) will trigger when the release is published. 
+  - The [publish pypi github action](https://github.com/ing-bank/doing-cli/blob/main/.github/workflows/publish_pypi.yml) will trigger when the release is published.
 
 ## Technical background
 
@@ -99,5 +99,3 @@ az repos policy list --repository "<id_hash>" --branch 'master' -o jsonc
 
 az repos policy merge-strategy create --repository "<id_hash>" --branch 'refs/heads/master' --blocking false --enabled true --allow-no-fast-forward true --allow-rebase true --allow-rebase-merge true --allow-squash true
 ```
-
-
