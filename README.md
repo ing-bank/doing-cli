@@ -7,11 +7,11 @@
 
 # doing-cli: Azure Devops on the command line
 
-CLI app to help speed up development on Azure DevOps, built on top of [azure devops cli](). Allows for a more streamlined repo/issue workflow. Inspired by [cli.github.com](https://cli.github.com/). 
+CLI app to help speed up development on Azure DevOps, built on top of [Azure DevOps CLI](https://learn.microsoft.com/en-us/azure/devops/cli/?view=azure-devops). Allows for a more streamlined repo/issue workflow. Inspired by [cli.github.com](https://cli.github.com/). 
 
 ## Installation
 
-`doing` requires python 3.6+, [azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) and the [devops extension](https://docs.microsoft.com/en-us/azure/devops/cli/?view=azure-devops). To install:
+`doing` requires python 3.7+, [azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) and the [devops extension](https://docs.microsoft.com/en-us/azure/devops/cli/?view=azure-devops). To install:
 
 ```shell
 pip3 install doing-cli
