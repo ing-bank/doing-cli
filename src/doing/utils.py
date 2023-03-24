@@ -226,6 +226,7 @@ def run_command(command: str, allow_verbose: bool = True) -> Any:
     if encoding == "":
         encoding = guess_shell_encoding()
 
+    timeout = int(get_config("timeout", 15))
     try:
         process = subprocess.run(
             command,
@@ -235,7 +236,7 @@ def run_command(command: str, allow_verbose: bool = True) -> Any:
             universal_newlines=True,
             encoding=encoding,
             shell=True,
-            timeout=15,
+            timeout=timeout,
         )
     except subprocess.TimeoutExpired as e:
         console.print(e)
