@@ -70,7 +70,9 @@ def get_git_current_branch() -> str:
     Get name of current branch in git.
     """
     branch = shell_output("git branch --show-current")
-    assert branch, "Could not retrieve current git branch. Is your working directory a git repository?"
+    assert (
+        branch
+    ), "Could not retrieve current git branch. Is your working directory a git repository?"
     return branch
 
 
@@ -80,7 +82,9 @@ def get_git_user_email() -> str:
     Gets emailadres from git config.
     """
     email = shell_output("git config user.email")
-    assert email, "Could not find git email. Are you in a git repository? Do you have your git config setup?"
+    assert (
+        email
+    ), "Could not find git email. Are you in a git repository? Do you have your git config setup?"
     return email
 
 
@@ -90,7 +94,9 @@ def get_repo_name() -> str:
     Determines name of remote origin repo.
     """
     origin_url = shell_output("git config --get remote.origin.url")
-    assert origin_url, "This repository has no remote.origin.url. Is it created on azure devops yet?"
+    assert (
+        origin_url
+    ), "This repository has no remote.origin.url. Is it created on azure devops yet?"
 
     repo_name = shell_output(f"basename -s .git {origin_url}")
     return repo_name
@@ -136,7 +142,9 @@ def find_dotfile() -> str:
     return ""
 
 
-def get_config(key: str = "", fallback: Any = None, envvar_prefix: str = "DOING_CONFIG_") -> Any:
+def get_config(
+    key: str = "", fallback: Any = None, envvar_prefix: str = "DOING_CONFIG_"
+) -> Any:
     """
     Finds and reads doing configuration file.
 
@@ -167,7 +175,9 @@ def get_config(key: str = "", fallback: Any = None, envvar_prefix: str = "DOING_
     if not conf_path:
         if fallback is not None:
             return fallback
-        raise FileNotFoundError("Could not find the configuration file '.doing-cli-config.yml'")
+        raise FileNotFoundError(
+            "Could not find the configuration file '.doing-cli-config.yml'"
+        )
 
     # Load the config file
     with open(conf_path) as file:
@@ -243,7 +253,9 @@ def run_command(command: str, allow_verbose: bool = True) -> Any:
         sys.exit(1)
 
     if process.returncode != 0:
-        console.print(f"There was an error. Ran the following command with encoding '{encoding}':")
+        console.print(
+            f"There was an error. Ran the following command with encoding '{encoding}':"
+        )
         console.print(f"[bright_black]{command}[/bright_black]")
         if process.stdout:
             console.print(f"[dark_orange3]{process.stdout}[/dark_orange3]")
@@ -258,7 +270,9 @@ def run_command(command: str, allow_verbose: bool = True) -> Any:
         try:
             return json.loads(process.stdout)
         except Exception:
-            console.print("[doing-cli] error: Could not process the following stdout as a JSON:")
+            console.print(
+                "[doing-cli] error: Could not process the following stdout as a JSON:"
+            )
             console.print(f"[dark_orange3]{process.stdout}[/dark_orange3]")
             sys.exit(1)
     else:
@@ -373,7 +387,10 @@ def get_current_pr_id() -> int:
     result = run_command(cmd)
 
     if len(result) == 0:
-        console.print("Could not find a PR associated with the current branch: " + get_git_current_branch())
+        console.print(
+            "Could not find a PR associated with the current branch: "
+            + get_git_current_branch()
+        )
         sys.exit(1)
     else:
         return int(result[0].get("pullRequestId"))
