@@ -155,7 +155,6 @@ def cmd_list(
         refresh_per_second=4,
         console=console,
     ) as live:
-
         # For each PR, get linked work items. Note that "az repos pr list --include-links" does not work :(
         # Posted issue on bug here: https://github.com/Azure/azure-cli-extensions/issues/2946
         for pr_id in track(active_pullrequest_ids, description="Processing pull requests", transient=False):
