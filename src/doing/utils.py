@@ -412,3 +412,23 @@ def validate_work_item_type(type: str) -> None:
         console.print(
             f"[dark_orange3]>[/dark_orange3] Warning: '[cyan]{type}[/cyan]' is not in the list of default work items"
         )
+
+
+def get_current_sprint():
+    organization = get_config("organization")
+    project = get_config("project")
+    team = get_config("team")
+    iteration = get_config("iteration")
+
+    cmd = f'az boards iteration team list --timeframe current '
+    cmd += f'--project "{project}" --organization "{organization}" --team "{team}"'
+    iterations = run_command(cmd)
+    if len(iterations) == 0:
+        msg = "[dark_orange3]>[/dark_orange3] There is no current sprint, using default iteration: " + iteration
+        console.print(msg)
+        return iteration
+
+    current_sprint = str(iterations[0].get("path"))
+    console.print(current_sprint)
+    return current_sprint
+
