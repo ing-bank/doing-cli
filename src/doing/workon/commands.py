@@ -17,6 +17,15 @@ from doing.utils import get_config
     show_envvar=True,
 )
 @click.option(
+    "--label",
+    "-l",
+    required=False,
+    default="",
+    type=str,
+    help="Attach tags (labels) to work item. Comma separate multiple tags.",
+    show_envvar=True,
+)
+@click.option(
     "--parent",
     "-p",
     required=False,
@@ -98,6 +107,7 @@ from doing.utils import get_config
 def workon(
     issue,
     type,
+    label: str,
     parent,
     reviewers,
     draft: bool,
@@ -125,7 +135,7 @@ def workon(
         title=issue,
         mine=True,
         assignee="",
-        label="",
+        label=label,
         body="",
         type=type,
         parent=parent,
