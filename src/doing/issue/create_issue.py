@@ -1,7 +1,13 @@
 from rich.console import Console
 
 from doing.exceptions import InputError
-from doing.utils import get_az_devop_user_email, replace_user_aliases, run_command, validate_work_item_type, get_current_sprint
+from doing.utils import (
+    get_az_devop_user_email,
+    get_current_sprint,
+    replace_user_aliases,
+    run_command,
+    validate_work_item_type,
+)
 
 console = Console()
 

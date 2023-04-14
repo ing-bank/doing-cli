@@ -100,10 +100,9 @@ from doing.utils import get_config
     required=False,
     default=False,
     type=bool,
-    help='If the item needs to be added to the current sprint. Defaults to false',
+    help="If the item needs to be added to the current sprint. Defaults to false",
     show_envvar=True,
 )
-
 def workon(
     issue,
     type,

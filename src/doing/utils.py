@@ -420,7 +420,7 @@ def get_current_sprint():
     team = get_config("team")
     iteration = get_config("iteration")
 
-    cmd = f'az boards iteration team list --timeframe current '
+    cmd = "az boards iteration team list --timeframe current "
     cmd += f'--project "{project}" --organization "{organization}" --team "{team}"'
     iterations = run_command(cmd)
     if len(iterations) == 0:
@@ -431,4 +431,3 @@ def get_current_sprint():
     current_sprint = str(iterations[0].get("path"))
     console.print(current_sprint)
     return current_sprint
-
