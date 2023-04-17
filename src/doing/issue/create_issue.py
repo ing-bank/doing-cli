@@ -1,7 +1,13 @@
 from rich.console import Console
 
 from doing.exceptions import InputError
-from doing.utils import get_az_devop_user_email, replace_user_aliases, run_command, validate_work_item_type
+from doing.utils import (
+    get_az_devop_user_email,
+    get_current_sprint,
+    replace_user_aliases,
+    run_command,
+    validate_work_item_type,
+)
 
 console = Console()
 
@@ -20,6 +26,7 @@ def cmd_create_issue(
     organization: str,
     project: str,
     story_points: str,
+    add_to_current_sprint: bool,
 ) -> int:
     """
     Create a new issue.
@@ -36,6 +43,9 @@ def cmd_create_issue(
 
     assignee = replace_user_aliases(assignee)
     validate_work_item_type(type)
+
+    if add_to_current_sprint:
+        iteration = get_current_sprint()
 
     cmd = "az boards work-item create "
     cmd += f'--title "{title}" '

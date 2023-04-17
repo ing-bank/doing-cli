@@ -95,6 +95,14 @@ from doing.utils import get_config
     help='The prefix to be prepended to the branch name. Defaults to ""',
     show_envvar=True,
 )
+@click.option(
+    "--add-to-current-sprint/--do-not-add-to-current-sprint",
+    required=False,
+    default=False,
+    type=bool,
+    help="If the item needs to be added to the current sprint. Defaults to false",
+    show_envvar=True,
+)
 def workon(
     issue,
     type,
@@ -108,6 +116,7 @@ def workon(
     story_points,
     default_branch,
     branch_prefix: str,
+    add_to_current_sprint,
 ):
     """
     Create issue with PR and switch git branch.
@@ -130,6 +139,7 @@ def workon(
         type=type,
         parent=parent,
         story_points=story_points,
+        add_to_current_sprint=add_to_current_sprint,
         **get_common_options(),
     )
 
