@@ -111,6 +111,14 @@ def close(work_item_id) -> None:
     help="The number of story points to assign. Not assigned if not specified.",
     show_envvar=True,
 )
+@click.option(
+    "--add-to-current-sprint/--do-not-add-to-current-sprint",
+    required=False,
+    default=False,
+    type=bool,
+    help="If the item needs to be added to the current sprint. Defaults to false",
+    show_envvar=True,
+)
 def create(
     issue: str,
     mine: bool,
@@ -121,6 +129,7 @@ def create(
     parent: str,
     web: bool,
     story_points: str,
+    add_to_current_sprint,
 ) -> None:
     """Create an issue.
 
@@ -135,6 +144,7 @@ def create(
         type=type,
         parent=parent,
         story_points=story_points,
+        add_to_current_sprint=add_to_current_sprint,
         **get_common_options(),
     )
     if web:
